@@ -1,0 +1,31 @@
+.choose-care-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-block-start: 2rem;
+    align-items: center;
+    justify-items: center;
+
+    text-align: center;
+}
+
+.choose-btns {
+    display: flex;
+    flex-direction: column;
+    padding-block-start: 2rem;
+    gap: 1.5rem;
+    width: min-content;
+    white-space: nowrap;
+
+}
+
+.care-btn {
+    background-color: #f5f5f3;
+    color: black;
+    font-size: 1rem;
+    border: none;
+    border-radius: 999px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    
+}
+

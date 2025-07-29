@@ -1,0 +1,50 @@
+h2 {
+    text-align: center;
+}
+
+h4 {
+    text-align: right;
+}
+
+table {
+    width: 100%;
+    direction: rtl;
+    font-size: 0.8rem;
+    justify-self: center;
+}
+
+th {
+    // padding: 0.375rem;
+    background: #f5f5f3;
+}
+
+td {
+    // padding: 0.25rem;
+    height: max-content;
+    width: max-content;
+    text-align: center;
+    vertical-align: top;
+    background: #f5f5f3;
+}
+
+.this-month {
+    width: 100%;
+    overflow: hidden;
+}
+
+.next-month {
+    width: 100%;
+    overflow: hidden;
+    margin-block-start: 3rem;
+}
+
+.date-btn {
+    background-color: #f5f5f3;
+    color: black;
+    padding: 0.313rem 0.625rem;
+    // margin: 0.313rem;
+    border: none;
+}
+
+
+

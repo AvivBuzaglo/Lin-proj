@@ -1,0 +1,9 @@
+.main-container main {
+    min-height: calc(100vh - 7rem);
+    overflow: hidden; // Quick fix for JSONs in <pre>
+
+    // background-image: url("/imgs/Lin-Peretz-Logo.jpg");
+    // background-size: cover;
+    // background-position: center;
+    // background-repeat: no-repeat;
+}

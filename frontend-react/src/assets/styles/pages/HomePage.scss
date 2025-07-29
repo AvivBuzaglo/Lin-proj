@@ -1,0 +1,9 @@
+.home-page-container {
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.home-page-container::-webkit-scrollbar {
+    display: none;
+    background: transparent;
+}

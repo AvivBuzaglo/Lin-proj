@@ -1,0 +1,25 @@
+.guest-login-container {
+    height: 4.375rem;
+
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    
+    text-align: right;
+}
+
+.guest-login-text-container {
+   line-height: 0.6;
+   font-size: medium; 
+}
+
+.guest-login-text-container h3 {
+    color: black;
+}
+
+.guest-login-btn {
+    background-color: black;
+    border-radius: 28px;
+    width: 6rem;
+    height: 2rem;
+}

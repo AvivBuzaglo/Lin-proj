@@ -1,0 +1,41 @@
+.contact-info-container {
+    text-align: right;
+    margin-block: 1.125rem;
+    margin-block-end: 4.5rem;
+}
+
+.contact-info {
+    height: 16.563rem;
+    width: 95%;
+    justify-self: center;
+    background-image: url("/imgs/Lin-Peretz-Logo-inverted.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 3px 2px;
+
+    // align-items: start;
+    // align-content:space-between;
+    line-height: normal;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+}
+
+.adress-info {
+    margin-inline-end: 0.438rem;
+    margin-block-start: 0.438rem;
+}
+
+.adress-info h4 {
+    margin: 0;
+}
+
+.phone-info {
+    margin-inline-end: 0.438rem;
+    margin-block-end: 0.438rem;
+}

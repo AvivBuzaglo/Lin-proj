@@ -1,0 +1,27 @@
+.work-gallery-container .work-gallery-list{
+    width: 100%;
+    height: 5rem;
+}
+
+.work-gallery-list {
+    display: flex;
+    overflow-x: scroll;
+    scrollbar-width: none;
+}
+
+.work-gallery-btn {
+    height: 3.438rem;
+    width: 3.438rem;
+
+    border-radius: 50%;
+    // border: 1px;
+    border-color: black;
+    background-color: white;
+    padding: 0px;
+}
+
+.work-gallery-btn img {
+    border-radius: 50%;
+    // border: 3px;
+    // border-color: black;
+}
