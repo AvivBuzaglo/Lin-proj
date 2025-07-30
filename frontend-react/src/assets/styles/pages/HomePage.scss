@@ -7,3 +7,23 @@
     display: none;
     background: transparent;
 }
+
+.background-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(128, 128, 128, 0.432);
+}
+
+.show-img-container {
+    position: fixed;
+    bottom: 36%;
+    // top: 50%;
+    right: 1rem;
+    left: 1rem;
+    // padding: 12px 12px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}

@@ -10,17 +10,32 @@ import { ContactInfo } from "../cmps/ContactInfo"
 export function HomePage() {
     const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
+    const [showPic, setShowPic] = useState(false)
+    const [imgUrl, setImgUrl] = useState(undefined)
     
     
+    function closeImg() {
+        setShowPic(false)
+        setImgUrl(undefined)
+    }
+
     return (
         <section className="home-page-container">
             <div className="logo-container">
                 <img src="/imgs/Lin-Peretz-Logo.jpg" alt="" />
             </div>
             {!user && <GuestLogin/>}
-            <WorkPreview/>
+            <WorkPreview setShowPic={setShowPic} setImgUrl={setImgUrl}/>
             <NoticeBoard/>
             <ContactInfo/>
+
+            {showPic && (
+                <section onClick={() => closeImg()} className="background-container">
+                    <div className="show-img-container">
+                        <img src={imgUrl} alt="" />
+                    </div>
+                </section>
+            )}
         </section >
     )
 }
