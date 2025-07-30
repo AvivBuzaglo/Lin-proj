@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ChooseCare } from "../cmps/ChooseCare.jsx"
 import { ChooseDate } from "../cmps/ChooseDate.jsx"
 import { ChooseTime } from "../cmps/ChooseTime.jsx"
+import { ConfirmOrder } from "../cmps/ConfirmOrder.jsx";
 import { orderService } from "../services/order/order.service.local.js"
 
 export function Appointment() {
@@ -15,6 +16,7 @@ export function Appointment() {
     const [showChooseCare, setShowChooseCare] = useState(true)
     const [showCalender, setShowCalender] = useState(false)
     const [ readyToSave, setReadyToSave] = useState(false)
+    const [ orderConfirmed, setOrderConfirmed] = useState(false)
     const navigate = useNavigate()
     
     
@@ -23,14 +25,14 @@ export function Appointment() {
     }, [order])
 
     useEffect(() => {
-        if(readyToSave) {
+        if(readyToSave && orderConfirmed) {
             orderService.save(order)
 
             setTimeout(() => {
                 navigate("/")
             }, 3000) 
         }
-    },[readyToSave])
+    },[readyToSave, orderConfirmed])
     
     function orderHandler(order) {
         setOrder(order)
@@ -45,13 +47,20 @@ export function Appointment() {
         setShowCalender(false)
     }
 
+    function restartOrder() {
+        setShowChooseCare(true)
+        setShowCalender(false)
+        setReadyToSave(false)
+    }
+
     return (
         <div>
             {showChooseCare && <ChooseCare order={order} setOrder={orderHandler} careHandler={careHandler}/>}
             {!showChooseCare && showCalender && <ChooseDate order={order} setOrder={orderHandler} calenderHandler={calenderHandler}/>}
-            {!showChooseCare && !showCalender && <ChooseTime order={order} setOrder={orderHandler} setReadyToSave={setReadyToSave}/>}
+            {!showChooseCare && !showCalender && !readyToSave && <ChooseTime order={order} setOrder={orderHandler} setReadyToSave={setReadyToSave}/>}
+            {readyToSave && <ConfirmOrder order={order} setOrderConfirmed={setOrderConfirmed} restartOrder={restartOrder}/>}
 
-            {readyToSave && (
+            {readyToSave && orderConfirmed && (
                 <div className="saved-msg-container">
                     !התור נקבע בהצלחה
                 </div>
