@@ -6,6 +6,8 @@ import { WorkPreview } from "../cmps/WorkPreview"
 import { GuestLogin } from "../cmps/GuestLogin"
 import { NoticeBoard } from "../cmps/NoticeBoard"
 import { ContactInfo } from "../cmps/ContactInfo"
+import { UserLogout } from "../cmps/UserLogout"
+import { userService } from "../services/user/user.service.local"
 
 export function HomePage() {
     const user = useSelector(storeState => storeState.userModule.user)
@@ -25,6 +27,7 @@ export function HomePage() {
                 <img src="/imgs/Lin-Peretz-Logo.jpg" alt="" />
             </div>
             {!user && <GuestLogin/>}
+            {user && <UserLogout/>}
             <WorkPreview setShowPic={setShowPic} setImgUrl={setImgUrl}/>
             <NoticeBoard/>
             <ContactInfo/>
