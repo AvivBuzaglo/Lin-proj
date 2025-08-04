@@ -14,7 +14,10 @@ export function HomePage() {
     const navigate = useNavigate()
     const [showPic, setShowPic] = useState(false)
     const [imgUrl, setImgUrl] = useState(undefined)
-    
+
+	const goToAdminIndex = () => {
+		navigate("admin")
+	}
     
     function closeImg() {
         setShowPic(false)
@@ -28,6 +31,9 @@ export function HomePage() {
             </div>
             {!user && <GuestLogin/>}
             {user && <UserLogout/>}
+            {user && user.isAdmin && 
+                <button className="admin-btn" onClick={goToAdminIndex}>דף אדמין</button>
+            }
             <WorkPreview setShowPic={setShowPic} setImgUrl={setImgUrl}/>
             <NoticeBoard/>
             <ContactInfo/>
