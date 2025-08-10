@@ -56,7 +56,7 @@ export function Appointment() {
     return (
         <div>
             {showChooseCare && <ChooseCare order={order} setOrder={orderHandler} careHandler={careHandler}/>}
-            {!showChooseCare && showCalender && <ChooseDate order={order} setOrder={orderHandler} calenderHandler={calenderHandler}/>}
+            {!showChooseCare && showCalender && <ChooseDate order={order} setOrder={orderHandler} calenderHandler={calenderHandler} />}
             {!showChooseCare && !showCalender && !readyToSave && <ChooseTime order={order} setOrder={orderHandler} setReadyToSave={setReadyToSave}/>}
             {readyToSave && <ConfirmOrder order={order} setOrderConfirmed={setOrderConfirmed} restartOrder={restartOrder}/>}
 

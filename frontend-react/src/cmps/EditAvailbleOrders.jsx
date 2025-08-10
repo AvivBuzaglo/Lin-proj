@@ -1,12 +1,26 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
+import { availableOrdersService } from '../services/order/availableOrder.service.local'
 import { generateCalender } from "../services/util.service.js"
-import { availableOrdersService } from "../services/order/availableOrder.service.local.js"
 
-export function ChooseDate({order, setOrder, year = new Date().getFullYear(), month = new Date().getMonth(), calenderHandler}) {
 
-    const [orderToEdit, setOrderToEdit] = useState({...order})
+export function EditAvailbleOrders() {
+    
     const [blockedDates, setBlockedDates] = useState([])
     
+        useEffect(() => {
+            console.log(blockedDates)
+        }, [blockedDates])
+    
+        useEffect(() => {
+            async function getBlocked() {
+                const result = await availableOrdersService.query()
+                setBlockedDates(result)
+            }
+            getBlocked()
+        }, [])
+
+    const year = new Date().getFullYear()
+    const month = new Date().getMonth()
     const today = new Date()
     const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1)
     const weeks = generateCalender(year, month)
@@ -14,35 +28,16 @@ export function ChooseDate({order, setOrder, year = new Date().getFullYear(), mo
     const daysOfWeek = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
     const months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
 
-    useEffect(() => {
-        setOrder(orderToEdit)
-    }, [orderToEdit])
 
-    useEffect(() => {
-        async function getBlocked() {
-            const result = await availableOrdersService.query()
-            setBlockedDates(result)
-        }
-        getBlocked()
-    }, [])
-
-    const handleDateClicked = (date, idx) => {
-        setOrderToEdit({
-            care: orderToEdit.care,
-            date: date,
-            start: '',
-            end: ''
-        })
-        console.log(idx);
-        
-        setTimeout(() => {
-           calenderHandler() 
-        }, 10)      
+    const handleDateClicked = (date) => {
+        availableOrdersService.BlockedDatePost(date)
+        setBlockedDates(prev => [...prev, date])
     }
+
 
     return (
         
-        <section className="choose-date-container">
+        <section className="edit-availble-container">
             <h2>בחר יום</h2>
             
             <div className="this-month">
@@ -62,7 +57,7 @@ export function ChooseDate({order, setOrder, year = new Date().getFullYear(), mo
                             <tr key={i}>
                                 {week.map((date, j) => (
                                     <td key={j}>
-                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) )? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${month + 1}.${year}`, `weeks: ${i}, day: ${j}`)}>{date.getDate()}</button> : ''}
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) ) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${month + 1}.${year}`)}>{date.getDate()}</button> : ''}
                                     </td>
                                 ))}
                             </tr>

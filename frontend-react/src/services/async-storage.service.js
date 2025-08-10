@@ -4,6 +4,7 @@ export const storageService = {
     post,
     put,
     remove,
+    BlockedDatePost,
 }
 
 function query(entityType, delay = 500) {
@@ -45,6 +46,16 @@ function remove(entityType, entityId) {
         if (idx < 0) throw new Error(`Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`)
         entities.splice(idx, 1)
         _save(entityType, entities)
+    })
+}
+
+
+function BlockedDatePost(entityType, newEntity) {
+    // newEntity._id = _makeId()
+    return query(entityType).then(entities => {
+        entities.push(newEntity)
+        _save(entityType, entities)
+        return newEntity
     })
 }
 
