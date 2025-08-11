@@ -1,14 +1,18 @@
 import { storageService } from '../async-storage.service'
 import { makeId, loadFromStorage, saveToStorage, generateCalender } from '../util.service'
 
-const AVAILABLE_ORDERS_STORAGE_KEY = 'availableOrders'
+const AVAILABLE_ORDERS_STORAGE_KEY = 'blockedDates'
+const BLOCKED_HOURS_STORAGE_KEY = 'blockedHours'
 
 query()
 export const availableOrdersService = {
   query, 
   getById, 
   remove,
-  BlockedDatePost
+  BlockedDatePost,
+  blockedHoursPost,
+  putHours,
+  queryHours
 }
 window.cs = availableOrdersService
 
@@ -25,6 +29,19 @@ async function query() {
   return availableOrders;
 }
 
+async function queryHours() {
+  let blockedHours;
+
+  try {
+    blockedHours = await storageService.query(BLOCKED_HOURS_STORAGE_KEY); // Fetch orders from storage or API
+  } catch (error) {
+    console.error('Error fetching blocked hours:', error);
+    return [];
+  }
+
+  return blockedHours;
+}
+
 function getById(availableOrderId) {
   return storageService.get(AVAILABLE_ORDERS_STORAGE_KEY, availableOrderId)
 }
@@ -34,9 +51,16 @@ async function remove(month, weekIdx, dayIdx) {
   await storageService.removeByDate(AVAILABLE_ORDERS_STORAGE_KEY, month, weekIdx, dayIdx)
 }
 
+function putHours(updatedEntity) {
+  storageService.putHours(BLOCKED_HOURS_STORAGE_KEY, updatedEntity)
+}
 
 function BlockedDatePost(entity) {
   storageService.BlockedDatePost(AVAILABLE_ORDERS_STORAGE_KEY, entity)
+}
+
+function blockedHoursPost(entity) {
+  storageService.BlockedDatePost(BLOCKED_HOURS_STORAGE_KEY, entity)
 }
 
 // _createAvailbleOrders()
@@ -56,9 +80,26 @@ function _createAvailbleOrders() {
 
 
         const blockedDates = [
-          '10.8.2025'
+          '20.8.2025'
         ]
 
          saveToStorage(AVAILABLE_ORDERS_STORAGE_KEY, blockedDates)
     }
+}
+
+function _createBlockedHours() {
+  let blockedHours = loadFromStorage(BLOCKED_HOURS_STORAGE_KEY)
+
+  if(!blockedHours || !blockedHours.lenght) {
+    blockedHours = [
+      {
+        date: '20.8.2025',
+        hours: ['10:00', '10:20', '10:40', '11:00']
+      },
+      {
+        date: '21.8.2025',
+        hours: ['10:00', '10:20', '10:40', '11:00']
+      }
+    ]
+  }
 }

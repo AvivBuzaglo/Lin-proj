@@ -3,9 +3,10 @@ import { availableOrdersService } from '../services/order/availableOrder.service
 import { generateCalender } from "../services/util.service.js"
 
 
-export function EditAvailbleOrders() {
+export function EditAvailbleOrders({showBlockedHours, setShowAvailble, setDateForHourBlock}) {
     
     const [blockedDates, setBlockedDates] = useState([])
+    // const [showBlockedHours, setShowBlockedHours] = useState(false)
     
         useEffect(() => {
             console.log(blockedDates)
@@ -34,11 +35,15 @@ export function EditAvailbleOrders() {
         setBlockedDates(prev => [...prev, date])
     }
 
+    const handleDateSetClicked = (date) => {
+        setDateForHourBlock(date)
+        setShowAvailble(false)
+    }
 
     return (
         
         <section className="edit-availble-container">
-            <h2>בחר יום</h2>
+            <h2>בחר יום לחסימה</h2>
             
             <div className="this-month">
                 <h4>{months[month]} {year}</h4>
@@ -55,11 +60,16 @@ export function EditAvailbleOrders() {
                     <tbody>
                         {weeks.map((week, i) => (
                             <tr key={i}>
-                                {week.map((date, j) => (
+                                {!showBlockedHours && week.map((date, j) => (
                                     <td key={j}>
-                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) ) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${month + 1}.${year}`)}>{date.getDate()}</button> : ''}
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) && j !== 5 && j !== 6 ) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${month + 1}.${year}`)}>{date.getDate()}</button> : ''}
                                     </td>
                                 ))}
+                                {showBlockedHours && week.map((date, j) => (
+                                    <td key={j}>
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) && j !== 5 && j !== 6 ) ? <button className="date-btn" onClick={() => handleDateSetClicked(`${date.getDate()}.${month + 1}.${year}`)}>{date.getDate()}</button> : ''}
+                                    </td>
+                                ))}                                
                             </tr>
                         ))}
                     </tbody>
@@ -83,7 +93,7 @@ export function EditAvailbleOrders() {
                             <tr key={i}>
                                 {week.map((date, j) => (
                                     <td key={j}>
-                                        {date ? <button className="date-btn">{date.getDate()}</button> : ''}
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)) && j !== 5 && j !== 6 ) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)}>{date.getDate()}</button> : ''}
                                     </td>
                                 ))}
                             </tr>

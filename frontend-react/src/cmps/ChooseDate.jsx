@@ -62,7 +62,7 @@ export function ChooseDate({order, setOrder, year = new Date().getFullYear(), mo
                             <tr key={i}>
                                 {week.map((date, j) => (
                                     <td key={j}>
-                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) )? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${month + 1}.${year}`, `weeks: ${i}, day: ${j}`)}>{date.getDate()}</button> : ''}
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) && j !== 5 && j !== 6) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${month + 1}.${year}`, `weeks: ${i}, day: ${j}`)}>{date.getDate()}</button> : ''}
                                     </td>
                                 ))}
                             </tr>
@@ -88,7 +88,7 @@ export function ChooseDate({order, setOrder, year = new Date().getFullYear(), mo
                             <tr key={i}>
                                 {week.map((date, j) => (
                                     <td key={j}>
-                                        {date ? <button className="date-btn">{date.getDate()}</button> : ''}
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)) && j !== 5 && j !== 6) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`, `weeks: ${i}, day: ${j}`)}>{date.getDate()}</button> : ''}
                                     </td>
                                 ))}
                             </tr>
