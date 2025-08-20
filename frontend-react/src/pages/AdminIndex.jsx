@@ -47,7 +47,7 @@ export function AdminIndex() {
             {isLoading && 'Loading...'}
             
             <div className='availble-orders-container'>
-                <button className='availble-btn' onClick={() => handleAvailableClicked()}>{showAvailble ? 'X' : 'פתיחת תורים זמינים'}</button>
+                <button className='availble-btn' onClick={() => handleAvailableClicked()}>{showAvailble ? 'X' : 'חסימת תאריך'}</button>
             </div>
             <div className='blocked-hours-container'>
                 <button className='blocked-btn' onClick={() => handleBlockedClicked()}>{showBlockedHours ? 'X' : 'חסימת שעות'}</button>

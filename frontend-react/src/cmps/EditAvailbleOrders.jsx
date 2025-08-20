@@ -9,7 +9,6 @@ export function EditAvailbleOrders({showBlockedHours, setShowAvailble, setDateFo
     // const [showBlockedHours, setShowBlockedHours] = useState(false)
     
         useEffect(() => {
-            console.log(blockedDates)
         }, [blockedDates])
     
         useEffect(() => {
@@ -37,6 +36,7 @@ export function EditAvailbleOrders({showBlockedHours, setShowAvailble, setDateFo
 
     const handleDateSetClicked = (date) => {
         setDateForHourBlock(date)
+        
         setShowAvailble(false)
     }
 
