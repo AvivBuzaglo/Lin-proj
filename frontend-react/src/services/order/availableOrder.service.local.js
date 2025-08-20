@@ -53,6 +53,7 @@ async function remove(month, weekIdx, dayIdx) {
 
 function putHours(updatedEntity) {
   storageService.putHours(BLOCKED_HOURS_STORAGE_KEY, updatedEntity)
+  _checkFullDay(updatedEntity)
 }
 
 function BlockedDatePost(entity) {
@@ -61,6 +62,30 @@ function BlockedDatePost(entity) {
 
 function blockedHoursPost(entity) {
   storageService.BlockedDatePost(BLOCKED_HOURS_STORAGE_KEY, entity)
+}
+
+function _checkFullDay(entity) {
+  const times = ['9:00', '9:20', '9:40', '10:00', '10:20', '10:40', '11:00', '11:20', '11:40', '12:00', '12:20', '12:40', '13:00', '13:20', '13:40', '14:00', '14:20', '14:40', '15:00']
+  const blocked = _removeMatches(entity) 
+  let isFull = times.slice().sort().every((val, index) => val === blocked.slice().sort()[index])
+
+  if(isFull) {
+    BlockedDatePost(entity.date)
+  }
+}
+
+function _removeMatches(entity) {
+  const remove = ['15:10', '15:30', '15:50', '16:10', '16:30']
+  let blocked = [...entity.hours]
+
+  remove.forEach(item => {
+    const index = blocked.indexOf(item)
+    if(index !== -1) {
+      blocked.splice(index, 1)
+    }
+  })
+
+  return blocked
 }
 
 // _createAvailbleOrders()
