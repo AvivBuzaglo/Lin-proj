@@ -55,6 +55,36 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
                 })
             }
             getHoursBetween()
+
+            async function checkCare() {
+                const care = orderToEdit.care
+                const result = await availableOrdersService.queryHours()
+                let blocked 
+                result.forEach(element => {
+                    element.date === orderToEdit.date ? blocked = element.hours : blocked = []
+                })
+
+                if(care === 'micro') {
+                    blocked.map(item => {
+                        const idx = times4.indexOf(item)
+
+                        if(idx === -1) return
+
+                        setBlockedHours(prev => [...prev, ...times4.slice(Math.max(0, idx - 4), idx)])
+                    })
+                }
+                if(care === 'lift') {
+                    blocked.map(item => {
+                        const idx = times4.indexOf(item)
+
+                        if(idx === -1) return
+
+                        setBlockedHours(prev => [...prev, ...times4.slice(Math.max(0, idx - 1), idx)])
+                    })
+                }
+                
+            }
+            checkCare()
         }, [])           
 
     const handleTimeClicked = (time) => {
