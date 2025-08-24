@@ -31,14 +31,14 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
         let dateIdx = checkDate()
         console.log(dateIdx);
         
-        if(dateIdx === null && order.care !== 'micro') {
+        if(dateIdx === null && order.care !== 'micro' && order.care !== 'lift') {
             let blockObj = {
                 date: order.date,
                 hours: [order.start]
             }
             availableOrdersService.blockedHoursPost(blockObj)
         }
-        else if(dateIdx === null && order.care === 'micro') {
+        else if(dateIdx === null && (order.care === 'micro' || order.care === 'lift')) {
             const index1 = times4.indexOf(order.start)
             const index2 = times4.indexOf(order.end)
             const occupiedHours = times4.slice(index1, index2)
@@ -49,7 +49,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
             }
             availableOrdersService.blockedHoursPost(blockObj)
         }
-        else if(dateIdx !== null && order.care !== 'micro') {
+        else if(dateIdx !== null && order.care !== 'micro' && order.care !== 'lift') {
             let prevObj = blockedHours[dateIdx]
             let updatedhours = [...prevObj.hours, order.start]
             let updatedObj = {
@@ -58,7 +58,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
             }            
             availableOrdersService.putHours(updatedObj)
         }
-        else if(dateIdx !== null && order.care === 'micro') {
+        else if(dateIdx !== null && (order.care === 'micro' || order.care === 'lift')) {
             const index1 = times4.indexOf(order.start)
             const index2 = times4.indexOf(order.end)
             const occupiedHours = times4.slice(index1, index2)
