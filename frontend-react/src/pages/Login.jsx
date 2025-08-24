@@ -14,6 +14,11 @@ export function Login() {
         loadUsers()
     }, [])
 
+    useEffect(() => {
+        console.log(credentials);
+        
+    }, [credentials])
+
     async function loadUsers() {
         const users = await userService.getUsers()
         setUsers(users)
@@ -23,6 +28,7 @@ export function Login() {
         if (ev) ev.preventDefault()
 
         if (!credentials.username) return
+        if (!credentials.password) return
         await login(credentials)
         navigate('/')
     }
@@ -35,13 +41,35 @@ export function Login() {
     
     return (
         <form className="login-form" onSubmit={onLogin}>
-            <select
+            {/* <select
                 name="username"
                 value={credentials.username}
                 onChange={handleChange}>
                     <option value="">Select User</option>
                     {users.map(user => <option key={user._id} value={user.username}>{user.fullname}</option>)}
-            </select>
+            </select> */}
+            <div className='username-div'>
+                שם משתמש: 
+                <input 
+                    type="text"
+                    name='username'
+                    value={credentials.username}
+                    className='username-input'
+                    onChange={handleChange}
+                    required 
+                />
+            </div>
+            <div className='password-div'>
+                סיסמא:
+                <input 
+                    type="text"
+                    name='password'
+                    value={credentials.password}
+                    className='password-input'
+                    onChange={handleChange}
+                    required 
+                />
+            </div>
             <button>Login</button>
         </form>
     )
