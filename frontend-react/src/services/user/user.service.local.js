@@ -30,9 +30,10 @@ function remove(userId) {
     return storageService.remove('user', userId)
 }
 
-async function update({ _id, score }) {
+async function update({ _id, score, orders }) {
     const user = await storageService.get('user', _id)
     user.score = score
+    user.orders = orders
     await storageService.put('user', user)
 
 	// When admin updates other user's details, do not update loggedinUser
@@ -71,7 +72,8 @@ function saveLoggedinUser(user) {
         fullname: user.fullname, 
         imgUrl: user.imgUrl, 
         score: user.score, 
-        isAdmin: user.isAdmin 
+        isAdmin: user.isAdmin,
+        orders: user.orders 
     }
 	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
 	return user

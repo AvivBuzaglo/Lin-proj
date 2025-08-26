@@ -10,6 +10,7 @@ function getEmptyUser() {
         fullname: '',
         isAdmin: false,
         score: 100,
+        orders: []
     }
 }
 

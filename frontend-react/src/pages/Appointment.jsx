@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux'
 import { ChooseCare } from "../cmps/ChooseCare.jsx"
 import { ChooseDate } from "../cmps/ChooseDate.jsx"
 import { ChooseTime } from "../cmps/ChooseTime.jsx"
 import { ConfirmOrder } from "../cmps/ConfirmOrder.jsx";
 import { orderService } from "../services/order/order.service.local.js"
+import { userService } from "../services/user/user.service.local.js";
 
 export function Appointment() {
     const [order, setOrder] = useState({
@@ -17,6 +19,7 @@ export function Appointment() {
     const [showCalender, setShowCalender] = useState(false)
     const [ readyToSave, setReadyToSave] = useState(false)
     const [ orderConfirmed, setOrderConfirmed] = useState(false)
+    const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
     
     
@@ -27,6 +30,8 @@ export function Appointment() {
     useEffect(() => {
         if(readyToSave && orderConfirmed) {
             orderService.save(order)
+            user.orders.push(order)
+            userService.update(user)
 
             setTimeout(() => {
                 navigate("/")
