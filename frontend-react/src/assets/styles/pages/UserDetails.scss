@@ -5,3 +5,31 @@
         background-size: contain;
     }
 }
+
+.user-details-header {
+    text-align: center;
+}
+
+.user-orders-header {
+    direction: rtl;
+    margin-block-start: 2rem;
+}
+
+.user-thead-td {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.user-tbody-td {
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.cancel-order-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    // padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -12,7 +12,8 @@ export const availableOrdersService = {
   BlockedDatePost,
   blockedHoursPost,
   putHours,
-  queryHours
+  queryHours,
+  removeByTime
 }
 window.cs = availableOrdersService
 
@@ -51,6 +52,11 @@ async function remove(month, weekIdx, dayIdx) {
   await storageService.removeByDate(AVAILABLE_ORDERS_STORAGE_KEY, month, weekIdx, dayIdx)
 }
 
+async function removeByTime(date, start) {
+  await storageService.removeByTime(BLOCKED_HOURS_STORAGE_KEY, date, start)
+  _checkEmptyDay(date)
+}
+
 function putHours(updatedEntity) {
   storageService.putHours(BLOCKED_HOURS_STORAGE_KEY, updatedEntity)
   _checkFullDay(updatedEntity)
@@ -71,6 +77,14 @@ function _checkFullDay(entity) {
 
   if(isFull) {
     BlockedDatePost(entity.date)
+  }
+}
+
+async function _checkEmptyDay(date) {
+  const blockedHours = await queryHours(BLOCKED_HOURS_STORAGE_KEY)
+  const blockedIdx = blockedHours.findIndex((block) => block.date === date)
+  if(blockedHours[blockedIdx].hours.length === 0) {
+    storageService.removeByDate(BLOCKED_HOURS_STORAGE_KEY, date)
   }
 }
 

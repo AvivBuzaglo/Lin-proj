@@ -5,7 +5,9 @@ export const storageService = {
     put,
     remove,
     BlockedDatePost,
-    putHours
+    putHours,
+    removeByTime,
+    removeByDate
 }
 
 function query(entityType, delay = 500) {
@@ -61,6 +63,27 @@ function remove(entityType, entityId) {
     })
 }
 
+function removeByDate(entityType, date) {
+    return query(entityType).then(entities => {
+        const idx = entities.findIndex(entity => entity.date === date)
+        if (idx < 0) throw new Error(`Remove failed, cannot find entity with date: ${date} in: ${entityType}`)
+        entities.splice(idx, 1)
+        _save(entityType, entities)
+    })  
+}
+
+function removeByTime(entityType, date, start) {
+    return query(entityType).then(entities => {
+        const idx = entities.findIndex(entity => entity.date === date)
+        if (idx < 0) throw new Error(`Remove failed, cannot find entity with date: ${date} in: ${entityType}`)
+        const hours = entities[idx].hours.filter((hour) => hour !== start)
+        entities[idx].hours = hours
+        console.log(hours);
+        console.log(start);
+        
+        _save(entityType, entities)
+    })
+}
 
 function BlockedDatePost(entityType, newEntity) {
     // newEntity._id = _makeId()
