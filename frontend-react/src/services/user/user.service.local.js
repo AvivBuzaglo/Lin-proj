@@ -2,6 +2,8 @@ import { storageService } from '../async-storage.service'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
+_refreshOrders()
+
 export const userService = {
     login,
     logout,
@@ -79,6 +81,27 @@ function saveLoggedinUser(user) {
 	return user
 }
 
+function _removeExpiredOrders() {
+    const user = getLoggedinUser()
+    if (!user || !user.orders ||user.orders.length <= 0) return
+    const orders = user.orders
+    const today = new Date()
+
+    return orders.filter(order => {
+      const [day, month, year] = order.date.split('.').map(num => parseInt(num))
+      const orderDate = new Date(year, month - 1, day)
+      return orderDate >= today
+    })
+}
+
+function _refreshOrders() {
+    const user = getLoggedinUser()
+    if (!user) return  
+    const orders = _removeExpiredOrders()
+    user.orders = orders
+    update(user)
+}
+
 // To quickly create an admin user, uncomment the next line
 // _createAdmin()
 async function _createAdmin() {
@@ -89,6 +112,7 @@ async function _createAdmin() {
         isAdmin: true,
         imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
         score: 10000,
+        orders: []
     }
 
     const newUser = await storageService.post('user', user)

@@ -3,7 +3,7 @@ import { availableOrdersService } from '../services/order/availableOrder.service
 
 export function BlockHours({date, setShowBlockedHours}) {
     const [blockedHours, setBlockedHours] = useState([])
-    const [todayBlocked, setTodayBlocked] = useState(null)
+    const [todayBlocked, setTodayBlocked] = useState([])
 
     const times1 = ['9:00', '9:20', '9:40', '10:00', '10:20', '10:40', '11:00'] 
     const times2 = ['11:20', '11:40', '12:00', '12:20', '12:40', '13:00', '13:20']

@@ -5,6 +5,8 @@ const AVAILABLE_ORDERS_STORAGE_KEY = 'blockedDates'
 const BLOCKED_HOURS_STORAGE_KEY = 'blockedHours'
 
 query()
+_refreshBlockedHours()
+_refreshDates()
 export const availableOrdersService = {
   query, 
   getById, 
@@ -100,6 +102,61 @@ function _removeMatches(entity) {
   })
 
   return blocked
+}
+
+function _cleanDates() {
+  const blockedDates = loadFromStorage(AVAILABLE_ORDERS_STORAGE_KEY)
+  if (!blockedDates) return 
+  const today = new Date()
+
+  return blockedDates.filter(dateStr => {
+    const [day, month, year] = dateStr.split('.').map(Number)
+    const date = new Date(year, month - 1, day)
+    return date >= today
+  })
+}
+
+function _refreshDates() {
+  const blockedDates = _cleanDates()
+  if (!blockedDates) return
+  saveToStorage(AVAILABLE_ORDERS_STORAGE_KEY, blockedDates)
+}
+
+function _cleanBlockedHour(blockedHours) {
+  const now = new Date()
+  const [day, month, year] = blockedHours.date.split('.').map(Number)
+  const blockedDate = new Date(year, month - 1, day)
+
+  if(blockedDate < new Date(now.getFullYear(), now.getMonth(), now.getDate())) {
+    return null
+  }
+
+  if(
+    blockedDate.getFullYear() === now.getFullYear() &&
+    blockedDate.getMonth() === now.getMonth() &&
+    blockedDate.getDate() === now.getDate()
+  ) 
+  {
+    const currentMinutes = now.getHours() * 60 + now.getMinutes()
+
+    const filteredHours = blockedHours.hours.filter((h) => {
+      const [hour, minute] = h.split(':').map(Number)
+      const timeMinutes = hour * 60 + minute
+      return timeMinutes > currentMinutes
+    })
+
+    if (filteredHours.length === 0) return null
+    return { ...blockedHours, hours: filteredHours }
+  }
+  return blockedHours
+}
+
+function _refreshBlockedHours() {
+  const blockedHours = loadFromStorage(BLOCKED_HOURS_STORAGE_KEY)
+  if (!blockedHours) return
+  const refreshedHours = blockedHours.map(_cleanBlockedHour).filter(blocked => blocked !== null)
+  
+  saveToStorage(BLOCKED_HOURS_STORAGE_KEY, refreshedHours)
 }
 
 // _createAvailbleOrders()

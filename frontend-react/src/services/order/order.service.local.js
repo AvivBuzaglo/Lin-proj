@@ -5,6 +5,8 @@ import { userService } from '../user'
 const ORDERS_STORAGE_KEY = 'order';
 
 _createOrders()
+_refreshOrders()
+// _refreshOrdersApi()
 
 query()
 console.log(query({ tag: 'logo design' }))
@@ -94,6 +96,35 @@ async function getEmptyOrder() {
 
     return emptyOrder
 }
+
+function _removeExpiredOrders() {
+  const orders = loadFromStorage(ORDERS_STORAGE_KEY)
+  if (!orders) return
+  const today = new Date()
+
+  return orders.filter(order => {
+    const [day, month, year] = order.date.split('.').map(num => parseInt(num))
+    const orderDate = new Date(year, month - 1, day)
+    return orderDate >= today
+  })
+}
+
+function _refreshOrders() {
+  const orders = _removeExpiredOrders()
+  if (!orders) return
+  saveToStorage(ORDERS_STORAGE_KEY, orders)
+}
+
+// async function _refreshOrdersApi() {
+//   const orders = loadFromStorage(ORDERS_STORAGE_KEY)
+
+//   for(let order of orders) {
+//     const orderDate = new Date(order.date)
+//     if(orderDate < new Date()) {
+//       await remove(order._id)
+//     }
+//   }
+// }
 
 function _createOrders() {
     let orders = loadFromStorage(ORDERS_STORAGE_KEY);
