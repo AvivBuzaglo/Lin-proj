@@ -26,9 +26,18 @@ export function ChooseCare({ order, setOrder, careHandler}) {
             <h2> בחר טיפול</h2>
 
             <div className="choose-btns">
-                <button className="care-btn" onClick={() => handleCareClicked('shaping')}>עיצוב גבות + שפם</button>
-                <button className="care-btn" onClick={() => handleCareClicked('lift')}>הרמת גבות</button>
-                <button className="care-btn" onClick={() => handleCareClicked('micro')}>מיקרובליינדינג</button>
+                <div className="care-btn-price">
+                    <span className="price">70₪</span>
+                    <button className="care-btn" onClick={() => handleCareClicked('shaping')}>עיצוב גבות + שפם</button>
+                </div>
+                <div className="care-btn-price">
+                    <span className="price">170₪</span>
+                    <button className="care-btn" onClick={() => handleCareClicked('lift')}>הרמת גבות</button>
+                </div>
+                <div className="care-btn-price">
+                    <span className="price">600₪</span>
+                    <button className="care-btn" onClick={() => handleCareClicked('micro')}>מיקרובליינדינג</button>
+                </div>
             </div>
         </section>        
 

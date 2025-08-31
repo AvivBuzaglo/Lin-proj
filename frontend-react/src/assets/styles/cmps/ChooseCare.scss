@@ -18,7 +18,43 @@
     white-space: nowrap;
 
 }
+// .price {
+//     position: absolute;
+//     top: -1rem;
+//     right: 0;
 
+//     font-size: 1rem;
+//     font-weight: normal;
+
+//     overflow: hidden;
+// }
+
+/* HTML: <div class="ribbon">Your text content</div> */
+.price {
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: black;
+}
+.price {
+  --f: .5em; /* control the folded part */
+  
+  position: absolute;
+  top: 0;
+  right: -2px;
+  line-height: 1.8;
+  padding-inline: 1lh;
+  padding-bottom: var(--f);
+  border-image: conic-gradient(#0008 0 0) 51%/var(--f);
+  clip-path: polygon(
+    100% calc(100% - var(--f)),100% 100%,calc(100% - var(--f)) calc(100% - var(--f)),var(--f) calc(100% - var(--f)), 0 100%,0 calc(100% - var(--f)),999px calc(100% - var(--f) - 999px),calc(100% - 999px) calc(100% - var(--f) - 999px));
+  transform: translate(calc((1 - cos(45deg))*100%), -100%) rotate(45deg);
+  transform-origin: 0% 100%;
+  background-color: rgb(255, 231, 199); /* the main color  */
+}
+
+.care-btn-price {
+    position: relative;
+}
 .care-btn {
     background-color: #f5f5f3;
     color: black;
@@ -26,6 +62,7 @@
     border: none;
     border-radius: 999px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    
+    height: 3rem;
+    width: 100%;
 }
 
