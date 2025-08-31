@@ -11,6 +11,7 @@ export function AdminIndex() {
     const [showAvailble, setShowAvailble] = useState(false)
     const [showBlockedHours, setShowBlockedHours] = useState(false)
     const [dateForHourBlock, setDateForHourBlock] = useState(undefined)
+    const [menageUsers, setMenageUsers] = useState(false)
 
     const navigate = useNavigate()
 	const user = useSelector(storeState => storeState.userModule.user)
@@ -22,12 +23,48 @@ export function AdminIndex() {
 		loadUsers()
 	}, [])
 
-    const handleAvailableClicked = () => {
-        if(showAvailble) {
-            setShowAvailble(false)
+    const handleCmpClicked = (cmp) => {
+        if(cmp === 'blockDate') {
+            if(!showAvailble) {
+                setShowAvailble(true)
+                setShowBlockedHours(false)
+                setMenageUsers(false)
+                return
+            }
+            if(showAvailble) {
+                setShowAvailble(false)
+                setShowBlockedHours(false)
+                setMenageUsers(false)
+                return
+            }
         }
-        else if(!showAvailble) {
-            setShowAvailble(true)
+        if(cmp === 'blockHours') {
+            if(!showBlockedHours) {
+                setShowBlockedHours(true)
+                setShowAvailble(true)
+                setMenageUsers(false)
+                return
+            }
+            if(showBlockedHours) {
+                setShowBlockedHours(false)
+                setShowAvailble(false)
+                setMenageUsers(false)
+                return
+            }
+        }
+        if(cmp === 'menageUsers') {
+            if(!menageUsers) {
+                setMenageUsers(true)
+                setShowAvailble(false)
+                setShowBlockedHours(false)
+                return
+            }
+            if(menageUsers) {
+                setMenageUsers(false)
+                setShowAvailble(false)
+                setShowBlockedHours(false)
+                return
+            }
         }
     }
 
@@ -45,23 +82,41 @@ export function AdminIndex() {
 	return (
         <section className="admin">
             {isLoading && 'Loading...'}
+
+            {(showAvailble || showBlockedHours || menageUsers) &&<div className='admin-close-btn'>
+                <button className='close-btn' onClick={() => {
+                    setShowAvailble(false)
+                    setShowBlockedHours(false)
+                    setMenageUsers(false)
+                }}>X</button>
+            </div>}
             
-            <div className='availble-orders-container'>
-                <button className='availble-btn' onClick={() => handleAvailableClicked()}>{showAvailble ? 'X' : 'חסימת תאריך'}</button>
-            </div>
-            <div className='blocked-hours-container'>
-                <button className='blocked-btn' onClick={() => handleBlockedClicked()}>{showBlockedHours ? 'X' : 'חסימת שעות'}</button>
-            </div>            
+            {(!showAvailble && !showBlockedHours && !menageUsers) &&
+            <div className='admin-btns-container'>
+                <div className='availble-orders-container'>
+                    <button className='availble-btn' onClick={() => handleCmpClicked('blockDate')}>{showAvailble ? 'X' : 'חסימת תאריך'}</button>
+                </div>
+                <div className='blocked-hours-container'>
+                    <button className='blocked-btn' onClick={() => handleCmpClicked('blockHours')}>{showBlockedHours ? 'X' : 'חסימת שעות'}</button>
+                </div>
+                <div className='menage-users-container'>
+                    <button className='menage-btn' onClick={() => handleCmpClicked('menageUsers')}>{menageUsers ? 'X' : 'ניהול משתמשים'}</button>
+                </div>
+            </div>}            
 
             {showAvailble && <EditAvailbleOrders showBlockedHours={showBlockedHours} setShowAvailble={setShowAvailble} setDateForHourBlock={setDateForHourBlock}/>}
             {showBlockedHours && !showAvailble && <BlockHours date={dateForHourBlock} setShowBlockedHours={setShowBlockedHours}/>}
 
-            {users && !showAvailble && !showBlockedHours && (
-                <ul>
+            {users && !showAvailble && !showBlockedHours && menageUsers && (
+                <ul className='users-list'>
                     {users.map(user => (
                         <li key={user._id}>
-                            <pre>{JSON.stringify(user, null, 2)}</pre>
-                            <button onClick={() => removeUser(user._id)}>
+                            {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+                            <p><span>שם מלא:</span> {user.fullname}</p>
+                            <p><span>שם משתמש:</span> {user.username}</p>
+                            <p><span>פלאפון:</span> {user.phoneNumber}</p>
+                            <p><span>אדמין:</span> {(user.isAdmin) ? 'כן' : "לא"}</p>
+                            <button className='remove-user-btn' onClick={() => removeUser(user._id)}>
                                 Remove {user.username}
                             </button>
                         </li>
