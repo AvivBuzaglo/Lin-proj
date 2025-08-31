@@ -5,12 +5,15 @@
 	margin: auto;
 
 	padding: 1em;
-	background-color: $clr4;
+	// background-color: $clr4;
+	background-color: rgb(199, 187, 162);
+	align-items: center;
+    justify-items: center;
 }
 
 .signup-form {
 	input {
-		width: 100%;
+		// width: 100%;
 	}
 
     .admin-toggle {
@@ -22,6 +25,24 @@
             font-size: .8em;
         }
     }
+
+	.signup-btn {
+		background-color: black;
+    	border-radius: 28px;
+    	width: 6rem;
+    	height: 2rem;
+	}
+
+	.singup-p {
+		display: flex;
+		direction: rtl;
+		flex-direction: row;
+		font-size: .9rem;
+		gap: 0.2rem;
+
+		align-items: start;
+		justify-self: end;
+	}
 }
 
 .login-page nav {
@@ -45,3 +66,5 @@
 		color: $clr2;
 	}
 }
+
+

@@ -5,8 +5,8 @@ export function LoginSignup() {
     return (
         <div className="login-page">
             <nav>
-                <NavLink to=".">Login</NavLink>
-                <NavLink to="signup">Signup</NavLink>
+                <NavLink to=".">התחברות</NavLink>
+                <NavLink to="signup">הרשמה</NavLink>
             </nav>
             <Outlet/>
         </div>

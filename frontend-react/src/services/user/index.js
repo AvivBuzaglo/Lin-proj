@@ -8,6 +8,7 @@ function getEmptyUser() {
         username: '', 
         password: '', 
         fullname: '',
+        phoneNumber: '',
         isAdmin: false,
         score: 100,
         orders: []

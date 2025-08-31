@@ -25,7 +25,7 @@ export function Signup() {
     async function onSignup(ev = null) {
         if (ev) ev.preventDefault()
 
-        if (!credentials.username || !credentials.password || !credentials.fullname) return
+        if (!credentials.username || !credentials.password || !credentials.fullname || !credentials.phoneNumber) return
         await signup(credentials)
         clearState()
         navigate('/')
@@ -37,32 +37,52 @@ export function Signup() {
 
     return (
         <form className="signup-form" onSubmit={onSignup}>
-            <input
-                type="text"
-                name="fullname"
-                value={credentials.fullname}
-                placeholder="Fullname"
-                onChange={handleChange}
-                required
+            <p className='singup-p'>
+                שם מלא:
+                <input
+                    type="text"
+                    name="fullname"
+                    value={credentials.fullname}
+                    placeholder="Fullname"
+                    onChange={handleChange}
+                    required
+                />
+            </p>
+            <p className='singup-p'>
+                שם משתמש:
+                <input
+                    type="text"
+                    name="username"
+                    value={credentials.username}
+                    placeholder="Username"
+                    onChange={handleChange}
+                    required
             />
-            <input
-                type="text"
-                name="username"
-                value={credentials.username}
-                placeholder="Username"
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="password"
-                name="password"
-                value={credentials.password}
-                placeholder="Password"
-                onChange={handleChange}
-                required
-            />
-            <ImgUploader onUploaded={onUploaded} />
-            <button>Signup</button>
+            </p> 
+            <p className='singup-p'>
+                סיסמה:
+                <input
+                    type="password"
+                    name="password"
+                    value={credentials.password}
+                    placeholder="Password"
+                    onChange={handleChange}
+                    required
+                />
+            </p>
+            <p className='singup-p'>
+                טלפון:
+                <input
+                    type="text"
+                    name="phoneNumber"
+                    value={credentials.phoneNumber}
+                    placeholder="Phone Number"
+                    onChange={handleChange}
+                    required
+                />
+            </p>
+            {/* <ImgUploader onUploaded={onUploaded} /> */}
+            <button className='signup-btn'>הרשמה</button>
         </form>
     )
 }

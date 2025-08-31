@@ -70,7 +70,7 @@ export function Login() {
                     required 
                 />
             </div>
-            <button>Login</button>
+            <button className='login-btn'>התחבר</button>
         </form>
     )
 }
