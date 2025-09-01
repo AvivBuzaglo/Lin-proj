@@ -22,7 +22,11 @@ export function Appointment() {
     const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
     
-    
+    useEffect(() => {
+        if(!user) navigate('/')
+    }, [])
+
+
     useEffect(() => {
         console.log(order);
     }, [order])

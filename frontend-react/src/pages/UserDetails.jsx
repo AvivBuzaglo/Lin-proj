@@ -32,10 +32,8 @@ export function UserDetails() {
   useEffect(() => {
     async function loadorders() {
       const loggedUser = await userService.getLoggedinUser()
-      if(loggedUser.orders) {
         setOrders(loggedUser.orders)
         console.log(loggedUser.orders);
-      }
       
     }    
     loadorders()
@@ -105,7 +103,7 @@ export function UserDetails() {
               </tr>
             </thead>
             <tbody>
-              {orders.length < 0 && orders.map((order, i) =>(
+              {orders.map((order, i) =>(
                 <tr key={i}>
                   <td className='user-tbody-td'>{setCare(order.care)}</td>
                   <td className='user-tbody-td'>{order.date}</td>
