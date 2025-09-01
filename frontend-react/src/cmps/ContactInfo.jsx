@@ -7,11 +7,11 @@ export function ContactInfo() {
             <div className="contact-info">
                 <div className="adress-info">
                     <h4>באר שבע</h4>
-                    <span>נחל פרת 26</span>
+                    <span>הגאונים 17</span>
                 </div>
                 <div className="phone-info">
                     :לחיוג <br />
-                    0526861893 
+                    0544692777 
                 </div>
             </div>
         </section>

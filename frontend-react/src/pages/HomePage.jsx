@@ -15,7 +15,6 @@ export function HomePage() {
     const [showPic, setShowPic] = useState(false)
     const [imgUrl, setImgUrl] = useState(undefined)
 
-    console.log(new Date());
     
 
 	const goToAdminIndex = () => {
