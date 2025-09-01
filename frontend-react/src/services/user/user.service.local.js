@@ -83,7 +83,7 @@ function saveLoggedinUser(user) {
 
 function _removeExpiredOrders() {
     const user = getLoggedinUser()
-    if (!user || !user.orders ||user.orders.length <= 0) return
+    if (!user || !user.orders ||user.orders.length <= 0) return []
     const orders = user.orders
     const today = new Date()
 

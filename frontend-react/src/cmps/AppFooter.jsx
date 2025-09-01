@@ -22,7 +22,7 @@ export function AppFooter() {
 			<p>Count: {count}</p> */}
 
 			<button className='user-info btn' onClick={goToUserDetails}>👤</button>
-			<button className='main-footer btn' onClick={goToAppointment}></button>
+			<button className='main-footer btn' style={{backgroundImage: "url('imgs/Lin-Peretz-Logo.jpg')"}} onClick={goToAppointment}></button>
 			<button className='contact btn'>ℹ️</button>
             
             {/* {import.meta.env.VITE_LOCAL ? 
