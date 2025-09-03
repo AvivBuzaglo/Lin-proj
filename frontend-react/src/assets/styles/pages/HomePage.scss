@@ -34,3 +34,23 @@
     width: 6rem;
     height: 2rem;
 }
+
+.contact-links {
+    text-align: center;
+    margin-block-end: 1.5rem;
+}
+
+.contact-links span {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.contact-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding-block-end: 3rem;
+}
