@@ -14,7 +14,11 @@ export function AppFooter() {
 
 	const goToUserDetails = () => {
 		navigate(`user/${user._id}`)
-	} 
+	}
+	
+	const goToContact = () => {
+		navigate("contact")
+	}
 
 	return (
 		<footer className="app-footer full">
@@ -23,7 +27,7 @@ export function AppFooter() {
 
 			<button className='user-info btn' onClick={goToUserDetails}>👤</button>
 			<button className='main-footer btn' style={{backgroundImage: "url('imgs/Lin-Peretz-Logo.jpg')"}} onClick={goToAppointment}></button>
-			<button className='contact btn'>ℹ️</button>
+			<button className='contact btn' onClick={goToContact}>ℹ️</button>
             
             {/* {import.meta.env.VITE_LOCAL ? 
                 <span className="local-services">Local Services</span> : 

@@ -18,6 +18,7 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { Appointment } from './pages/Appointment.jsx'
+import { ContactCreator } from './pages/ContactCreator.jsx'
 
 export function RootCmp() {
     return (
@@ -33,6 +34,7 @@ export function RootCmp() {
                         <Route path="vision" element={<AboutVision />} />
                     </Route>
                     <Route path="appointment" element={<Appointment />} />
+                    <Route path="contact" element={<ContactCreator />} />
                     <Route path="car/:carId" element={<CarDetails />} />
                     <Route path="user/:id" element={<UserDetails />} />
                     <Route path="review" element={<ReviewIndex />} />

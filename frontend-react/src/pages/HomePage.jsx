@@ -9,7 +9,6 @@ import { ContactInfo } from "../cmps/ContactInfo"
 import { UserLogout } from "../cmps/UserLogout"
 import { userService } from "../services/user/user.service.local"
 import { homePageSvgs } from "../cmps/Svgs"
-import { NavLink } from "react-router-dom"
 
 export function HomePage() {
     const user = useSelector(storeState => storeState.userModule.user)
