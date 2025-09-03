@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
+import { footerSvgs } from './Svgs.jsx'
 import { Link, NavLink } from 'react-router-dom'
 import { Appointment } from '../pages/Appointment.jsx'
 
@@ -25,10 +26,10 @@ export function AppFooter() {
 			{/* <p>Coffeerights &copy; 2024</p>
 			<p>Count: {count}</p> */}
 
-			<button className='user-info btn' onClick={goToUserDetails}>👤</button>
+			<button className='user-info btn' onClick={goToUserDetails}>{footerSvgs.user}</button>
 			<button className='main-footer btn' style={{backgroundImage: "url('imgs/Lin-Peretz-Logo.jpg')"}} onClick={goToAppointment}></button>
-			<button className='contact btn' onClick={goToContact}>ℹ️</button>
-            
+			<button className='contact btn' onClick={goToContact}>{footerSvgs.info}</button>
+
             {/* {import.meta.env.VITE_LOCAL ? 
                 <span className="local-services">Local Services</span> : 
                 <span className="remote-services">Remote Services</span>} */}
