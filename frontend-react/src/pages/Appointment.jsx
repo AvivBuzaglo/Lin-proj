@@ -19,11 +19,13 @@ export function Appointment() {
     const [showCalender, setShowCalender] = useState(false)
     const [ readyToSave, setReadyToSave] = useState(false)
     const [ orderConfirmed, setOrderConfirmed] = useState(false)
-    const user = useSelector(storeState => storeState.userModule.user)
+    const loggedUser = userService.getLoggedinUser()
+    const [ user, setUser ] = useState(null)
     const navigate = useNavigate()
     
     useEffect(() => {
-        if(!user) navigate('/')
+        if(!loggedUser) navigate('/')
+        setUser(loggedUser)
     }, [])
 
 
@@ -32,10 +34,13 @@ export function Appointment() {
     }, [order])
 
     useEffect(() => {
+        console.log(user, 44)
         if(readyToSave && orderConfirmed) {
+            
             orderService.save(order)
             user.orders.push(order)
             userService.update(user)
+            console.log(user, 50)
 
             setTimeout(() => {
                 navigate("/")
