@@ -8,4 +8,9 @@ export default defineConfig({
 		outDir: '../backend/public',
 		emptyOutDir: true,
 	},
+	server: {
+		proxy: {
+			'/api': 'http://localhost:3030',
+		}
+	}
 })

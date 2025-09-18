@@ -9,11 +9,14 @@ import { userRoutes } from './api/user/user.routes.js'
 import { reviewRoutes } from './api/review/review.routes.js'
 import { carRoutes } from './api/car/car.routes.js'
 import { setupSocketAPI } from './services/socket.service.js'
+import { readJsonFile } from './services/util.service.js'
 
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
 
 const app = express()
 const server = http.createServer(app)
+
+const orders = readJsonFile('data/order.json')
 
 // Express App Config
 app.use(cookieParser())
@@ -45,6 +48,26 @@ setupSocketAPI(server)
 // so when requesting http://localhost:3030/unhandled-route... 
 // it will still serve the index.html file
 // and allow vue/react-router to take it from there
+
+// app.get('/**', (req, res) => {
+//     res.sendFile(path.resolve('public/index.html'))
+// })
+
+app.get('/api/puki', (req, res) => {
+    res.json({massage: 'Hello from server!'})
+    .catch(err => {
+        console.log('Error in /api/puki', err)
+        res.status(500).send({ err: 'Failed to get puki' })
+    })
+})
+
+app.get('/api/orders', (req, res) => {
+    res.send(orders)
+    .catch(err => {
+        console.log('Error in /api/orders', err)
+        res.status(500).send({ err: 'Failed to get orders' })
+    })
+})
 
 app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))

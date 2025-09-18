@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 export function makeId(length = 5) {
 	var txt = ''
 	var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -68,4 +70,10 @@ export function randomPastTime() {
 
 	const pastTime = getRandomIntInclusive(HOUR, WEEK)
 	return Date.now() - pastTime
+}
+
+export function readJsonFile(path) {
+    const str = fs.readFileSync(path, 'utf8')
+    const json = JSON.parse(str)
+    return json
 }
