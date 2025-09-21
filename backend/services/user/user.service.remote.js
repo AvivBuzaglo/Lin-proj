@@ -1,4 +1,4 @@
-import { httpService } from '../http.service.js'
+import { httpService } from '../../../frontend-react/src/services/http.service.js'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 

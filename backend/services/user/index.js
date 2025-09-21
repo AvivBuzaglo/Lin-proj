@@ -1,7 +1,7 @@
 const { DEV, VITE_LOCAL } = import.meta.env
 
-import { userService as local } from './user.service.local.js'
-import { userService as remote } from './user.service.remote.js'
+import { userService as local } from './user.service.local'
+import { userService as remote } from './user.service.remote'
 
 function getEmptyUser() {
     return {

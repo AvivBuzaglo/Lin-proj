@@ -1,8 +1,10 @@
+// import fs from 'fs'
 import { storageService } from '../async-storage.service'
-import { makeId, loadFromStorage, saveToStorage } from '../util.service'
+import { makeId, loadFromStorage, saveToStorage } from '../util.service.js'
 import { userService } from '../user'
 
 const ORDERS_STORAGE_KEY = 'order';
+// const orders = readJsonFile('backend\data\order.json')
 
 _createOrders()
 _refreshOrders()
@@ -34,6 +36,9 @@ async function query() {
   return orders;
 }
 
+// function query() {
+//   return Promise.resolve(orders)
+// }
 
 function getById(orderId) {
   return storageService.get(ORDERS_STORAGE_KEY, orderId)

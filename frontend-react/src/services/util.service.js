@@ -1,3 +1,4 @@
+
 export function makeId(length = 6) {
     var txt = ''
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -87,7 +88,11 @@ export function generateCalender(year, month) {
     return weeks
 }
 
-
+// export function readJsonFile(path) {
+//     const str = fs.readFileSync(path, 'utf8')
+//     const json = JSON.parse(str)
+//     return json
+// }
 // export function generateCalender(year, month) {
 //     const weeks = []
 //     const firstDay = new Date(year, month, 1)

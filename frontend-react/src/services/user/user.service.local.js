@@ -1,4 +1,4 @@
-import { storageService } from '../async-storage.service'
+import { storageService } from '../async-storage.service.js'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 

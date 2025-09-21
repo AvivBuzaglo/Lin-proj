@@ -1,6 +1,6 @@
 const { DEV, VITE_LOCAL } = import.meta.env
 
-import { getRandomIntInclusive, makeId } from '../util.service'
+import { getRandomIntInclusive, makeId } from '../util.service.js'
 
 import { carService as local } from './car.service.local'
 import { carService as remote } from './car.service.remote'

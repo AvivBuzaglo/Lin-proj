@@ -10,13 +10,16 @@ import { reviewRoutes } from './api/review/review.routes.js'
 import { carRoutes } from './api/car/car.routes.js'
 import { setupSocketAPI } from './services/socket.service.js'
 import { readJsonFile } from './services/util.service.js'
-
+import { orderService } from './services/order.service.js'
+import { userService } from './services/user/user.service.local.js'
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
 
 const app = express()
 const server = http.createServer(app)
 
-const orders = readJsonFile('data/order.json')
+
+const users = readJsonFile('data/user.json')
+const blockedHours = readJsonFile('data/blockedHours.json')
 
 // Express App Config
 app.use(cookieParser())
@@ -61,11 +64,89 @@ app.get('/api/puki', (req, res) => {
     })
 })
 
-app.get('/api/orders', (req, res) => {
-    res.send(orders)
+app.get('/api/order', (req, res) => {
+    orderService.query()
+    .then(orders => res.send(orders))
+    // .then(console.log(orders))
     .catch(err => {
         console.log('Error in /api/orders', err)
         res.status(500).send({ err: 'Failed to get orders' })
+    })
+})
+
+app.get('/api/order/save', (req, res) => {
+  userService.getById(req.query.owner)
+    .then(owner => {
+      if (!owner) throw new Error('No such user')
+
+      const orderToSave = {
+        _id: req.query._id,
+        care: req.query.care,
+        date: req.query.date,
+        start: req.query.start,
+        end: req.query.end,
+        owner: {
+          _id: owner._id,
+          fullname: owner.fullname
+        },
+        msgs: []
+      }
+
+      return orderService.save(orderToSave)
+    })
+    .then(savedOrder => res.send(savedOrder))
+    .catch(err => {
+        console.log('Error in /api/order/save', err)
+        res.status(500).send({ err: 'Failed to save order' })
+    })
+})
+
+app.get('/api/order/:orderId', (req, res) => {
+    const { orderId } = req.params
+    orderService.getById(orderId)
+    .then(order => res.send(order))
+    .catch(err => {
+        console.log('Error in /api/order/:orderId', err)
+        res.status(500).send({ err: 'Failed to get order by id' })
+    })
+})
+
+app.get('/api/order/:orderId/remove', (req, res) => {
+    const { orderId } = req.params
+    orderService.remove(orderId)
+    .then(() => res.send({ msg: 'Deleted successfully' }))
+    .catch(err => {
+        console.log('Error in /api/order/:orderId/remove', err)
+        res.status(500).send({ err: 'Failed to remove order' })
+    })
+})
+
+app.get('/api/user', (req, res) => {
+    res.send(users)
+    console.log(users)
+    .catch(err => {
+        console.log('Error in /api/users', err)
+        res.status(500).send({ err: 'Failed to get users' })
+    })
+})
+
+app.get('/api/user/:userId', (req, res) => {
+    const { userId } = req.params
+    userService.getById(userId)
+    .then(user => res.send(user))  
+    console.log(user)
+    .catch(err => {
+        console.log('Error in /api/user/:userId', err)
+        res.status(500).send({ err: 'Failed to get user by id' })
+    })      
+})
+
+app.get('/api/blockedhours', (req, res) => {
+    res.send(blockedHours)
+    console.log(blockedHours)
+    .catch(err => {
+        console.log('Error in /api/blockedhours', err)
+        res.status(500).send({ err: 'Failed to get blockedhours' })
     })
 })
 
