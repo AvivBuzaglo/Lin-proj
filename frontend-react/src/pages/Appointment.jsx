@@ -5,7 +5,8 @@ import { ChooseCare } from "../cmps/ChooseCare.jsx"
 import { ChooseDate } from "../cmps/ChooseDate.jsx"
 import { ChooseTime } from "../cmps/ChooseTime.jsx"
 import { ConfirmOrder } from "../cmps/ConfirmOrder.jsx";
-import { orderService } from "../services/order/order.service.local.js"
+// import { orderService } from "../services/order/order.service.remote.js" // for remote
+import { orderService } from "../services/order/order.service.local.js" // for local
 import { userService } from "../services/user/user.service.local.js";
 
 export function Appointment() {

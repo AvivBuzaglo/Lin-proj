@@ -6,7 +6,7 @@ import { userService } from '../user'
 const ORDERS_STORAGE_KEY = 'order';
 // const orders = readJsonFile('backend\data\order.json')
 
-_createOrders()
+// _createOrders()
 _refreshOrders()
 // _refreshOrdersApi()
 

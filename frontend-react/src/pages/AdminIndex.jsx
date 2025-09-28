@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 import { availableOrdersService } from '../services/order/availableOrder.service.local'
 import { EditAvailbleOrders } from '../cmps/EditAvailbleOrders'
 import { BlockHours } from '../cmps/BlockHours'
+import { orderService } from '../services/order/order.service.remote.js'
 
 export function AdminIndex() {
     
@@ -12,6 +13,7 @@ export function AdminIndex() {
     const [showBlockedHours, setShowBlockedHours] = useState(false)
     const [dateForHourBlock, setDateForHourBlock] = useState(undefined)
     const [menageUsers, setMenageUsers] = useState(false)
+    const [orders, setOrders] = useState([])
 
     const navigate = useNavigate()
 	const user = useSelector(storeState => storeState.userModule.user)
@@ -21,6 +23,7 @@ export function AdminIndex() {
 	useEffect(() => {
         if(!user.isAdmin) navigate('/')
 		loadUsers()
+        // setOrders(orderService.query())
 	}, [])
 
     const handleCmpClicked = (cmp) => {
@@ -79,6 +82,16 @@ export function AdminIndex() {
         }
     }    
 
+    function getOrders() {
+        orderService.query()
+            .then(fetchedOrders => {
+                setOrders(fetchedOrders)
+            })
+            .catch(err => {
+                console.log('Error fetching orders', err)
+            })
+    }
+
 	return (
         <section className="admin">
             {isLoading && 'Loading...'}
@@ -101,6 +114,9 @@ export function AdminIndex() {
                 </div>
                 <div className='menage-users-container'>
                     <button className='menage-btn' onClick={() => handleCmpClicked('menageUsers')}>{menageUsers ? 'X' : 'ניהול משתמשים'}</button>
+                </div>
+                <div>
+                    <button onClick={() => getOrders()}>orders</button>
                 </div>
             </div>}            
 
