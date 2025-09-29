@@ -52,20 +52,11 @@ setupSocketAPI(server)
 // it will still serve the index.html file
 // and allow vue/react-router to take it from there
 
-// app.get('/**', (req, res) => {
-//     res.sendFile(path.resolve('public/index.html'))
-// })
-
-app.get('/api/puki', (req, res) => {
-    res.json({massage: 'Hello from server!'})
-    .catch(err => {
-        console.log('Error in /api/puki', err)
-        res.status(500).send({ err: 'Failed to get puki' })
-    })
-})
-
 app.get('/api/order', (req, res) => {
-    orderService.query()
+    const filterBy = {
+        date: req.query.date || '',
+    }
+    orderService.query(filterBy)
     .then(orders => res.send(orders))
     // .then(console.log(orders))
     .catch(err => {
@@ -74,26 +65,29 @@ app.get('/api/order', (req, res) => {
     })
 })
 
-app.get('/api/order/save', (req, res) => {
-  userService.getById(req.query.owner)
-    .then(owner => {
-      if (!owner) throw new Error('No such user')
+app.post('/api/order', (req, res) => {
+//   userService.getById(req.query.owner)
+//     .then(owner => {
+//       if (!owner) throw new Error('No such user')
 
-      const orderToSave = {
-        _id: req.query._id,
-        care: req.query.care,
-        date: req.query.date,
-        start: req.query.start,
-        end: req.query.end,
-        owner: {
-          _id: owner._id,
-          fullname: owner.fullname
-        },
-        msgs: []
-      }
+    //   const orderToSave = {
+    //     _id: req.query._id,
+    //     care: req.query.care,
+    //     date: req.query.date,
+    //     start: req.query.start,
+    //     end: req.query.end,
+    //     owner: {
+    //       _id: owner._id,
+    //       fullname: owner.fullname
+    //     },
+    //     msgs: []
+    //   }
 
-      return orderService.save(orderToSave)
-    })
+        const orderToSave = req.body
+    
+        // return orderService.save(orderToSave)
+        orderService.save(orderToSave)
+    // })
     .then(savedOrder => res.send(savedOrder))
     .catch(err => {
         console.log('Error in /api/order/save', err)
@@ -111,7 +105,7 @@ app.get('/api/order/:orderId', (req, res) => {
     })
 })
 
-app.get('/api/order/:orderId/remove', (req, res) => {
+app.delete('/api/order/:orderId', (req, res) => {
     const { orderId } = req.params
     orderService.remove(orderId)
     .then(() => res.send({ msg: 'Deleted successfully' }))
