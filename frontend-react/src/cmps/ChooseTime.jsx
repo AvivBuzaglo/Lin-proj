@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { orderService } from "../services/order/order.service.local.js"
+// import { orderService } from "../services/order/order.service.local.js"
+import { orderService } from "../services/order/order.service.remote.js"
 import { availableOrdersService } from '../services/order/availableOrder.service.local'
 
 export function ChooseTime({order, setOrder, setReadyToSave}) {
@@ -26,7 +27,8 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
             getBlocked()
 
             async function checkOrdered() {
-                const result = await orderService.query()
+                // const result = await orderService.query()
+                const result = await orderService.query({date: orderToEdit.date})
                 result.forEach(element => {
                     element.date === orderToEdit.date ? setBlockedHours(prev => [...prev, element.start]) : ''
                 })
@@ -34,7 +36,7 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
             checkOrdered()
 
             async function getHoursBetween() {
-                const result = await orderService.query()
+                const result = await orderService.query({date: orderToEdit.date})
                 let isMicro
 
                 result.forEach(element => {
@@ -45,7 +47,7 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
                             const index1 = times4.indexOf(element.start)
                             const index2 = times4.indexOf(element.end)
                             const occupiedHours = times4.slice(index1 + 1, index2)
-                            console.log(occupiedHours);
+                            // console.log(occupiedHours);
                             
                             setBlockedHours(prev => [...prev, ...occupiedHours])
                         }

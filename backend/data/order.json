@@ -1,66 +1,66 @@
 [
-  {
-    "care": "shaping",
-    "date": "22.9.2025",
-    "end": "9:20",
-    "msgs": [],
-    "owner": {
-      "_id": "UQmNN",
-      "fullname": "Aviv Buzaglo",
-      "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-      "isAdmin": false,
-      "orders": [],
-      "score": 10000
+    {
+        "care": "shaping",
+        "date": "22.9.2025",
+        "end": "9:20",
+        "msgs": [],
+        "owner": {
+            "_id": "UQmNN",
+            "fullname": "Aviv Buzaglo",
+            "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+            "isAdmin": false,
+            "orders": [],
+            "score": 10000
+        },
+        "start": "9:00",
+        "_id": "yvgqG"
     },
-    "start": "9:00",
-    "_id": "yvgqG"
-  },
-  {
-    "care": "shaping",
-    "date": "22.9.2025",
-    "end": "10:00",
-    "msgs": [],
-    "owner": {
-      "_id": "UQmNN",
-      "fullname": "Aviv Buzaglo",
-      "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-      "isAdmin": false,
-      "orders": [],
-      "score": 10000
+    {
+        "care": "shaping",
+        "date": "22.9.2025",
+        "end": "10:00",
+        "msgs": [],
+        "owner": {
+            "_id": "UQmNN",
+            "fullname": "Aviv Buzaglo",
+            "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+            "isAdmin": false,
+            "orders": [],
+            "score": 10000
+        },
+        "start": "9:40",
+        "_id": "pRt56"
     },
-    "start": "9:40",
-    "_id": "pRt56"
-  },
-  {
-    "care": "shaping",
-    "date": "23.9.2025",
-    "end": "11:20",
-    "msgs": [],
-    "owner": {
-      "_id": "UQmNN",
-      "fullname": "Aviv Buzaglo",
-      "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-      "isAdmin": false,
-      "orders": [],
-      "score": 10000
+    {
+        "care": "shaping",
+        "date": "23.9.2025",
+        "end": "11:20",
+        "msgs": [],
+        "owner": {
+            "_id": "UQmNN",
+            "fullname": "Aviv Buzaglo",
+            "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+            "isAdmin": false,
+            "orders": [],
+            "score": 10000
+        },
+        "start": "11:00",
+        "_id": "qWe78"
     },
-    "start": "11:00",
-    "_id": "qWe78"
-  },
-  {
-    "care": "shaping",
-    "date": "24.9.2025",
-    "end": "14:20",
-    "msgs": [],
-    "owner": {
-      "_id": "UQmNN",
-      "fullname": "Aviv Buzaglo",
-      "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-      "isAdmin": false,
-      "orders": [],
-      "score": 10000
-    },
-    "start": "14:00",
-    "_id": "zUi90"
-  }
+    {
+        "care": "shaping",
+        "date": "24.9.2025",
+        "end": "14:20",
+        "msgs": [],
+        "owner": {
+            "_id": "UQmNN",
+            "fullname": "Aviv Buzaglo",
+            "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+            "isAdmin": false,
+            "orders": [],
+            "score": 10000
+        },
+        "start": "14:00",
+        "_id": "zUi90"
+    }
 ]

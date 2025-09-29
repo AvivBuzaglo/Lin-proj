@@ -7,7 +7,8 @@ import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from '../services/socket.service'
 import { userService } from '../services/user/user.service.local'
-import { orderService } from '../services/order/order.service.local'
+// import { orderService } from '../services/order/order.service.local'
+import { orderService } from '../services/order/order.service.remote.js' // for remote
 import { availableOrdersService } from '../services/order/availableOrder.service.local'
 
 export function UserDetails() {
