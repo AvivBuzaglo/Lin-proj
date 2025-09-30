@@ -77,3 +77,37 @@ export function readJsonFile(path) {
     const json = JSON.parse(str)
     return json
 }
+
+export function generateCalender(year, month) {
+    const weeks = []
+    const today = new Date()
+    const currentDate = new Date(year, month, 1)
+
+    // Only start from today if it's the current year & month
+    const startDay = (today.getFullYear() === year && today.getMonth() === month)
+        ? today.getDate()
+        : 1
+
+    const firstDayOfWeek = new Date(year, month, startDay).getDay()
+    let week = new Array(firstDayOfWeek).fill(null)
+
+    const lastDay = new Date(year, month + 1, 0)
+    const daysInMonth = lastDay.getDate()
+
+    for (let day = startDay; day <= daysInMonth; day++) {
+        week.push(new Date(year, month, day))
+        if (week.length === 7) {
+            weeks.push(week)
+            week = []
+        }
+    }
+
+    if (week.length > 0) {
+        while (week.length < 7) {
+            week.push(null)
+        }
+        weeks.push(week)
+    }
+
+    return weeks
+}

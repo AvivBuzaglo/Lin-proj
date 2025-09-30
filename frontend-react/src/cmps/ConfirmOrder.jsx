@@ -73,8 +73,8 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
     }
 
     function handleConfirmedClick() {
-        setOrderConfirmed(true)
         updateStorage()
+        setOrderConfirmed(true)
     }
 
     function setCare(type) {

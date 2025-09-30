@@ -4,6 +4,7 @@ import cors from 'cors'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 
+import { logger } from './services/logger.service.js'
 import { authRoutes } from './api/auth/auth.routes.js'
 import { userRoutes } from './api/user/user.routes.js'
 import { reviewRoutes } from './api/review/review.routes.js'
@@ -12,6 +13,7 @@ import { setupSocketAPI } from './services/socket.service.js'
 import { readJsonFile } from './services/util.service.js'
 import { orderService } from './services/order.service.js'
 import { userService } from './services/user/user.service.local.js'
+import { blockOrdersService } from './services/blockedOrders.service.js'
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
 
 const app = express()
@@ -19,7 +21,7 @@ const server = http.createServer(app)
 
 
 const users = readJsonFile('data/user.json')
-const blockedHours = readJsonFile('data/blockedHours.json')
+
 
 // Express App Config
 app.use(cookieParser())
@@ -136,11 +138,77 @@ app.get('/api/user/:userId', (req, res) => {
 })
 
 app.get('/api/blockedhours', (req, res) => {
-    res.send(blockedHours)
-    console.log(blockedHours)
+    const filterBy = {
+        date: req.query.date || '',
+    }
+    blockOrdersService.queryHours(filterBy)
+    .then(blocked => res.send(blocked))
+    // .then(console.log(orders))
     .catch(err => {
         console.log('Error in /api/blockedhours', err)
-        res.status(500).send({ err: 'Failed to get blockedhours' })
+        res.status(500).send({ err: 'Failed to get blocked hours' })
+    })
+})
+
+app.get('/api/blockeddates', (req, res) => {
+    blockOrdersService.queryDates()
+    .then(dates => res.send(dates))
+    .catch(err => {
+        console.log('Error in /api/blockeddates', err)
+        res.status(500).send({ err: 'Failed to get blocked dates' })
+    })
+})
+
+app.delete('/api/blockedhours', (req, res) => {
+    // const { date, start } = req.params
+    const { date, start } = req.body
+    blockOrdersService.removeHours(date, start)
+    .then(() => res.send({ msg: 'Deleted successfully' }))
+    .catch(err => {
+        console.log('Error in /api/blockedhours', err)
+        res.status(500).send({ err: 'Failed to remove blocked hours' })
+    })
+})
+
+app.delete('/api/blockeddates', (req, res) => {
+    const  dateToRemove = {
+        date: req.query.date || '',
+    }
+    blockOrdersService.removeDate(dateToRemove.date)
+    .then(() => res.send({ msg: 'Deleted successfully' }))
+    .catch(err => {
+        console.log('Error in /api/blockedates', err)
+        res.status(500).send({ err: 'Failed to remove blocked date' })
+    })
+})
+
+app.put('/api/blockedhours', (req, res) => {
+    const updatedHours = req.body
+    blockOrdersService.putHours(updatedHours)
+    .then(() => res.send({ msg: 'Updated successfully' }))
+    .catch(err => {
+        console.log('Error in /api/blockedhours', err)
+        res.status(500).send({ err: 'Failed to update blocked hours' })
+    })
+})
+
+app.post('/api/blockedhours', (req, res) => {
+    const blockedHours = req.body
+    blockOrdersService.postHours(blockedHours)
+    .then(() => res.send({ msg: 'Saved successfully' }))
+    .catch(err => {
+        console.log('Error in /api/blockedhours', err)
+        res.status(500).send({ err: 'Failed to save blocked hours' })
+    })
+})
+
+app.post('/api/blockeddates', (req, res) => {
+    const blockedDate = req.query.date
+    blockOrdersService.postDate(blockedDate)
+    .then(() => res.send({ msg: 'Saved successfully' }))
+    .catch(err => {
+        console.log('Error in /api/blockeddates', err)
+        res.status(500).send({ err: 'Failed to save blocked date' })
     })
 })
 
@@ -148,7 +216,7 @@ app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
 })
 
-import { logger } from './services/logger.service.js'
+
 const port = process.env.PORT || 3030
 
 server.listen(port, () => {
