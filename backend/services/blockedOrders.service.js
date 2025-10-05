@@ -53,6 +53,7 @@ function putHours(updatedEntity) {
   if (idx < 0) return Promise.reject('No such date')
   blockedHours[idx] = updatedEntity
   _checkFullDay(updatedEntity) // this function need to be in backend
+  _checkEmptyDay(blockedHours[idx].date)
   return _saveHoursToFile()
 }
 
@@ -86,7 +87,8 @@ function _checkFullDay(entity) {
 async function _checkEmptyDay(date) {
   const blockedIdx = blockedHours.findIndex((block) => block.date === date)
   if(blockedHours[blockedIdx].hours.length === 0) {
-    removeDate(date)
+    blockedHours.splice(blockedIdx, 1)
+    await _saveHoursToFile()
   }
 }
 

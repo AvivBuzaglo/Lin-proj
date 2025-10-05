@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 // import { orderService } from "../services/order/order.service.local.js"
 import { orderService } from "../services/order/order.service.remote.js"
-import { availableOrdersService } from '../services/order/availableOrder.service.local'
+import { blockedOrdersService } from "../services/order/blockedOrders.service.remote.js"
 
 export function ChooseTime({order, setOrder, setReadyToSave}) {
     const [orderToEdit, setOrderToEdit] = useState({...order})
@@ -19,7 +19,7 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
 
         useEffect(() => {
             async function getBlocked() {
-                const result = await availableOrdersService.queryHours()
+                const result = await blockedOrdersService.queryHours()
                 result.forEach(element => {
                     element.date === orderToEdit.date ? setBlockedHours(element.hours) : setBlockedHours([])
                 })
@@ -60,7 +60,7 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
 
             async function checkCare() {
                 const care = orderToEdit.care
-                const result = await availableOrdersService.queryHours()
+                const result = await blockedOrdersService.queryHours()
                 let blocked 
                 result.forEach(element => {
                     element.date === orderToEdit.date ? blocked = element.hours : blocked = []

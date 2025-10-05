@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { availableOrdersService } from '../services/order/availableOrder.service.local'
+import { blockedOrdersService } from "../services/order/blockedOrders.service.remote.js"
 
 export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
     const [ blockedHours, setBlockedHours ] = useState([])
@@ -8,7 +8,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
     
     useEffect(() => {
         async function getBlocked() {
-            const result = await availableOrdersService.queryHours()
+            const result = await blockedOrdersService.queryHours()
             setBlockedHours(result)
         }
         getBlocked()
@@ -36,7 +36,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
                 date: order.date,
                 hours: [order.start]
             }
-            availableOrdersService.blockedHoursPost(blockObj)
+            blockedOrdersService.postHours(blockObj)
         }
         else if(dateIdx === null && (order.care === 'micro' || order.care === 'lift')) {
             const index1 = times4.indexOf(order.start)
@@ -47,7 +47,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
                 date: order.date,
                 hours: occupiedHours
             }
-            availableOrdersService.blockedHoursPost(blockObj)
+            blockedOrdersService.postHours(blockObj)
         }
         else if(dateIdx !== null && order.care !== 'micro' && order.care !== 'lift') {
             let prevObj = blockedHours[dateIdx]
@@ -56,7 +56,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
                 date: prevObj.date,
                 hours: updatedhours
             }            
-            availableOrdersService.putHours(updatedObj)
+            blockedOrdersService.putHours(updatedObj)
         }
         else if(dateIdx !== null && (order.care === 'micro' || order.care === 'lift')) {
             const index1 = times4.indexOf(order.start)
@@ -68,7 +68,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
                 date: prevObj.date,
                 hours: updatedhours
             }            
-            availableOrdersService.putHours(updatedObj)
+            blockedOrdersService.putHours(updatedObj)
         }
     }
 

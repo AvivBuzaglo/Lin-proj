@@ -28,12 +28,12 @@ async function getHoursById(hoursId) {
   return axios.get(HOURS_BASE_URL + hoursId).then(res => res.data)
 }
 
-async function removeHours(date, start) {
-    return axios.delete(HOURS_BASE_URL, date, start).then(res => res.data)
+async function removeHours(object) {
+    return axios.delete(HOURS_BASE_URL, {data: object}).then(res => res.data)
 }
 
 async function removeDate(date) {
-    return axios.delete(DATE_BASE_URL, {params: date}).then(res => res.data)
+    return axios.delete(DATE_BASE_URL, {params: date}).then(res => res.data) /// check bug (saves null)
 }
 
 async function putHours(updatedEntity) {
@@ -46,7 +46,7 @@ async function postHours(blockedHours) {
 }
 
 async function postDate(blockedDate) {
-    return axios.post(DATE_BASE_URL, {params: blockedDate}).then(res => res.data)
+    return axios.post(DATE_BASE_URL + blockedDate).then(res => res.data)
 }
 
 

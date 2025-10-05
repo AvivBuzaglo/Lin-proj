@@ -9,7 +9,7 @@ import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from
 import { userService } from '../services/user/user.service.local'
 // import { orderService } from '../services/order/order.service.local'
 import { orderService } from '../services/order/order.service.remote.js' // for remote
-import { availableOrdersService } from '../services/order/availableOrder.service.local'
+import { blockedOrdersService } from '../services/order/blockedOrders.service.remote.js'
 
 export function UserDetails() {
 
@@ -68,7 +68,8 @@ export function UserDetails() {
     }
     const orderId = await getOrderId(date, start)
     await orderService.remove(orderId)
-    await availableOrdersService.removeByTime(date, start)
+    // console.log("date:", date, "start:", start)
+    await blockedOrdersService.removeHours({date: date, start: start})
     user.orders.splice(idx, 1)
     await userService.update(user)
     setOrders(user.orders)

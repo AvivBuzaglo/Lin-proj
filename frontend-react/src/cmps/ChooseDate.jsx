@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { generateCalender } from "../services/util.service.js"
-import { availableOrdersService } from "../services/order/availableOrder.service.local.js"
+import { blockedOrdersService } from "../services/order/blockedOrders.service.remote.js"
 
 export function ChooseDate({order, setOrder, year = new Date().getFullYear(), month = new Date().getMonth(), calenderHandler}) {
 
@@ -21,7 +21,7 @@ export function ChooseDate({order, setOrder, year = new Date().getFullYear(), mo
 
     useEffect(() => {
         async function getBlocked() {
-            const result = await availableOrdersService.query()
+            const result = await blockedOrdersService.queryDates()
             setBlockedDates(result)
         }
         getBlocked()

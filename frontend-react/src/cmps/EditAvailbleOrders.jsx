@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { availableOrdersService } from '../services/order/availableOrder.service.local'
+import { blockedOrdersService } from "../services/order/blockedOrders.service.remote.js"
 import { generateCalender } from "../services/util.service.js"
 
 
@@ -13,7 +13,7 @@ export function EditAvailbleOrders({showBlockedHours, setShowAvailble, setDateFo
     
         useEffect(() => {
             async function getBlocked() {
-                const result = await availableOrdersService.query()
+                const result = await blockedOrdersService.queryDates()
                 setBlockedDates(result)
             }
             getBlocked()
@@ -30,8 +30,17 @@ export function EditAvailbleOrders({showBlockedHours, setShowAvailble, setDateFo
 
 
     const handleDateClicked = (date) => {
-        availableOrdersService.BlockedDatePost(date)
+        blockedOrdersService.postDate(date)
         setBlockedDates(prev => [...prev, date])
+    }
+
+    const handleBlockedClicked = (date) => {
+        const updatedDates = blockedDates.filter(blockedDate => blockedDate !== date)
+        setBlockedDates(updatedDates)
+        const dateOBj = {
+            date: date
+        }
+        blockedOrdersService.removeDate(dateOBj)
     }
 
     const handleDateSetClicked = (date) => {
@@ -62,7 +71,7 @@ export function EditAvailbleOrders({showBlockedHours, setShowAvailble, setDateFo
                             <tr key={i}>
                                 {!showBlockedHours && week.map((date, j) => (
                                     <td key={j}>
-                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) && j !== 5 && j !== 6 ) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${month + 1}.${year}`)}>{date.getDate()}</button> : ''}
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${month + 1}.${year}`)) && j !== 5 && j !== 6 ) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${month + 1}.${year}`)}>{date.getDate()}</button> : (date && j !== 5 && j !== 6 ) ? <button className="date-btn" style={{backgroundColor:"red"}} onClick={() => handleBlockedClicked(`${date.getDate()}.${month + 1}.${year}`)}>{date.getDate()}</button> : ''}
                                     </td>
                                 ))}
                                 {showBlockedHours && week.map((date, j) => (

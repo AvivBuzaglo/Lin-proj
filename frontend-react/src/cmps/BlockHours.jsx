@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { availableOrdersService } from '../services/order/availableOrder.service.local'
+import { blockedOrdersService } from "../services/order/blockedOrders.service.remote"
 
 export function BlockHours({date, setShowBlockedHours}) {
     const [blockedHours, setBlockedHours] = useState([])
@@ -12,7 +12,7 @@ export function BlockHours({date, setShowBlockedHours}) {
 
     useEffect(() => {
         async function getBlocked() {
-            const result = await availableOrdersService.queryHours()
+            const result = await blockedOrdersService.queryHours()
             setBlockedHours(result)
         }
         getBlocked()
@@ -21,6 +21,10 @@ export function BlockHours({date, setShowBlockedHours}) {
     useEffect(() => {
         todaysBlockedHours()
     }, [blockedHours])
+
+    useEffect(() => {
+
+    }, [todayBlocked])
 
     function checkDate() {
         if(blockedHours.length) {
@@ -37,11 +41,31 @@ export function BlockHours({date, setShowBlockedHours}) {
 
     function todaysBlockedHours() {
         let dateIdx = checkDate()
+        console.log("dateIdx:", dateIdx);                                   
         
-        if(dateIdx === null) return 
+        if(dateIdx === null) return
         else {
             const blocked = blockedHours[dateIdx].hours
             setTodayBlocked(blocked)
+        }
+    }
+
+    const handleBlockedClicked = (date, time) => {
+        let dateIdx = checkDate()
+        async function getBlocked() {
+            const result = await blockedOrdersService.queryHours()
+            setBlockedHours(result)
+        }        
+        if(dateIdx === null) return 
+        else {
+            let prevObj = blockedHours[dateIdx]
+            let updatedhours = prevObj.hours.filter(hour => hour !== time)
+            let updatedObj = {
+                date: date,
+                hours: updatedhours
+            }            
+            blockedOrdersService.putHours(updatedObj).then(getBlocked())
+            setTodayBlocked(prev => prev.filter(hour => hour !== time))
         }
     }
 
@@ -53,7 +77,7 @@ export function BlockHours({date, setShowBlockedHours}) {
                 date: date,
                 hours: [time]
             }
-            availableOrdersService.blockedHoursPost(blockObj)
+            blockedOrdersService.postHours(blockObj)
             setBlockedHours(prev => [...prev, blockObj])
         }
         else{
@@ -63,7 +87,7 @@ export function BlockHours({date, setShowBlockedHours}) {
                 date: date,
                 hours: updatedhours
             }            
-            availableOrdersService.putHours(updatedObj)
+            blockedOrdersService.putHours(updatedObj)
             async function getUpdatedBlocked() {
                 setBlockedHours(prev => {
                     const newState = [...prev]
@@ -89,21 +113,21 @@ export function BlockHours({date, setShowBlockedHours}) {
                         <tr>
                             {times1.map((time) => (
                                 <td key={time}>
-                                    {!(todayBlocked.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : <button className="occupied-btn">{time}</button>}
+                                    {!(todayBlocked.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : <button className="occupied-btn" onClick={() => handleBlockedClicked(date, time)}>{time}</button>}
                                 </td>
                             ))}
                         </tr>
                         <tr>
                             {times2.map((time) => (
                                 <td key={time}>
-                                    {!(todayBlocked.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : <button className="occupied-btn">{time}</button>}
+                                    {!(todayBlocked.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : <button className="occupied-btn" onClick={() => handleBlockedClicked(date, time)}>{time}</button>}
                                 </td>
                             ))}                                
                         </tr>
                         <tr>
                             {times3.map((time) => (
                                 <td key={time}>
-                                    {!(todayBlocked.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : <button className="occupied-btn">{time}</button>}
+                                    {!(todayBlocked.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : <button className="occupied-btn" onClick={() => handleBlockedClicked(date, time)}>{time}</button>}
                                 </td>
                             ))}                                
                         </tr>                            

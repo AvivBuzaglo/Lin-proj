@@ -84,6 +84,8 @@ export function generateCalender(year, month) {
         }
         weeks.push(week)
     }
+    console.log(weeks);
+    
 
     return weeks
 }

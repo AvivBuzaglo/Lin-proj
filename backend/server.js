@@ -160,8 +160,9 @@ app.get('/api/blockeddates', (req, res) => {
 })
 
 app.delete('/api/blockedhours', (req, res) => {
-    // const { date, start } = req.params
-    const { date, start } = req.body
+    const date = req.body.date
+    const start = req.body.start
+    console.log("date:", date, "start:", start)
     blockOrdersService.removeHours(date, start)
     .then(() => res.send({ msg: 'Deleted successfully' }))
     .catch(err => {
@@ -202,8 +203,8 @@ app.post('/api/blockedhours', (req, res) => {
     })
 })
 
-app.post('/api/blockeddates', (req, res) => {
-    const blockedDate = req.query.date
+app.post('/api/blockeddates/:blockedDate', (req, res) => {
+    const { blockedDate } = req.params
     blockOrdersService.postDate(blockedDate)
     .then(() => res.send({ msg: 'Saved successfully' }))
     .catch(err => {
