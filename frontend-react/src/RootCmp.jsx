@@ -19,6 +19,7 @@ import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { Appointment } from './pages/Appointment.jsx'
 import { ContactCreator } from './pages/ContactCreator.jsx'
+import { AdminWatchOrders } from './pages/AdminWatchOrders.jsx'
 
 export function RootCmp() {
     return (
@@ -40,6 +41,7 @@ export function RootCmp() {
                     <Route path="review" element={<ReviewIndex />} />
                     <Route path="chat" element={<ChatApp />} />
                     <Route path="admin" element={<AdminIndex />} />
+                    <Route path="admin/orders" element={<AdminWatchOrders />} />
                     <Route path="login" element={<LoginSignup />}>
                         <Route index element={<Login />} />
                         <Route path="signup" element={<Signup />} />

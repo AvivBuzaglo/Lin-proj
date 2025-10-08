@@ -81,6 +81,10 @@ export function AdminIndex() {
         }
     }    
 
+    function goToOrders() {
+        navigate('/admin/orders')
+    }
+
     function getOrders() {
         orderService.query()
             .then(fetchedOrders => {
@@ -115,7 +119,7 @@ export function AdminIndex() {
                     <button className='menage-btn' onClick={() => handleCmpClicked('menageUsers')}>{menageUsers ? 'X' : 'ניהול משתמשים'}</button>
                 </div>
                 <div>
-                    <button onClick={() => getOrders()}>orders</button>
+                    <button className='blocked-btn' onClick={() => goToOrders()}>orders</button>
                 </div>
             </div>}            
 
