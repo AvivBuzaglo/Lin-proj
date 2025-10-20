@@ -54,163 +54,153 @@ setupSocketAPI(server)
 // it will still serve the index.html file
 // and allow vue/react-router to take it from there
 
+
 app.get('/api/order', (req, res) => {
-    const filterBy = {
-        date: req.query.date || '',
-    }
-    orderService.query(filterBy)
-    .then(orders => res.send(orders))
-    // .then(console.log(orders))
-    .catch(err => {
-        console.log('Error in /api/orders', err)
+    try {
+        const filterBy = {
+            date: req.query.date || '',
+        }
+        orderService.query(filterBy)
+        .then(orders => res.send(orders))
+    } catch (err) {
+        logger.error('Error in /api/order', err)
         res.status(500).send({ err: 'Failed to get orders' })
-    })
+    }
 })
 
 app.post('/api/order', (req, res) => {
-//   userService.getById(req.query.owner)
-//     .then(owner => {
-//       if (!owner) throw new Error('No such user')
-
-    //   const orderToSave = {
-    //     _id: req.query._id,
-    //     care: req.query.care,
-    //     date: req.query.date,
-    //     start: req.query.start,
-    //     end: req.query.end,
-    //     owner: {
-    //       _id: owner._id,
-    //       fullname: owner.fullname
-    //     },
-    //     msgs: []
-    //   }
-
+    try {
         const orderToSave = req.body
-    
-        // return orderService.save(orderToSave)
         orderService.save(orderToSave)
-    // })
-    .then(savedOrder => res.send(savedOrder))
-    .catch(err => {
-        console.log('Error in /api/order/save', err)
+        .then(savedOrder => res.send(savedOrder))
+    } catch (err) {
+        logger.error('Error in /api/order', err)
         res.status(500).send({ err: 'Failed to save order' })
-    })
+    }
 })
 
 app.get('/api/order/:orderId', (req, res) => {
-    const { orderId } = req.params
-    orderService.getById(orderId)
-    .then(order => res.send(order))
-    .catch(err => {
-        console.log('Error in /api/order/:orderId', err)
+    try {
+        const { orderId } = req.params
+        orderService.getById(orderId)
+        .then(order => res.send(order))
+    } catch (err) { 
+        logger.error('Error in get /api/order/:orderId', err)
         res.status(500).send({ err: 'Failed to get order by id' })
-    })
+    }  
 })
 
 app.delete('/api/order/:orderId', (req, res) => {
-    const { orderId } = req.params
-    orderService.remove(orderId)
-    .then(() => res.send({ msg: 'Deleted successfully' }))
-    .catch(err => {
-        console.log('Error in /api/order/:orderId/remove', err)
+    try {
+        const { orderId } = req.params
+        orderService.remove(orderId)
+        .then(() => res.send({ msg: 'Deleted successfully' }))
+    } catch (err) {
+        logger.error('Error in delete /api/order/:orderId', err)
         res.status(500).send({ err: 'Failed to remove order' })
-    })
+    }
 })
 
-app.get('/api/user', (req, res) => {
-    res.send(users)
-    console.log(users)
-    .catch(err => {
-        console.log('Error in /api/users', err)
-        res.status(500).send({ err: 'Failed to get users' })
-    })
-})
+// app.get('/api/user', (req, res) => {
+//     res.send(users)
+//     console.log(users)
+//     .catch(err => {
+//         console.log('Error in /api/user', err)
+//         res.status(500).send({ err: 'Failed to get users' })
+//     })
+// })
 
 app.get('/api/user/:userId', (req, res) => {
-    const { userId } = req.params
-    userService.getById(userId)
-    .then(user => res.send(user))  
-    console.log(user)
-    .catch(err => {
-        console.log('Error in /api/user/:userId', err)
+    try {
+        const { userId } = req.params
+        userService.getById(userId)
+        .then(user => res.send(user))  
+    } catch (err) {
+        logger.error('Error in get /api/user/:userId', err)
         res.status(500).send({ err: 'Failed to get user by id' })
-    })      
+    }  
 })
 
 app.get('/api/blockedhours', (req, res) => {
-    const filterBy = {
-        date: req.query.date || '',
-    }
-    blockOrdersService.queryHours(filterBy)
-    .then(blocked => res.send(blocked))
-    // .then(console.log(orders))
-    .catch(err => {
-        console.log('Error in /api/blockedhours', err)
+    try {
+        const filterBy = {
+            date: req.query.date || '',
+        }
+        blockOrdersService.queryHours(filterBy)
+        .then(blocked => res.send(blocked))
+    } catch (err) {
+        logger.error('Error in /api/blockedhours', err)
         res.status(500).send({ err: 'Failed to get blocked hours' })
-    })
+    }
 })
 
 app.get('/api/blockeddates', (req, res) => {
-    blockOrdersService.queryDates()
-    .then(dates => res.send(dates))
-    .catch(err => {
-        console.log('Error in /api/blockeddates', err)
+    try {
+        blockOrdersService.queryDates()
+        .then(dates => res.send(dates))
+    } catch (err) {
+        logger.error('Error in /api/blockeddates', err)
         res.status(500).send({ err: 'Failed to get blocked dates' })
-    })
+    }
 })
 
 app.delete('/api/blockedhours', (req, res) => {
-    const date = req.body.date
-    const start = req.body.start
-    console.log("date:", date, "start:", start)
-    blockOrdersService.removeHours(date, start)
-    .then(() => res.send({ msg: 'Deleted successfully' }))
-    .catch(err => {
-        console.log('Error in /api/blockedhours', err)
+    try {
+        const date = req.body.date
+        const start = req.body.start
+        console.log("date:", date, "start:", start)
+        blockOrdersService.removeHours(date, start)
+        .then(() => res.send({ msg: 'Deleted successfully' }))
+    } catch (err) {
+        logger.error('Error in /api/blockedhours', err)
         res.status(500).send({ err: 'Failed to remove blocked hours' })
-    })
+    }
 })
 
 app.delete('/api/blockeddates', (req, res) => {
-    const  dateToRemove = {
-        date: req.query.date || '',
-    }
-    blockOrdersService.removeDate(dateToRemove.date)
-    .then(() => res.send({ msg: 'Deleted successfully' }))
-    .catch(err => {
-        console.log('Error in /api/blockedates', err)
+    try {
+        const  dateToRemove = {
+            date: req.query.date || '',
+        }
+        blockOrdersService.removeDate(dateToRemove.date)
+        .then(() => res.send({ msg: 'Deleted successfully' }))
+    } catch (err) {
+        logger.error('Error in /api/blockeddates', err)
         res.status(500).send({ err: 'Failed to remove blocked date' })
-    })
+    }
 })
 
 app.put('/api/blockedhours', (req, res) => {
-    const updatedHours = req.body
-    blockOrdersService.putHours(updatedHours)
-    .then(() => res.send({ msg: 'Updated successfully' }))
-    .catch(err => {
-        console.log('Error in /api/blockedhours', err)
+    try {
+        const updatedHours = req.body
+        blockOrdersService.putHours(updatedHours)
+        .then(() => res.send({ msg: 'Updated successfully' }))
+    } catch (err) {
+        logger.error('Error in /api/blockedhours', err)
         res.status(500).send({ err: 'Failed to update blocked hours' })
-    })
+    }
 })
 
 app.post('/api/blockedhours', (req, res) => {
-    const blockedHours = req.body
-    blockOrdersService.postHours(blockedHours)
-    .then(() => res.send({ msg: 'Saved successfully' }))
-    .catch(err => {
-        console.log('Error in /api/blockedhours', err)
+    try {
+        const blockedHours = req.body
+        blockOrdersService.postHours(blockedHours)
+        .then(() => res.send({ msg: 'Saved successfully' }))
+    } catch (err) {
+        logger.error('Error in /api/blockedhours', err)
         res.status(500).send({ err: 'Failed to save blocked hours' })
-    })
+    }
 })
 
 app.post('/api/blockeddates/:blockedDate', (req, res) => {
-    const { blockedDate } = req.params
-    blockOrdersService.postDate(blockedDate)
-    .then(() => res.send({ msg: 'Saved successfully' }))
-    .catch(err => {
-        console.log('Error in /api/blockeddates', err)
+    try {
+        const { blockedDate } = req.params
+        blockOrdersService.postDate(blockedDate)
+        .then(() => res.send({ msg: 'Saved successfully' }))
+    } catch (err) {
+        logger.error('Error in /api/blockeddates', err)
         res.status(500).send({ err: 'Failed to save blocked date' })
-    })
+    }
 })
 
 app.get('/**', (req, res) => {
