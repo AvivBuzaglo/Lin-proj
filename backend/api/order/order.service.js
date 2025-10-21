@@ -1,7 +1,6 @@
-import fs from 'fs'
-import { readJsonFile, makeId } from '../../services/util.service.js'
-
-const orders = readJsonFile('data/order.json') 
+import { dbService } from '../../services/db.service.js'
+import { ObjectId } from 'mongodb'
+import { logger } from '../../services/logger.service.js'
 
 
 export const orderService = {
@@ -13,50 +12,50 @@ export const orderService = {
 
 
 async function query(filterBy = { date: '' }) {
-  var filteredOrders = orders
+  try{
+    const collection = await dbService.getCollection('orders')
+    var filteredOrders = await collection.find().toArray()
     if(filterBy.date) { 
       const regExp = new RegExp(filterBy.date, 'i')
       filteredOrders = filteredOrders.filter(order => regExp.test(order.date))
     }
-
-  return Promise.resolve(filteredOrders)
+    return Promise.resolve(filteredOrders)
+  } catch (err) {
+    logger.error('Cannot find orders (service)', err)
+    throw err
+  }
 }
 
 async function getById(orderId) {
-  const order = orders.find(order => order._id === orderId)
-  if (!order) return Promise.reject('No such order')
-  return Promise.resolve(order)
+  try {
+    const collection = await dbService.getCollection('orders')
+    const order = await collection.findOne({ _id: ObjectId.createFromHexString(orderId) })
+    if (!order) return Promise.reject('No such order')
+    return Promise.resolve(order)
+  } catch (err) {
+    logger.error('Cannot find order by id (service)', err)
+    throw err
+  }
 }
 
 async function remove(orderId) {
-  // throw new Error('Nope')
-  const idx = orders.findIndex(order => order._id === orderId)
-  if (idx < 0) return Promise.reject('No such order')
-  orders.splice(idx, 1)
-  return _saveOrdersToFile()
+  try {
+    const collection = await dbService.getCollection('orders')
+    await collection.deleteOne({ _id: ObjectId.createFromHexString(orderId) })
+    return Promise.resolve('Deleted successfully')
+  } catch (err) {
+    logger.error('Cannot remove order (service)', err)
+    throw err
+  }
 }
 
 async function save(orderToSave) {
-  if (orderToSave._id) {
-    const idx = orders.findIndex(order => order._id === orderToSave._id)
-    if (idx < 0) return Promise.reject('No such order')
-    orders[idx] = orderToSave
-  } else {
-    orderToSave._id = makeId()
-    orders.unshift(orderToSave)
+  try {
+    const collection = await dbService.getCollection('orders')
+    await collection.insertOne(orderToSave)
+    return Promise.resolve(orderToSave)
+  } catch (err) {
+    logger.error('Cannot save order (service)', err)
+    throw err
   }
-  return _saveOrdersToFile().then(() => orderToSave)
-}
-
-async function _saveOrdersToFile() { 
-  return new Promise((resolve, reject) => {
-    const data = JSON.stringify(orders, null, 4)
-    fs.writeFile('./data/order.json', data, (err) => {
-      if (err) {
-        console.error('Error writing file:', err)
-        return reject(err)
-      }
-      resolve()
-    })
-  })
 }

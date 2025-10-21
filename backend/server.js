@@ -14,14 +14,11 @@ import { orderRoutes } from './api/order/order.routs.js'
 import { blockedHoursRoutes } from './api/blockedHours/blockedHours.routs.js'
 import { blockedDatesRoutes } from './api/blockedDates/blockedDates.routs.js'
 import { setupSocketAPI } from './services/socket.service.js'
-import { readJsonFile } from './services/util.service.js'
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
 
 const app = express()
 const server = http.createServer(app)
 
-
-const users = readJsonFile('data/user.json')
 const {MongoClient} = mongoDB
 
 const url = 'mongodb://127.0.0.1:27017'
