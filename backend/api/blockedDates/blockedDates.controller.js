@@ -1,13 +1,8 @@
 import { blockOrdersService } from './blockedOrders.service.js'
-import { logger } from './services/logger.service.js'
+import { logger } from '../../services/logger.service.js'
 
-export const blockedOrdersController = {
-    getDates,
-    deleteDate,
-    postDate
-}
 
-async function getDates(req, res) {
+export async function getDates(req, res) {
     try {
         await blockOrdersService.queryDates()
         .then(dates => res.send(dates))
@@ -17,7 +12,7 @@ async function getDates(req, res) {
     }
 }
 
-async function deleteDate(req, res) {
+export async function deleteDate(req, res) {
     const  dateToRemove = {
         date: req.query.date || '',
     }
@@ -30,7 +25,7 @@ async function deleteDate(req, res) {
     }
 }
 
-async function postDate(req, res) {
+export async function postDate(req, res) {
     const { blockedDate } = req.params
     try {
         await blockOrdersService.postDate(blockedDate)

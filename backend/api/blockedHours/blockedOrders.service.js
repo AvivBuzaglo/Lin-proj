@@ -52,8 +52,8 @@ async function putHours(updatedEntity) {
   const idx = blockedHours.findIndex(block => block.date === updatedEntity.date)
   if (idx < 0) return Promise.reject('No such date')
   blockedHours[idx] = updatedEntity
-  _checkFullDay(updatedEntity) // this function need to be in backend
-  _checkEmptyDay(blockedHours[idx].date)
+  await _checkFullDay(updatedEntity) // this function need to be in backend
+  await _checkEmptyDay(blockedHours[idx].date)
   return _saveHoursToFile()
 }
 
@@ -76,7 +76,7 @@ async function postDate(blockedDate) {
 
 async function _checkFullDay(entity) {
   const times = ['9:00', '9:20', '9:40', '10:00', '10:20', '10:40', '11:00', '11:20', '11:40', '12:00', '12:20', '12:40', '13:00', '13:20', '13:40', '14:00', '14:20', '14:40', '15:00']
-  const blocked = _removeMatches(entity) 
+  const blocked = await _removeMatches(entity) 
   let isFull = times.slice().sort().every((val, index) => val === blocked.slice().sort()[index])
 
   if(isFull) {
@@ -86,7 +86,7 @@ async function _checkFullDay(entity) {
 
 async function _checkEmptyDay(date) {
   const blockedIdx = blockedHours.findIndex((block) => block.date === date)
-  if(blockedHours[blockedIdx].hours.length === 0) {
+  if(blockedHours[blockedIdx].hours.length === 0 && blockedIdx >= 0) {
     blockedHours.splice(blockedIdx, 1)
     await _saveHoursToFile()
   }

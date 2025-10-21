@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { readJsonFile, makeId } from '../../services/util.service.js'
 
-const orders = readJsonFile('../../data/order.json')
+const orders = readJsonFile('data/order.json') 
 
 
 export const orderService = {

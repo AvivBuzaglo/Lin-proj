@@ -1,15 +1,8 @@
 import { blockOrdersService } from './blockedOrders.service.js'
-import { logger } from './services/logger.service.js'
-
-export const blockedHoursController = {
-    getHours,
-    deleteHours,
-    updatedHours,
-    postHours
-}
+import { logger } from '../../services/logger.service.js'
 
 
-async function getHours(req, res) { 
+export async function getHours(req, res) { 
     const filterBy = {
         date: req.query.date || '',
     }
@@ -22,7 +15,7 @@ async function getHours(req, res) {
     }    
 }
 
-async function deleteHours(req, res) {
+export async function deleteHours(req, res) {
     const date = req.body.date
     const start = req.body.start
     console.log("date:", date, "start:", start)
@@ -35,7 +28,7 @@ async function deleteHours(req, res) {
     }
 }
 
-async function updatedHours(req, res) {
+export async function updateHours(req, res) {
     const updatedHours = req.body
     try {
         await blockOrdersService.putHours(updatedHours)
@@ -46,7 +39,7 @@ async function updatedHours(req, res) {
     }
 }
 
-async function postHours(req, res) {
+export async function postHours(req, res) {
     const blockedHours = req.body
     try {
         await blockOrdersService.postHours(blockedHours)

@@ -1,5 +1,5 @@
 import express from 'express'
-import {getHours, deleteHours, updateHours, postHours} from './blockedHours.controller'
+import {getHours, deleteHours, updateHours, postHours} from './blockedHours.controller.js'
 const router = express.Router()
 
 router.get('/', getHours)

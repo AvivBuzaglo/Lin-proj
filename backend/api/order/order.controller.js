@@ -1,15 +1,8 @@
-import { orderService } from "./order.service"
-import { logger } from './services/logger.service.js'
-
-export const orderController = {
-    getOrders,
-    postOrder,
-    getOrderById,
-    deleteOrder
-}
+import { orderService } from "./order.service.js"
+import { logger } from '../../services/logger.service.js'
 
 
-async function getOrders(req, res) {
+export async function getOrders(req, res) {
     const filterBy = {
         date: req.query.date || '',
     }
@@ -22,7 +15,7 @@ async function getOrders(req, res) {
     }
 }
 
-async function postOrder(req, res) {
+export async function postOrder(req, res) {
     const orderToSave = req.body
     try {
         await orderService.save(orderToSave)
@@ -33,7 +26,7 @@ async function postOrder(req, res) {
     }
 }
 
-async function getOrderById(req, res) {
+export async function getOrderById(req, res) {
     const { orderId } = req.params
     try {
         await orderService.getById(orderId)
@@ -44,7 +37,7 @@ async function getOrderById(req, res) {
     }  
 }
 
-async function deleteOrder(req, res) {
+export async function deleteOrder(req, res) {
     const { orderId } = req.params
     try {
         await orderService.remove(orderId)
