@@ -1,12 +1,7 @@
-import fs from 'fs'
 import { ObjectId } from 'mongodb'
 import { dbService } from '../../services/db.service.js'
 import { logger } from '../../services/logger.service.js'
-import { readJsonFile ,generateCalender } from '../../services/util.service.js'
 
-
-const blockedHours = readJsonFile('data/blockedHours.json')
-const blockedDates = readJsonFile('data/blockedDates.json')
 
 export const blockOrdersService = {
   queryHours,
@@ -36,7 +31,14 @@ async function queryHours(filterBy = { date: '' }) {
 }
 
 async function queryDates() {
-  return Promise.resolve(blockedDates)
+  try {
+    const collection = await dbService.getCollection('blockedDates')
+    const dates = await collection.find().toArray()
+    return Promise.resolve(dates.map(doc => doc.date))
+  } catch (err) {
+    logger.error('Cannot find blocked dates (service)', err)
+    throw err
+  }
 }
 
 async function removeHours(date, start) {
@@ -55,10 +57,15 @@ async function removeHours(date, start) {
 }
 
 async function removeDate(date) {
-  const idx = blockedDates.findIndex(blocked => blocked === date)
-  if (idx < 0) return Promise.reject('No such date')
-  blockedDates.splice(idx, 1)
-  return _saveDatesToFile()
+  try {
+    const collection = await dbService.getCollection('blockedDates')
+    const result = await collection.deleteOne({ date: date })
+    if (result.deletedCount === 0) return Promise.reject('No such date')
+    return Promise.resolve('Deleted successfully')
+  } catch (err) {
+    logger.error('Cannot remove blocked date (service)', err)
+    throw err
+  }
 }
 
 async function putHours(updatedEntity) {
@@ -157,44 +164,4 @@ async function _checkEmptyDay() {
     logger.error('Cannot delete empty blocked hours (service)', err)
     throw err
   }
-}
-
-async function _removeMatches(entity) {
-  const remove = ['15:10', '15:30', '15:50', '16:10', '16:30']
-  let blocked = [...entity.hours]
-
-  remove.forEach(item => {
-    const index = blocked.indexOf(item)
-    if(index !== -1) {
-      blocked.splice(index, 1)
-    }
-  })
-
-  return blocked
-}
-
-async function _saveHoursToFile() { 
-  return new Promise((resolve, reject) => {
-    const data = JSON.stringify(blockedHours, null, 4)
-    fs.writeFile('./data/blockedHours.json', data, (err) => {
-      if (err) {
-        console.error('Error writing file:', err)
-        return reject(err)
-      }
-      resolve()
-    })
-  })
-}
-
-async function _saveDatesToFile() { 
-  return new Promise((resolve, reject) => {
-    const data = JSON.stringify(blockedDates, null, 4)
-    fs.writeFile('./data/blockedDates.json', data, (err) => {
-      if (err) {
-        console.error('Error writing file:', err)
-        return reject(err)
-      }
-      resolve()
-    })
-  })
 }
