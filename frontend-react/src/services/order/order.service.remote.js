@@ -18,7 +18,7 @@ async function query(filterBy = { date: '' }) {
 }
 
 function getById(orderId) {
-    return axios.get(BASE_URL + carId).then(res => res.data)
+    return axios.get(BASE_URL + orderId).then(res => res.data)
 }
 
 function remove(orderId) {

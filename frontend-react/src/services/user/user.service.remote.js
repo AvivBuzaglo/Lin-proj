@@ -27,9 +27,20 @@ function remove(userId) {
 	return httpService.delete(`user/${userId}`)
 }
 
-async function update({ _id, score }) {
-	const user = await httpService.put(`user/${_id}`, { _id, score })
+// async function update({ _id, score }) {
+// 	const user = await httpService.put(`user/${_id}`, { _id, score })
 
+// 	// When admin updates other user's details, do not update loggedinUser
+//     const loggedinUser = getLoggedinUser() // Might not work because its defined in the main service???
+//     if (loggedinUser._id === user._id) saveLoggedinUser(user)
+
+// 	return user
+// }
+
+async function update({ _id, fullname, phoneNumber, orders, score }) {
+	const user = await httpService.put(`user/${_id}`, { _id, fullname, phoneNumber, orders, score })
+	console.log(user);
+	
 	// When admin updates other user's details, do not update loggedinUser
     const loggedinUser = getLoggedinUser() // Might not work because its defined in the main service???
     if (loggedinUser._id === user._id) saveLoggedinUser(user)
@@ -43,7 +54,7 @@ async function login(userCred) {
 }
 
 async function signup(userCred) {
-	if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+	// if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
 	userCred.score = 10000
 
     const user = await httpService.post('auth/signup', userCred)
@@ -63,7 +74,9 @@ function saveLoggedinUser(user) {
 	user = { 
         _id: user._id, 
         fullname: user.fullname, 
-        imgUrl: user.imgUrl, 
+        // imgUrl: user.imgUrl, 
+		phoneNumber: user.phoneNumber,
+		orders: user.orders,
         score: user.score, 
         isAdmin: user.isAdmin 
     }

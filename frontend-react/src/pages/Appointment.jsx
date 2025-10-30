@@ -7,7 +7,7 @@ import { ChooseTime } from "../cmps/ChooseTime.jsx"
 import { ConfirmOrder } from "../cmps/ConfirmOrder.jsx";
 import { orderService } from "../services/order/order.service.remote.js" // for remote
 // import { orderService } from "../services/order/order.service.local.js" // for local
-import { userService } from "../services/user/user.service.local.js";
+import { userService } from "../services/user";
 
 export function Appointment() {
     const [order, setOrder] = useState({
@@ -30,18 +30,14 @@ export function Appointment() {
     }, [])
 
 
-    useEffect(() => {
-        console.log(order);
-    }, [order])
+    // useEffect(() => {
+    //     console.log(order);
+    // }, [order])
 
     useEffect(() => {
-        console.log(user, 44)
         if(readyToSave && orderConfirmed) {
             
-            orderService.save(order)
-            user.orders.push(order)
-            userService.update(user)
-            console.log(user, 50)
+            saveToUser(order)
 
             setTimeout(() => {
                 navigate("/")
@@ -60,6 +56,12 @@ export function Appointment() {
 
     function calenderHandler() {
         setShowCalender(false)
+    }
+
+    async function saveToUser(order) {
+        orderService.save(order)
+        await user.orders.push(order)
+        await userService.update(user)
     }
 
     function restartOrder() {

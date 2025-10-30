@@ -11,7 +11,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
             const result = await blockedOrdersService.queryHours()
             setBlockedHours(result)
         }
-        getBlocked()
+        getBlocked().then(() => {console.log(blockedHours)})
     }, [])
 
     function checkDate() {
@@ -30,6 +30,7 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
     function updateStorage() {
         let dateIdx = checkDate()
         console.log(dateIdx);
+        console.log(blockedHours)
         
         if(dateIdx === null && order.care !== 'micro' && order.care !== 'lift') {
             let blockObj = {
@@ -72,8 +73,44 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
         }
     }
 
-    function handleConfirmedClick() {
-        updateStorage()
+    async function saveBlockedHours() {
+        let dateIdx = checkDate()
+        if(dateIdx === null) {
+            if(order.care === "shaping") {
+                let blockObj = {
+                    date: order.date,
+                    hours: [order.start]
+                }
+                await blockedOrdersService.postHours(blockObj)
+            }
+            if(order.care === "lift" || order.care === "micro") {
+                const index1 = times4.indexOf(order.start)
+                const index2 = times4.indexOf(order.end)
+                const occupiedHours = times4.slice(index1, index2)
+                let blockObj = {
+                    date: order.date,
+                    hours: occupiedHours
+                }
+                await blockedOrdersService.postHours(blockObj)
+            }    
+        } else {
+            let prevBlocked = await blockedOrdersService.queryHours({ date: order.date })
+            if(order.care === "shaping") {
+                prevBlocked[0].hours.push(order.start)
+                await blockedOrdersService.putHours(prevBlocked[0])
+            }
+            if(order.care === "lift" || order.care === "micro") {
+                const index1 = times4.indexOf(order.start)
+                const index2 = times4.indexOf(order.end)
+                const occupiedHours = times4.slice(index1, index2)
+                prevBlocked[0].hours.push(...occupiedHours)
+                await blockedOrdersService.putHours(prevBlocked[0])
+            }
+        }
+    }
+
+    async function handleConfirmedClick() {
+        await saveBlockedHours()
         setOrderConfirmed(true)
     }
 

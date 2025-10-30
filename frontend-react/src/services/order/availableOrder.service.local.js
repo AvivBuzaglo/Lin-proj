@@ -4,9 +4,9 @@ import { makeId, loadFromStorage, saveToStorage, generateCalender } from '../uti
 const AVAILABLE_ORDERS_STORAGE_KEY = 'blockedDates'
 const BLOCKED_HOURS_STORAGE_KEY = 'blockedHours'
 
-query()
-_refreshBlockedHours()
-_refreshDates()
+// query()
+// _refreshBlockedHours()
+// _refreshDates()
 export const availableOrdersService = {
   query, 
   getById, 

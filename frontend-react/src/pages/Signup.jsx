@@ -11,7 +11,7 @@ export function Signup() {
     const navigate = useNavigate()
 
     function clearState() {
-        setCredentials({ username: '', password: '', fullname: '', imgUrl: '' })
+        setCredentials({ username: '', password: '', fullname: '', phoneNumber: '' })
     }
 
     function handleChange(ev) {

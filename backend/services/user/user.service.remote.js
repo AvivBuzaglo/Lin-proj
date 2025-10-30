@@ -43,7 +43,7 @@ async function login(userCred) {
 }
 
 async function signup(userCred) {
-	if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+	// if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
 	userCred.score = 10000
 
     const user = await httpService.post('auth/signup', userCred)
@@ -63,7 +63,8 @@ function saveLoggedinUser(user) {
 	user = { 
         _id: user._id, 
         fullname: user.fullname, 
-        imgUrl: user.imgUrl, 
+        // imgUrl: user.imgUrl, 
+        orders: user.orders, 
         score: user.score, 
         isAdmin: user.isAdmin 
     }
