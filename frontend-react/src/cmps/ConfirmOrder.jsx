@@ -27,51 +27,51 @@ export function ConfirmOrder({order, setOrderConfirmed, restartOrder}) {
         else return null
     }
 
-    function updateStorage() {
-        let dateIdx = checkDate()
-        console.log(dateIdx);
-        console.log(blockedHours)
+    // function updateStorage() {
+    //     let dateIdx = checkDate()
+    //     console.log(dateIdx);
+    //     console.log(blockedHours)
         
-        if(dateIdx === null && order.care !== 'micro' && order.care !== 'lift') {
-            let blockObj = {
-                date: order.date,
-                hours: [order.start]
-            }
-            blockedOrdersService.postHours(blockObj)
-        }
-        else if(dateIdx === null && (order.care === 'micro' || order.care === 'lift')) {
-            const index1 = times4.indexOf(order.start)
-            const index2 = times4.indexOf(order.end)
-            const occupiedHours = times4.slice(index1, index2)
+    //     if(dateIdx === null && order.care !== 'micro' && order.care !== 'lift') {
+    //         let blockObj = {
+    //             date: order.date,
+    //             hours: [order.start]
+    //         }
+    //         blockedOrdersService.postHours(blockObj)
+    //     }
+    //     else if(dateIdx === null && (order.care === 'micro' || order.care === 'lift')) {
+    //         const index1 = times4.indexOf(order.start)
+    //         const index2 = times4.indexOf(order.end)
+    //         const occupiedHours = times4.slice(index1, index2)
             
-            let blockObj = {
-                date: order.date,
-                hours: occupiedHours
-            }
-            blockedOrdersService.postHours(blockObj)
-        }
-        else if(dateIdx !== null && order.care !== 'micro' && order.care !== 'lift') {
-            let prevObj = blockedHours[dateIdx]
-            let updatedhours = [...prevObj.hours, order.start]
-            let updatedObj = {
-                date: prevObj.date,
-                hours: updatedhours
-            }            
-            blockedOrdersService.putHours(updatedObj)
-        }
-        else if(dateIdx !== null && (order.care === 'micro' || order.care === 'lift')) {
-            const index1 = times4.indexOf(order.start)
-            const index2 = times4.indexOf(order.end)
-            const occupiedHours = times4.slice(index1, index2)
-            let prevObj = blockedHours[dateIdx]
-            let updatedhours = [...prevObj.hours, ...occupiedHours]
-            let updatedObj = {
-                date: prevObj.date,
-                hours: updatedhours
-            }            
-            blockedOrdersService.putHours(updatedObj)
-        }
-    }
+    //         let blockObj = {
+    //             date: order.date,
+    //             hours: occupiedHours
+    //         }
+    //         blockedOrdersService.postHours(blockObj)
+    //     }
+    //     else if(dateIdx !== null && order.care !== 'micro' && order.care !== 'lift') {
+    //         let prevObj = blockedHours[dateIdx]
+    //         let updatedhours = [...prevObj.hours, order.start]
+    //         let updatedObj = {
+    //             date: prevObj.date,
+    //             hours: updatedhours
+    //         }            
+    //         blockedOrdersService.putHours(updatedObj)
+    //     }
+    //     else if(dateIdx !== null && (order.care === 'micro' || order.care === 'lift')) {
+    //         const index1 = times4.indexOf(order.start)
+    //         const index2 = times4.indexOf(order.end)
+    //         const occupiedHours = times4.slice(index1, index2)
+    //         let prevObj = blockedHours[dateIdx]
+    //         let updatedhours = [...prevObj.hours, ...occupiedHours]
+    //         let updatedObj = {
+    //             date: prevObj.date,
+    //             hours: updatedhours
+    //         }            
+    //         blockedOrdersService.putHours(updatedObj)
+    //     }
+    // }
 
     async function saveBlockedHours() {
         let dateIdx = checkDate()

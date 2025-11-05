@@ -34,14 +34,30 @@ export function Appointment() {
     //     console.log(order);
     // }, [order])
 
+    // useEffect(() => {
+    //     if(readyToSave && orderConfirmed) {
+            
+    //         saveToUser(order)
+
+    //         setTimeout(() => {
+    //             navigate("/")
+    //         }, 3000) 
+    //     }
+    // },[readyToSave, orderConfirmed])
+
     useEffect(() => {
         if(readyToSave && orderConfirmed) {
             
-            saveToUser(order)
-
-            setTimeout(() => {
-                navigate("/")
-            }, 3000) 
+            (async () => {
+                try {
+                    const updatedUser = await saveToUser(order)
+                    console.log(updatedUser)
+                    await new Promise(resolve => setTimeout(resolve, 3000))
+                    navigate("/")
+                } catch (err) {
+                    console.error('Error saving order to user:', err);
+                }
+            })()
         }
     },[readyToSave, orderConfirmed])
     
@@ -58,10 +74,23 @@ export function Appointment() {
         setShowCalender(false)
     }
 
+    // async function saveToUser(order) {
+    //     orderService.save(order)
+    //     await user.orders.push(order)
+    //     await userService.update(user)
+    // }
+
     async function saveToUser(order) {
-        orderService.save(order)
-        await user.orders.push(order)
-        await userService.update(user)
+        await orderService.save(order)
+
+        const updatedUser = {
+            ...user,
+            orders: [...user.orders, order]
+        }
+        
+        const res = await userService.update(updatedUser)
+        // localStorage.setItem('loggedinUser', JSON.stringify(res))
+        return res
     }
 
     function restartOrder() {

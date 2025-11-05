@@ -6,6 +6,13 @@
     gap: 0.2rem;
 }
 
+@media (max-width: 390px)  {
+    .username-div input{
+        max-height: 23px;
+        align-self: end;
+    }
+}
+
 .login-btn {
     background-color: black;
     border-radius: 28px;

@@ -14,11 +14,13 @@
         width: 100%;
         align-items: center;
         gap: 1em;
-        
         font-size: .8em;
+        text-decoration: none;
+        color: whitesmoke;
 
         .active {
             color: whitesmoke;
+            text-decoration: none;
         }
 
         .title {

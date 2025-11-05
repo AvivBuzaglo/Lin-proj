@@ -131,7 +131,7 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
             <h2>בחר שעה</h2>
             
             <div className="choose-time">
-                <table>
+                {/* <table>
                     <tbody>
                         <tr>
                             {times1.map((time) => (
@@ -155,7 +155,24 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
                             ))}                                
                         </tr>                            
                     </tbody>
-                </table>
+                </table> */}
+                <div className="times">
+                    {times1.map((time) => (
+                        <span key={time}>
+                           { !(blockedHours.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
+                        </span>
+                    ))}
+                    {times2.map((time) => (
+                        <span key={time}>
+                            { !(blockedHours.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
+                        </span>
+                    ))}                                
+                    {times3.map((time) => (
+                        <span key={time}>
+                            { !(blockedHours.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
+                        </span>
+                    ))}
+                </div>                                
             </div>
         </section>
     )

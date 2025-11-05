@@ -41,6 +41,7 @@ export async function updateUser(req, res) {
         const user = req.body
         const savedUser = await userService.update(user)
         res.send(savedUser)
+        // logger.info(`User: ${res}`)
     } catch (err) {
         logger.error('Failed to update user', err)
         res.status(400).send({ err: 'Failed to update user' })

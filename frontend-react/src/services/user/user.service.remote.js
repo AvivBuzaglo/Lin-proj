@@ -12,6 +12,7 @@ export const userService = {
 	update,
     getLoggedinUser,
     saveLoggedinUser,
+	getLoggedinUserToken,
 }
 
 function getUsers() {
@@ -68,6 +69,10 @@ async function logout() {
 
 function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+}
+
+function getLoggedinUserToken() {
+    return httpService.get('auth/loggedin')
 }
 
 function saveLoggedinUser(user) {

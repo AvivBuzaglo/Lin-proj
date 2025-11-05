@@ -7,16 +7,19 @@ import { GuestLogin } from "../cmps/GuestLogin"
 import { NoticeBoard } from "../cmps/NoticeBoard"
 import { ContactInfo } from "../cmps/ContactInfo"
 import { UserLogout } from "../cmps/UserLogout"
-import { userService } from "../services/user/user.service.local"
+import { userService } from "../services/user/user.service.remote.js"
 import { homePageSvgs } from "../cmps/Svgs"
+import { loadLoggedinUser } from "../store/actions/user.actions" 
 
 export function HomePage() {
-    const user = useSelector(storeState => storeState.userModule.user)
+    const user = useSelector(storeState => storeState.userModule.user) 
     const navigate = useNavigate()
     const [showPic, setShowPic] = useState(false)
     const [imgUrl, setImgUrl] = useState(undefined)
 
-    
+    useEffect(() => {
+        loadLoggedinUser()
+    },[])    
 
 	const goToAdminIndex = () => {
 		navigate("admin")

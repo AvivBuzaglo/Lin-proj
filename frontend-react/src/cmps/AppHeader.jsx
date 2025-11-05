@@ -22,7 +22,7 @@ export function AppHeader() {
 		<header className="app-header full">
 			<nav>
 				<NavLink to="/" className="title">
-					LIN PERETZ
+					LIN BITTON
 				</NavLink>
 				{/* <NavLink to="about">About</NavLink>
 				<NavLink to="car">Cars</NavLink>

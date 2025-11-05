@@ -9,9 +9,18 @@ export async function login(req, res) {
         
 		logger.info('User login: ', user)
         
-		res.cookie('loginToken', loginToken, { sameSite: 'None', secure: true })
+		// res.cookie('loginToken', loginToken, { sameSite: 'None', secure: true })
+		const cookieOptions = {
+			httpOnly: true,
+			sameSite: 'Lax',
+			secure: false, // Set to true if using HTTPS
+			// maxAge: 7 * 24 * 60 * 60 * 1000 // 1 week
+			maxAge: 1000 * 60 * 60 * 24 * 365 * 10 // 10 years
+		}
+		res.cookie('loginToken', loginToken, cookieOptions)
 		res.json(user)
-	} catch (err) {
+	}
+	 catch (err) {
 		logger.error('Failed to Login ' + err)
 		res.status(401).send({ err: 'Failed to Login' })
 	}
@@ -45,5 +54,16 @@ export async function logout(req, res) {
 		res.send({ msg: 'Logged out successfully' })
 	} catch (err) {
 		res.status(400).send({ err: 'Failed to logout' })
+	}
+}
+
+export async function loggedinUser(req, res) {
+	try {
+		const loginToken = req.cookies.loginToken
+		const loggedinUser = authService.validateToken(loginToken)
+		res.json(loggedinUser)
+	} catch (err) {
+		logger.error('No loggedin user ' + err)
+		res.status(401).send({ err: 'No loggedin user' })
 	}
 }
