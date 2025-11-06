@@ -84,44 +84,8 @@ export function generateCalender(year, month) {
         }
         weeks.push(week)
     }
-    console.log(weeks);
     
 
     return weeks
 }
 
-// export function readJsonFile(path) {
-//     const str = fs.readFileSync(path, 'utf8')
-//     const json = JSON.parse(str)
-//     return json
-// }
-// export function generateCalender(year, month) {
-//     const weeks = []
-//     const firstDay = new Date(year, month, 1)
-//     const lastDay = new Date(year, month + 1, 0)
-//     const daysInMonth = lastDay.getDate()
-
-//     // const startDay = firstDay.getDate()
-//     const startDay = firstDay.getDay()
-//     let week = new Array(startDay).fill(null)
-
-//     for(let day = 1; day <= daysInMonth; day++) {
-//         week.push(new Date(year, month, day))
-//         if(week.length === 7) {
-//             weeks.push(week)
-//             week=[]
-//         }
-//     }
-
-//     if(week.length > 0) {
-//         while(week.length < 7) {
-//             week.push(null)
-//         }
-//         weeks.push(week)
-//     }
-
-//     console.log(daysInMonth);
-    
-    
-//     return weeks
-// }

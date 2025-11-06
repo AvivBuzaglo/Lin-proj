@@ -16,7 +16,6 @@ export function Login() {
     }, [])
 
     useEffect(() => {
-        console.log(credentials);
         
     }, [credentials])
 

@@ -30,28 +30,12 @@ export function Appointment() {
     }, [])
 
 
-    // useEffect(() => {
-    //     console.log(order);
-    // }, [order])
-
-    // useEffect(() => {
-    //     if(readyToSave && orderConfirmed) {
-            
-    //         saveToUser(order)
-
-    //         setTimeout(() => {
-    //             navigate("/")
-    //         }, 3000) 
-    //     }
-    // },[readyToSave, orderConfirmed])
-
     useEffect(() => {
         if(readyToSave && orderConfirmed) {
             
             (async () => {
                 try {
                     const updatedUser = await saveToUser(order)
-                    console.log(updatedUser)
                     await new Promise(resolve => setTimeout(resolve, 3000))
                     navigate("/")
                 } catch (err) {

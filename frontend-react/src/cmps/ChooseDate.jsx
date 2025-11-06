@@ -34,7 +34,6 @@ export function ChooseDate({order, setOrder, year = new Date().getFullYear(), mo
             start: '',
             end: ''
         })
-        console.log(idx);
         
         setTimeout(() => {
            calenderHandler() 

@@ -47,7 +47,6 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
                             const index1 = times4.indexOf(element.start)
                             const index2 = times4.indexOf(element.end)
                             const occupiedHours = times4.slice(index1 + 1, index2)
-                            // console.log(occupiedHours);
                             
                             setBlockedHours(prev => [...prev, ...occupiedHours])
                         }

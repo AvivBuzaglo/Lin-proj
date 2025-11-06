@@ -40,8 +40,7 @@ export function BlockHours({date, setShowBlockedHours}) {
     }
 
     function todaysBlockedHours() {
-        let dateIdx = checkDate()
-        console.log("dateIdx:", dateIdx);                                   
+        let dateIdx = checkDate()                                  
         
         if(dateIdx === null) return
         else {

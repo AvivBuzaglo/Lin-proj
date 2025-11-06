@@ -7,11 +7,11 @@ const ORDERS_STORAGE_KEY = 'order';
 // const orders = readJsonFile('backend\data\order.json')
 
 // _createOrders()
-_refreshOrders()
+// _refreshOrders()
 // _refreshOrdersApi()
 
-query()
-console.log(query({ tag: 'logo design' }))
+// query()
+
 export const orderService = {
   query,
   getById,
