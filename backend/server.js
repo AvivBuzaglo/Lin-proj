@@ -85,6 +85,10 @@ app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
 })
 
+app.get('/health', (req, res) => {
+  res.status(200).send('OK')
+})
+
 
 const port = process.env.PORT || 3030
 
