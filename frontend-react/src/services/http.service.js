@@ -26,20 +26,26 @@ export const httpService = {
 async function ajax(endpoint, method = 'GET', data = null) {
     const url = `${BASE_URL}${endpoint}`
     const params = (method === 'GET') ? data : null
-    
     const options = { url, method, data, params }
 
     try {
         const res = await axios(options)
         return res.data
     } catch (err) {
+        const status = err?.response?.status
         console.log(`Had Issues ${method}ing to the backend, endpoint: ${endpoint}, with data: `, data)
-        // console.dir(err)
-        if (err.response && err.response.status === 401) {
-            // sessionStorage.clear()
-            // window.location.assign('/')
-            return { error: 'Unauthorized'}
-        }
-        return { error: 'request failed', err}
+
+        if (status === 401) return { error: 'Unauthorized', err }
+        if (status === 404) return { error: 'Not_found', err }
+
+        return { error: 'request failed',details: err.message }
+        // // console.dir(err)
+        // if (err.response && err.response.status === 401) {
+        //     // sessionStorage.clear()
+        //     // window.location.assign('/')
+        //     return { error: 'Unauthorized'}
+        // }
+        // return { error: 'request failed', err}
+
     }
 }
