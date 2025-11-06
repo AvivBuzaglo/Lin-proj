@@ -5,6 +5,7 @@ import { signup } from '../store/actions/user.actions'
 
 import { ImgUploader } from '../cmps/ImgUploader'
 import { userService } from '../services/user'
+import { showErrorMsg } from '../services/event-bus.service'
 
 export function Signup() {
     const [credentials, setCredentials] = useState(userService.getEmptyUser())
@@ -26,9 +27,13 @@ export function Signup() {
         if (ev) ev.preventDefault()
 
         if (!credentials.username || !credentials.password || !credentials.fullname || !credentials.phoneNumber) return
-        await signup(credentials)
-        clearState()
-        navigate('/')
+        try{
+            await signup(credentials)
+            clearState()
+            navigate('/')
+        } catch (err) {
+            showErrorMsg('Cannot signup', err)
+        }
     }
 
     function onUploaded(imgUrl) {

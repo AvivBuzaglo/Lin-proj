@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 
 import { userService } from '../services/user'
 import { login } from '../store/actions/user.actions'
+import { showErrorMsg } from '../services/event-bus.service'
 
 export function Login() {
     const [users, setUsers] = useState([])
@@ -29,8 +30,12 @@ export function Login() {
 
         if (!credentials.username) return
         if (!credentials.password) return
-        await login(credentials)
-        navigate('/')
+        try{
+            await login(credentials)
+            navigate('/')
+        } catch (err) {
+            showErrorMsg('Cannot login',err)
+        }
     }
 
     function handleChange(ev) {

@@ -1,3 +1,4 @@
+import { showErrorMsg } from '../event-bus.service.js'
 import { httpService } from '../http.service.js'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
@@ -50,16 +51,23 @@ async function update({ _id, fullname, phoneNumber, orders, score }) {
 }
 
 async function login(userCred) {
-	const user = await httpService.post('auth/login', userCred)
-	if (user) return saveLoggedinUser(user)
+	try {
+		const user = await httpService.post('auth/login', userCred)
+		if (user) return saveLoggedinUser(user)
+	} catch (err) {
+		showErrorMsg('Cannot login',err)
+	}
 }
 
 async function signup(userCred) {
 	// if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
 	userCred.score = 10000
-
-    const user = await httpService.post('auth/signup', userCred)
-	return saveLoggedinUser(user)
+	try {
+		const user = await httpService.post('auth/signup', userCred)
+		return saveLoggedinUser(user)
+	} catch (err) {
+		showErrorMsg('Cannot signup',err)
+	}
 }
 
 async function logout() {
