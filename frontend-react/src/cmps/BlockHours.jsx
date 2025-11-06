@@ -64,7 +64,7 @@ export function BlockHours({date, setShowBlockedHours}) {
                 date: date,
                 hours: updatedhours
             }            
-            blockedOrdersService.putHours(updatedObj).then(getBlocked())
+            blockedOrdersService.putHours(updatedObj).then(() => getBlocked())
             setTodayBlocked(prev => prev.filter(hour => hour !== time))
         }
     }

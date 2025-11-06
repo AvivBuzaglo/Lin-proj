@@ -91,11 +91,9 @@ async function putHours(updatedEntity) {
     let existingDoc = await collection.findOne({ date: { $regex: regExp } })
 
     if (existingDoc) {
-      const updatedHours = Array.from(new Set([...existingDoc.hours, ...updatedEntity.hours]))
-
       const result = await collection.updateOne(
         { _id: existingDoc._id },
-        { $set: { hours: updatedHours } }
+        { $set: { hours: updatedEntity.hours } }
       )
       logger.info(`Matched ${result.matchedCount} and modified ${result.modifiedCount} blocked hours`)
     } else {
