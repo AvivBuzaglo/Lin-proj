@@ -68,13 +68,43 @@ async function removeDate(date) {
   }
 }
 
+// async function putHours(updatedEntity) {
+//   try {
+//     const collection = await dbService.getCollection('blockedHours')
+//     const filter = { _id: new ObjectId(updatedEntity._id) }
+//     const { _id, ...replacement } = updatedEntity
+//     const result =  await collection.replaceOne(filter, replacement)
+//     logger.info(`Matched ${result.matchedCount} and modified ${result.modifiedCount} blocked hours`)
+//     await _checkFullDay(updatedEntity) 
+//     await _checkEmptyDay()
+//     return Promise.resolve()
+//   } catch (err) {
+//     logger.error('Cannot update blocked hours (service)', err)
+//     throw err
+//   }
+// }
+
 async function putHours(updatedEntity) {
   try {
     const collection = await dbService.getCollection('blockedHours')
-    const filter = { _id: new ObjectId(updatedEntity._id) }
-    const { _id, ...replacement } = updatedEntity
-    const result =  await collection.replaceOne(filter, replacement)
-    logger.info(`Matched ${result.matchedCount} and modified ${result.modifiedCount} blocked hours`)
+    const regExp = new RegExp(`^${updatedEntity.date}$`, 'i')
+    let existingDoc = await collection.findOne({ date: { $regex: regExp } })
+
+    if (existingDoc) {
+      const updatedHours = Array.from(new Set([...existingDoc.hours, ...updatedEntity.hours]))
+
+      const result = await collection.updateOne(
+        { _id: existingDoc._id },
+        { $set: { hours: updatedHours } }
+      )
+      logger.info(`Matched ${result.matchedCount} and modified ${result.modifiedCount} blocked hours`)
+    } else {
+      const result = await collection.insertOne({
+        date: updatedEntity.date,
+        hours: updatedEntity.hours
+      })
+      logger.info(`Inserted blocked hours with id: ${result.insertedId}`)
+    }
     await _checkFullDay(updatedEntity) 
     await _checkEmptyDay()
     return Promise.resolve()
