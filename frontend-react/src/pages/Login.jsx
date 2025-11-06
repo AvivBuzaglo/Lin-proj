@@ -33,7 +33,7 @@ export function Login() {
             await login(credentials)
             navigate('/')
         } catch (err) {
-            showErrorMsg('Cannot login',err)
+            showErrorMsg('התחברות נכשלה, שם משתמש או סיסמא שגויים')
         }
     }
 

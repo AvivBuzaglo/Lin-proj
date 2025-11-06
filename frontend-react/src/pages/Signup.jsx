@@ -32,7 +32,7 @@ export function Signup() {
             clearState()
             navigate('/')
         } catch (err) {
-            showErrorMsg('Cannot signup', err)
+            showErrorMsg('הרשמה נכשלה, שם המשתמש תפוס, נסה שם אחר',err)
         }
     }
 
