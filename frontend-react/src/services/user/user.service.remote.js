@@ -49,26 +49,50 @@ async function update({ _id, fullname, phoneNumber, orders, score }) {
 	return user
 }
 
+// async function login(userCred) {
+// 	try {
+// 		const user = await httpService.post('auth/login', userCred)
+// 		if (user) return saveLoggedinUser(user)
+// 	} catch (err) {
+// 		showErrorMsg('Cannot login',err)
+// 		return null
+// 	}
+// }
+
 async function login(userCred) {
-	try {
-		const user = await httpService.post('auth/login', userCred)
-		if (user) return saveLoggedinUser(user)
-	} catch (err) {
-		showErrorMsg('Cannot login',err)
+	
+	const user = await httpService.post('auth/login', userCred)
+	if (user?.error) {
+		showErrorMsg(user.error === 'Unauthorized' ? 'Invalid username or password' : 'Cannot login', user.err)
 		return null
 	}
+	
+	return saveLoggedinUser(user)
 }
+
+// async function signup(userCred) {
+// 	// if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+// 	userCred.score = 10000
+// 	try {
+// 		const user = await httpService.post('auth/signup', userCred)
+// 		return saveLoggedinUser(user)
+// 	} catch (err) {
+// 		showErrorMsg('Cannot signup',err)
+// 		return null
+// 	}
+// }
 
 async function signup(userCred) {
 	// if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
 	userCred.score = 10000
-	try {
-		const user = await httpService.post('auth/signup', userCred)
-		return saveLoggedinUser(user)
-	} catch (err) {
-		showErrorMsg('Cannot signup',err)
+	
+	const user = await httpService.post('auth/signup', userCred)
+	if(user?.error) {
+		showErrorMsg(user.error === 'Username already taken' ? 'Username already taken' : 'Cannot signup', user.err)
 		return null
 	}
+	
+	return saveLoggedinUser(user)
 }
 
 async function logout() {

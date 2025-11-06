@@ -38,7 +38,7 @@ async function ajax(endpoint, method = 'GET', data = null) {
         if (err.response && err.response.status === 401) {
             // sessionStorage.clear()
             // window.location.assign('/')
-            return { error: 'Unauthorized', err }
+            return { error: 'Unauthorized'}
         }
         return { error: 'request failed', err}
     }
