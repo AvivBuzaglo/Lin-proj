@@ -117,7 +117,7 @@ async function postHours(blockedHoursToAdd) {
 async function postDate(blockedDate) {
   try {
     const collection = await dbService.getCollection('blockedDates')
-    const result = await collection.updateOne({}, { $addToSet: { dates: blockedDate}} )
+    const result = await collection.updateOne({}, { $addToSet: { dates: blockedDate}}, { upsert: ture} )
     if(result.modifiedCount > 0) {
       logger.info(`Added blocked date: ${blockedDate}`)
     } else {

@@ -13,7 +13,7 @@ export async function login(req, res) {
 		const cookieOptions = {
 			httpOnly: true,
 			sameSite: 'Lax',
-			secure: false, // Set to true if using HTTPS
+			secure: true, // Set to true if using HTTPS
 			// maxAge: 7 * 24 * 60 * 60 * 1000 // 1 week
 			maxAge: 1000 * 60 * 60 * 24 * 365 * 10 // 10 years
 		}
