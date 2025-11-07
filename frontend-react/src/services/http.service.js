@@ -1,9 +1,14 @@
 import Axios from 'axios'
 
-const BASE_URL = process.env.NODE_ENV === 'production'
-    ? '/api/'
+// const BASE_URL = process.env.NODE_ENV === 'production'
+//     ? '/api/'
+//     : '//localhost:3030/api/'
+const isMobile = !!window.capacitor
+
+const BASE_URL = process.env.NODE_ENV === 'production' || isMobile
+    ? 'https://lin-bitton.onrender.com/api/'
     : '//localhost:3030/api/'
-    // : '//localhost:5173/api/'
+    
 
 
 const axios = Axios.create({ withCredentials: true })
