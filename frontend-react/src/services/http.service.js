@@ -1,9 +1,11 @@
 import Axios from 'axios'
-
+import { Capacitor } from '@capacitor/core'
 // const BASE_URL = process.env.NODE_ENV === 'production'
 //     ? '/api/'
 //     : '//localhost:3030/api/'
-const isMobile = !!window.capacitor
+// const isMobile = typeof window !== 'undefined' && window?.capacitor?.isNativePlatform()
+// const isMobile = typeof window !== 'undefined' && !!window.Capacitor
+const isMobile = Capacitor.isNativePlatform()
 
 const BASE_URL = process.env.NODE_ENV === 'production' || isMobile
     ? 'https://lin-bitton.onrender.com/api/'

@@ -40,7 +40,8 @@ if (process.env.NODE_ENV === 'production') {
                     'http://192.168.1.10:3030',
                     'http://192.168.1.10:5173',
                     'https://lin-bitton.onrender.com',
-                    'capacitor://localhost'
+                    'capacitor://localhost',
+                    'http://localhost'
                 ],
         credentials: true
     }
