@@ -4,8 +4,8 @@ import { Capacitor } from '@capacitor/core'
 //     ? '/api/'
 //     : '//localhost:3030/api/'
 // const isMobile = typeof window !== 'undefined' && window?.capacitor?.isNativePlatform()
-// const isMobile = typeof window !== 'undefined' && !!window.Capacitor
-const isMobile = Capacitor.isNativePlatform()
+const isMobile = typeof window !== 'undefined' && !!window.Capacitor
+// const isMobile = Capacitor.isNativePlatform()
 
 const BASE_URL = process.env.NODE_ENV === 'production' || isMobile
     ? 'https://lin-bitton.onrender.com/api/'
