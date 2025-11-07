@@ -2,7 +2,13 @@ import axios from 'axios'
 import { makeId, loadFromStorage, saveToStorage } from '../util.service.js'
 import { userService } from '../user/index.js'
 
-const BASE_URL = '/api/order/'
+const isMobile = typeof window !== 'undefined' && !!window.Capacitor
+
+const BASE_URL = process.env.NODE_ENV === 'production' || isMobile
+    ? 'https://lin-bitton.onrender.com/api/order/'
+    : '//localhost:3030/api/order/'
+    
+// const BASE_URL = '/api/order/'
 
 export const orderService = {
   query,

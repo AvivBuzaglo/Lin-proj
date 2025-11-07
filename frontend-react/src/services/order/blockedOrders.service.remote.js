@@ -1,9 +1,19 @@
 import axios from 'axios'
 
 
-const DATE_BASE_URL = '/api/blockedDates/'
-const HOURS_BASE_URL = '/api/blockedhours/'
+// const DATE_BASE_URL = '/api/blockedDates/'
+// const HOURS_BASE_URL = '/api/blockedhours/'
 
+const isMobile = typeof window !== 'undefined' && !!window.Capacitor
+
+const DATE_BASE_URL = process.env.NODE_ENV === 'production' || isMobile
+    ? 'https://lin-bitton.onrender.com/api/blockedDates/'
+    : '//localhost:3030/api/blockedDates/'
+
+
+const HOURS_BASE_URL = process.env.NODE_ENV === 'production' || isMobile
+    ? 'https://lin-bitton.onrender.com/api/blockedhours/'
+    : '//localhost:3030/api/blockedhours/'
 
 export const blockedOrdersService = {
     queryDates,
