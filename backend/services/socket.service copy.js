@@ -15,7 +15,7 @@ const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
 
 // const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
-const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:5173' // for vite dev server added by me 
+const baseUrl = (process.env.NODE_ENV === 'production') ? 'https://lin-bitton.onrender.com' : '//localhost:5173' // for vite dev server added by me 
 export const socketService = createSocketService()
 // export const socketService = createDummySocketService()
 
