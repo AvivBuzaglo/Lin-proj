@@ -42,7 +42,7 @@ const corsOptions = {
         'http://192.168.1.10:5173',
         'https://lin-bitton.onrender.com',
         'capacitor://localhost',
-        'http://localhost'
+        'https://localhost'
         ],
         credentials: true
     }
