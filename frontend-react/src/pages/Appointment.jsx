@@ -6,6 +6,7 @@ import { ChooseDate } from "../cmps/ChooseDate.jsx"
 import { ChooseTime } from "../cmps/ChooseTime.jsx"
 import { ConfirmOrder } from "../cmps/ConfirmOrder.jsx";
 import { orderService } from "../services/order/order.service.remote.js" // for remote
+import { blockedOrdersService } from "../services/order/blockedOrders.service.remote.js"
 // import { orderService } from "../services/order/order.service.local.js" // for local
 import { userService } from "../services/user";
 
@@ -20,6 +21,7 @@ export function Appointment() {
     const [showCalender, setShowCalender] = useState(false)
     const [ readyToSave, setReadyToSave] = useState(false)
     const [ orderConfirmed, setOrderConfirmed] = useState(false)
+    const [blockedDates, setBlockedDates] = useState([])
     const loggedUser = userService.getLoggedinUser()
     const [ user, setUser ] = useState(null)
     const navigate = useNavigate()
@@ -27,6 +29,12 @@ export function Appointment() {
     useEffect(() => {
         if(!loggedUser) navigate('/')
         setUser(loggedUser)
+        
+        async function getBlocked() {
+            const result = await blockedOrdersService.queryDates()
+            setBlockedDates(result) 
+        }
+        getBlocked()
     }, [])
 
 
@@ -86,7 +94,7 @@ export function Appointment() {
     return (
         <div>
             {showChooseCare && <ChooseCare order={order} setOrder={orderHandler} careHandler={careHandler}/>}
-            {!showChooseCare && showCalender && <ChooseDate order={order} setOrder={orderHandler} calenderHandler={calenderHandler} />}
+            {!showChooseCare && showCalender && <ChooseDate order={order} setOrder={orderHandler} calenderHandler={calenderHandler} blockedDatesParent={blockedDates}/>}
             {!showChooseCare && !showCalender && !readyToSave && <ChooseTime order={order} setOrder={orderHandler} setReadyToSave={setReadyToSave}/>}
             {readyToSave && <ConfirmOrder order={order} setOrderConfirmed={setOrderConfirmed} restartOrder={restartOrder}/>}
 
