@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@capacitor/android": "^7.4.4",
-    "@capacitor/cli": "^7.4.4",
     "@capacitor/core": "^7.4.4",
     "@capacitor/ios": "^7.4.4",
+    "@capacitor/preferences": "^7.0.2",
     "axios": "^1.5.0",
     "file-system": "^2.2.2",
     "fs": "^0.0.1-security",
@@ -30,6 +30,7 @@
     "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
+    "@capacitor/cli": "^7.4.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react-swc": "^3.3.2",

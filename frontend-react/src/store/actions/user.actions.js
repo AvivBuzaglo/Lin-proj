@@ -1,7 +1,7 @@
 import { userService } from '../../services/user'
 import { socketService } from '../../services/socket.service'
 import { store } from '../store'
-
+import { Preferences } from '@capacitor/preferences'
 import { showErrorMsg } from '../../services/event-bus.service'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
 import { REMOVE_USER, SET_USER, SET_USERS, SET_WATCHED_USER } from '../reducers/user.reducer'
@@ -35,6 +35,10 @@ export async function login(credentials) {
             type: SET_USER,
             user
         })
+        await Preferences.set({
+            key: 'loggedInUser',
+            value: JSON.stringify(user)
+        })
         socketService.login(user._id)
         return user
     } catch (err) {
@@ -50,6 +54,10 @@ export async function signup(credentials) {
             type: SET_USER,
             user
         })
+        await Preferences.set({
+            key: 'loggedInUser',
+            value: JSON.stringify(user)
+        })
         socketService.login(user._id)
         return user
     } catch (err) {
@@ -64,6 +72,7 @@ export async function logout() {
             type: SET_USER,
             user: null
         })
+        await Preferences.remove({ key: 'loggedInUser' })
         socketService.logout()
     } catch (err) {
         console.log('Cannot logout', err)
@@ -84,6 +93,12 @@ export async function loadUser(userId) {
 export async function loadLoggedinUser() {
     try {
         const user = await userService.getLoggedinUserToken()
+
+        if(!user) {
+            const { value } = await Preferences.get({ key: 'loggedInUser' })
+            if (value) user = JSON.parse(value)
+        }
+
         store.dispatch({ type: SET_USER, user })
         // return user
     } catch (err) {
