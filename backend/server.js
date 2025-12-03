@@ -25,6 +25,20 @@ const url = 'mongodb://127.0.0.1:27017'
 const dbName = 'linDB'
 
 
+// // Express App Config
+// app.use(cookieParser())
+// app.use(express.json())
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', 'true')
+    res.header('Access-Control-Allow-Origin', 'capacitor://localhost')
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    if(req.method === 'OPTIONS') {
+        return res.sendStatus(200)
+    }
+    next()
+})
+
 // Express App Config
 app.use(cookieParser())
 app.use(express.json())
@@ -32,21 +46,32 @@ app.use(express.json())
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve('public')))
 } 
-const corsOptions = {
-    origin: [   
-        'http://127.0.0.1:3000',
-        'http://localhost:3000',
-        'http://127.0.0.1:5173',
-        'http://localhost:5173',
-        'http://192.168.1.10:3030',
-        'http://192.168.1.10:5173',
-        'https://lin-bitton.onrender.com',
-        'capacitor://localhost',
-        'https://localhost'
-        ],
-        credentials: true
+// const corsOptions = {
+//     origin: [   
+//         'http://127.0.0.1:3000',
+//         'http://localhost:3000',
+//         'http://127.0.0.1:5173',
+//         'http://localhost:5173',
+//         'http://192.168.1.10:3030',
+//         'http://192.168.1.10:5173',
+//         'https://lin-bitton.onrender.com',
+//         'capacitor://localhost',
+//         'https://localhost'
+//         ],
+//         credentials: true
+//     }
+// app.use(cors(corsOptions))
+
+app.use(session({
+    secret: "...",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
     }
-app.use(cors(corsOptions))
+}))
 
 // if (process.env.NODE_ENV === 'production') {
 //     app.use(express.static(path.resolve('public')))

@@ -92,7 +92,8 @@ export async function loadUser(userId) {
 
 export async function loadLoggedinUser() {
     try {
-        const user = await userService.getLoggedinUserToken()
+        // const user = await userService.getLoggedinUserToken()
+        let user = await userService.getLoggedinUserToken()
 
         if(!user) {
             const { value } = await Preferences.get({ key: 'loggedInUser' })

@@ -10,13 +10,19 @@ export async function login(req, res) {
 		logger.info('User login: ', user)
         
 		// res.cookie('loginToken', loginToken, { sameSite: 'None', secure: true })
+		// const cookieOptions = {
+		// 	httpOnly: true,
+		// 	sameSite: 'None',
+		// 	secure: true, // Set to true if using HTTPS
+		// 	// maxAge: 7 * 24 * 60 * 60 * 1000 // 1 week
+		// 	maxAge: 1000 * 60 * 60 * 24 * 365 * 10 // 10 years
+		// }
+
 		const cookieOptions = {
 			httpOnly: true,
-			// sameSite: 'Lax',
 			sameSite: 'None',
-			secure: true, // Set to true if using HTTPS
-			// maxAge: 7 * 24 * 60 * 60 * 1000 // 1 week
-			maxAge: 1000 * 60 * 60 * 24 * 365 * 10 // 10 years
+			secure: true,
+			maxAge: 1000 * 60 * 60 * 24 * 365 * 10
 		}
 		res.cookie('loginToken', loginToken, cookieOptions)
 		res.json(user)
