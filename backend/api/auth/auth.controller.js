@@ -23,6 +23,7 @@ export async function login(req, res) {
 			sameSite: 'None',
 			secure: true,
 			domain: "lin-bitton.onrender.com",
+			path: '/',
 			maxAge: 1000 * 60 * 60 * 24 * 365 * 10
 		}
 		res.cookie('loginToken', loginToken, cookieOptions)
