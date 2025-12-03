@@ -62,16 +62,16 @@ if (process.env.NODE_ENV === 'production') {
 //     }
 // app.use(cors(corsOptions))
 
-app.use(session({
-    secret: "...",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-    }
-}))
+// app.use(session({
+//     secret: "...",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         httpOnly: true,
+//         secure: true,
+//         sameSite: 'none',
+//     }
+// }))
 
 // if (process.env.NODE_ENV === 'production') {
 //     app.use(express.static(path.resolve('public')))
