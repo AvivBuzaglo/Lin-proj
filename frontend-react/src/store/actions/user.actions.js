@@ -49,7 +49,7 @@ export async function removeUser(userId) {
 export async function login(credentials) {
     try {
         const { user, loginToken } = await userService.login(credentials)
-        if(!user || loginToken) return 
+        if(!user || !loginToken) return 
         await Preferences.set({
             key: 'loginToken',
             value: loginToken
