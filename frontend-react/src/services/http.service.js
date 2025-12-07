@@ -56,13 +56,16 @@ async function ajax(endpoint, method = 'GET', data = null) {
     const options = { 
         url, 
         method,
-        data,
         params, 
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',
             ...authHeaders
         }
+    }
+
+    if(method !== 'DELETE' || (data && Object.keys(data).length > 0)) {
+        options.data = data
     }
 
     try {
