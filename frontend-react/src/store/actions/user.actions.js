@@ -4,7 +4,7 @@ import { store } from '../store'
 import { Preferences } from '@capacitor/preferences'
 import { showErrorMsg } from '../../services/event-bus.service'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
-import { REMOVE_USER, SET_USER, SET_USERS, SET_WATCHED_USER } from '../reducers/user.reducer'
+import { REMOVE_USER, SET_USER, SET_USERS, SET_WATCHED_USER } from '../reducers/user.reducer' 
 
 export async function loadUsers() {
     try {
@@ -122,12 +122,21 @@ export async function loadLoggedinUser() {
         if(!user) {
             const { value } = await Preferences.get({ key: 'loggedInUser' })
             console.log('Loaded from Preferences:', value)
-            if (value) user = JSON.parse(value)
+            if (value) {
+                const parsedUser = JSON.parse(value)
+                if(parsedUser && Object.keys(parsedUser).length > 0) {
+                    user = parsedUser
+                }
+            }
         }
 
         if(!user) user = null
         console.log('Dispathcing user:', user)
         store.dispatch({ type: SET_USER, user })
+
+        if(user && ! await userService.getLoggedinUser()) {
+            userService.saveLoggedinUser(user)
+        }
         // return user
     } catch (err) {
         console.log('Cannot load loggedin user', err)
