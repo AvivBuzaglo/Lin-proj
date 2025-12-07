@@ -2,5 +2,6 @@
   "appId": "com.linbitton.app",
   "appName": "Lin Bitton",
   "webDir": "../backend/public",
-  "bundledWebRuntime": false
+  "bundledWebRuntime": false,
+  "server": "lin-bitton.onrender.com"
 }

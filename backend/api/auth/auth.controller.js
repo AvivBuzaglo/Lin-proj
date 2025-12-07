@@ -18,16 +18,16 @@ export async function login(req, res) {
 		// 	maxAge: 1000 * 60 * 60 * 24 * 365 * 10 // 10 years
 		// }
 
-		const cookieOptions = {
-			httpOnly: true,
-			sameSite: 'None',
-			secure: true,
-			domain: "lin-bitton.onrender.com",
-			path: '/',
-			maxAge: 1000 * 60 * 60 * 24 * 365 * 10
-		}
-		res.cookie('loginToken', loginToken, cookieOptions)
-		res.json(user)
+		// const cookieOptions = {
+		// 	httpOnly: true,
+		// 	sameSite: 'None',
+		// 	secure: true,
+		// 	domain: "lin-bitton.onrender.com",
+		// 	path: '/',
+		// 	maxAge: 1000 * 60 * 60 * 24 * 365 * 10
+		// }
+		// res.cookie('loginToken', loginToken, cookieOptions)
+		res.json({user, loginToken})
 	}
 	 catch (err) {
 		logger.error('Failed to Login ' + err)
@@ -49,8 +49,8 @@ export async function signup(req, res) {
 		logger.info('User signup:', user)
 		
         const loginToken = authService.getLoginToken(user)
-		res.cookie('loginToken', loginToken, { sameSite: 'None', secure: true })
-		res.json(user)
+		// res.cookie('loginToken', loginToken, { sameSite: 'None', secure: true })
+		res.json({user, loginToken})
 	} catch (err) {
 		logger.error('Failed to signup ' + err)
 		res.status(400).send({ err: 'Failed to signup' })
@@ -59,7 +59,7 @@ export async function signup(req, res) {
 
 export async function logout(req, res) {
 	try {
-		res.clearCookie('loginToken')
+		// res.clearCookie('loginToken')
 		res.send({ msg: 'Logged out successfully' })
 	} catch (err) {
 		res.status(400).send({ err: 'Failed to logout' })
@@ -68,7 +68,7 @@ export async function logout(req, res) {
 
 export async function loggedinUser(req, res) {
 	try {
-		const loginToken = req.cookies.loginToken
+		const loginToken = req.headers.authorization?.replace('Bearer ', '')
 		const loggedinUser = authService.validateToken(loginToken)
 		res.json(loggedinUser)
 	} catch (err) {
@@ -76,3 +76,14 @@ export async function loggedinUser(req, res) {
 		res.status(401).send({ err: 'No loggedin user' })
 	}
 }
+
+// export async function loggedinUser(req, res) {
+// 	try {
+// 		const loginToken = req.cookies.loginToken
+// 		const loggedinUser = authService.validateToken(loginToken)
+// 		res.json(loggedinUser)
+// 	} catch (err) {
+// 		logger.error('No loggedin user ' + err)
+// 		res.status(401).send({ err: 'No loggedin user' })
+// 	}
+// }

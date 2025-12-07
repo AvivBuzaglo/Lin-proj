@@ -27,10 +27,29 @@ export async function removeUser(userId) {
     }
 }
 
+// export async function login(credentials) {
+//     try {
+//         const user = await userService.login(credentials)
+//         if(!user) return 
+//         store.dispatch({
+//             type: SET_USER,
+//             user
+//         })
+//         await Preferences.set({
+//             key: 'loggedInUser',
+//             value: JSON.stringify(user)
+//         })
+//         socketService.login(user._id)
+//         return user
+//     } catch (err) {
+//         showErrorMsg('Cannot login', err)
+//     }
+// }
+
 export async function login(credentials) {
     try {
-        const user = await userService.login(credentials)
-        if(!user) return 
+        const { user, loginToken } = await userService.login(credentials)
+        if(!user || loginToken) return 
         store.dispatch({
             type: SET_USER,
             user
@@ -38,6 +57,10 @@ export async function login(credentials) {
         await Preferences.set({
             key: 'loggedInUser',
             value: JSON.stringify(user)
+        })
+        await Preferences.set({
+            key: 'loginToken',
+            value: loginToken
         })
         socketService.login(user._id)
         return user

@@ -59,15 +59,27 @@ async function update({ _id, fullname, phoneNumber, orders, score }) {
 // 	}
 // }
 
-async function login(userCred) {
+// async function login(userCred) { // 07/12
 	
-	const user = await httpService.post('auth/login', userCred)
-	if (user?.error) {
-		showErrorMsg(user.error === 'Unauthorized' ? 'Invalid username or password' : 'Cannot login', user.err)
+// 	const user = await httpService.post('auth/login', userCred)
+// 	if (user?.error) {
+// 		showErrorMsg(user.error === 'Unauthorized' ? 'Invalid username or password' : 'Cannot login', user.err)
+// 		return null
+// 	}
+	
+// 	return saveLoggedinUser(user)
+// }
+
+async function login(userCred) { // prefrences
+	
+	const res = await httpService.post('auth/login', userCred)
+	if (res?.error) {
+		showErrorMsg(res.error === 'Unauthorized' ? 'Invalid username or password' : 'Cannot login', res.err)
 		return null
 	}
-	
-	return saveLoggedinUser(user)
+	const { user, loginToken } = res
+	const savedUser = saveLoggedinUser(user) 
+	return { user: savedUser, loginToken}
 }
 
 // async function signup(userCred) {

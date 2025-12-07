@@ -1,5 +1,7 @@
 import Axios from 'axios'
 import { Capacitor } from '@capacitor/core'
+import { Preferences } from '@capacitor/preferences'
+import { Await } from 'react-router'
 // const BASE_URL = process.env.NODE_ENV === 'production'
 //     ? '/api/'
 //     : '//localhost:3030/api/'
@@ -25,6 +27,13 @@ const BASE_URL=
 const axios = Axios.create({ withCredentials: true })
 axios.defaults.withCredentials = true
 
+
+async function getAuthHeaders() {
+    const { value: token } = await Preferences.get({ key: 'loginToken' })
+
+    return token ? { 'Authorization': `Bearer ${token}`} : {}
+}
+
 export const httpService = {
     get(endpoint, data) {
         return ajax(endpoint, 'GET', data)
@@ -43,7 +52,18 @@ export const httpService = {
 async function ajax(endpoint, method = 'GET', data = null) {
     const url = `${BASE_URL}${endpoint}`
     const params = (method === 'GET') ? data : null
-    const options = { url, method, data, params, withCredentials: true }
+    const authHeaders = await getAuthHeaders()
+    const options = { 
+        url, 
+        method,
+        data,
+        params, 
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+            ...authHeaders
+        }
+    }
 
     try {
         const res = await axios(options)
