@@ -95,7 +95,7 @@ export async function logout() {
             type: SET_USER,
             user: null
         })
-        await Preferences.remove({ key: 'loggedInUser' })
+        // await Preferences.remove({ key: 'loggedInUser' }) // moved to userService.logout()
         socketService.logout()
     } catch (err) {
         console.log('Cannot logout', err)
@@ -123,6 +123,7 @@ export async function loadLoggedinUser() {
             if (value) user = JSON.parse(value)
         }
 
+        if(!user) user = {}
         store.dispatch({ type: SET_USER, user })
         // return user
     } catch (err) {

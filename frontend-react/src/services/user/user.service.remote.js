@@ -1,5 +1,6 @@
 import { showErrorMsg } from '../event-bus.service.js'
 import { httpService } from '../http.service.js'
+import { Preferences } from '@capacitor/preferences'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
@@ -107,9 +108,23 @@ async function signup(userCred) {
 	return saveLoggedinUser(user)
 }
 
+// async function logout() {  // 07.12
+// 	sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+// 	return await httpService.post('auth/logout')
+// }
+
 async function logout() {
 	sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
-	return await httpService.post('auth/logout')
+	await Preferences.remove({ key: 'loginToken' })
+	await Preferences.remove({ key: 'loggedInUser' })
+
+	try {
+		const { value: token } = await Preferences.get({ key: 'loginToken' })
+		await httpService.post('auth/logout', {}, {headers: token ? { Authorization: `Bearer ${token}` } : {}})
+	} catch (err) {
+		console.warn('Server logout faild, continuing frontend logout', err)
+	}
+	return
 }
 
 function getLoggedinUser() {

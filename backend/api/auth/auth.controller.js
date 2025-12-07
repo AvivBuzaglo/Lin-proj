@@ -57,11 +57,23 @@ export async function signup(req, res) {
 	}
 }
 
+// export async function logout(req, res) {  // 07/12
+// 	try {
+// 		// res.clearCookie('loginToken')
+// 		res.send({ msg: 'Logged out successfully' })
+// 	} catch (err) {
+// 		res.status(400).send({ err: 'Failed to logout' })
+// 	}
+// }
+
 export async function logout(req, res) {
 	try {
-		// res.clearCookie('loginToken')
+		const token = req.headers.authorization?.replace('Bearer ', '')
+		const user = token ? await authService.validateToken(token) : null
+		if (user) { console.log(`User logged out: ${user._id} - ${user.fullname}`)}
 		res.send({ msg: 'Logged out successfully' })
 	} catch (err) {
+		console.error('Logout error:', err)
 		res.status(400).send({ err: 'Failed to logout' })
 	}
 }
