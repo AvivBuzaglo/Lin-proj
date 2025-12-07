@@ -13,7 +13,7 @@ export function UserLogout() {
             </div>
 
             <div className="user-logout-text-container">
-                <h3>שלום, {user.fullname}</h3>
+                <h3>שלום, {user?.fullname}</h3>
                 <span> !טוב לראותך</span>
                 {user.orders && user.orders.length > 0 &&
                     <div className="user-closest-order">תור קרוב: <br /> {user.orders[0].date} בשעה: {user.orders[0].start} </div>

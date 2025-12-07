@@ -125,7 +125,7 @@ export async function loadLoggedinUser() {
             if (value) user = JSON.parse(value)
         }
 
-        if(!user) user = {}
+        if(!user) user = null
         console.log('Dispathcing user:', user)
         store.dispatch({ type: SET_USER, user })
         // return user
