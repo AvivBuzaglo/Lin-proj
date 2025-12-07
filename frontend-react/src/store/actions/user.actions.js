@@ -50,17 +50,17 @@ export async function login(credentials) {
     try {
         const { user, loginToken } = await userService.login(credentials)
         if(!user || loginToken) return 
-        store.dispatch({
-            type: SET_USER,
-            user
+        await Preferences.set({
+            key: 'loginToken',
+            value: loginToken
         })
         await Preferences.set({
             key: 'loggedInUser',
             value: JSON.stringify(user)
         })
-        await Preferences.set({
-            key: 'loginToken',
-            value: loginToken
+        store.dispatch({
+            type: SET_USER,
+            user
         })
         socketService.login(user._id)
         return user
