@@ -81,7 +81,7 @@ export async function logout(req, res) {
 export async function loggedinUser(req, res) {
 	try {
 		const loginToken = req.headers.authorization?.replace('Bearer ', '')
-		const loggedinUser = authService.validateToken(loginToken)
+		const loggedinUser = await authService.validateToken(loginToken)
 		res.json(loggedinUser)
 	} catch (err) {
 		logger.error('No loggedin user ' + err)

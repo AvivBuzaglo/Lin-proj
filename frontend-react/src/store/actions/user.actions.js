@@ -117,13 +117,16 @@ export async function loadLoggedinUser() {
     try {
         // const user = await userService.getLoggedinUserToken()
         let user = await userService.getLoggedinUserToken()
+        console.log('User from token:', user)
 
         if(!user) {
             const { value } = await Preferences.get({ key: 'loggedInUser' })
+            console.log('Loaded from Preferences:', value)
             if (value) user = JSON.parse(value)
         }
 
         if(!user) user = {}
+        console.log('Dispathcing user:', user)
         store.dispatch({ type: SET_USER, user })
         // return user
     } catch (err) {
