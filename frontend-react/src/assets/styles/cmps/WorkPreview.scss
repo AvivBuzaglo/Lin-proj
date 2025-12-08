@@ -1,27 +1,25 @@
-.work-gallery-container .work-gallery-list{
+
+.work-gallery-container {
+    height: 16.563rem;
     width: 100%;
-    height: 5rem;
+    // padding: 5%;
+    margin: auto;
+    margin-block-start: 2rem;
+    margin-block-end: 5rem;
 }
 
-.work-gallery-list {
-    display: flex;
-    overflow-x: scroll;
-    scrollbar-width: none;
+.work-gallery-container h3 {
+    direction: rtl;
 }
 
-.work-gallery-btn {
-    height: 3.438rem;
-    width: 3.438rem;
-
-    border-radius: 50%;
-    // border: 1px;
-    border-color: black;
-    background-color: white;
-    padding: 0px;
+.slide {
+    padding: 0 10px;
 }
 
-.work-gallery-btn img {
-    border-radius: 50%;
-    // border: 3px;
-    // border-color: black;
+.carousel-img {
+    width: 100%;
+    height: 16rem;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 25px;
 }

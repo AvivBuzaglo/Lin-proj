@@ -1,7 +1,46 @@
 .contact-info-container {
     text-align: right;
-    margin-block: 1.125rem;
+    margin-block-start: 1.7rem;
     margin-block-end: 3rem;
+}
+
+.contact-info-container h3 {
+    direction: rtl;
+    line-height: 1;
+}
+
+.contact-info-container h3 span {
+    font-size: small;
+    margin-inline-start: 0.3rem;
+}
+
+.apps-btns {
+    display: flex;
+    justify-content: center;
+    margin-block-start: 0.938rem;
+    gap: 1rem;
+}
+
+.waze-btn {
+    background-color: lightblue;
+    color: black;
+    padding: 0.625rem 0.938rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.google-btn {
+    background-color: lightcoral;
+    color: black;
+    padding: 0.625rem 0.938rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.waze-btn svg {
+    vertical-align: middle;
 }
 
 .contact-info {
