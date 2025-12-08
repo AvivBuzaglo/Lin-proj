@@ -9,7 +9,8 @@ import { ContactInfo } from "../cmps/ContactInfo"
 import { UserLogout } from "../cmps/UserLogout"
 import { userService } from "../services/user/user.service.remote.js"
 import { homePageSvgs } from "../cmps/Svgs"
-import { loadLoggedinUser } from "../store/actions/user.actions" 
+import { loadLoggedinUser } from "../store/actions/user.actions"
+import { UserOrders } from "../cmps/UserOrders.jsx" 
 
 export function HomePage() {
     const user = useSelector(storeState => storeState.userModule.user) 
@@ -33,13 +34,16 @@ export function HomePage() {
     return (
         <section className="home-page-container">
             <div className="logo-container">
-                <img src="/imgs/Lin-Peretz-Logo.jpg" alt="" />
-            </div>
-            {!user && <GuestLogin/>}
-            {user && <UserLogout/>}
-            {user && user.isAdmin && 
+                {!user && <GuestLogin/>}
+                {user && <UserLogout/>}
+                {user && user.isAdmin && 
                 <button className="admin-btn" onClick={goToAdminIndex}>דף אדמין</button>
             }
+                <img src="/imgs/Lin-Peretz-Logo.jpg" alt="" />
+            </div>
+
+            <UserOrders/>
+
             <WorkPreview setShowPic={setShowPic} setImgUrl={setImgUrl}/>
             <NoticeBoard/>
             <ContactInfo/>

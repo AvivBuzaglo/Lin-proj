@@ -1,0 +1,49 @@
+.user-orders-container {
+    text-align: right;
+    // background-color: bisque;
+}
+
+.user-orders-container h3 {
+    color: black;
+}
+
+.user-orders {
+    height: 16.563rem;
+    width: 95%;
+    justify-self: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 3px 0px;
+    padding: 1rem;
+}
+
+.user-orders h4 {
+    direction: rtl;
+}
+
+.user-closest-order {
+    margin-block-start: 0.6rem;
+    font-size: large;
+}
+
+.appointment-btn {
+    background-color: black;
+    border-radius: 28px;
+    width: 50%;
+    height: 3rem;
+    margin-block-start: 3rem;
+    
+    display: flex;
+    justify-self: center;
+    justify-content: center;
+}
+
+.appointment-btn a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    align-self: center;
+}
