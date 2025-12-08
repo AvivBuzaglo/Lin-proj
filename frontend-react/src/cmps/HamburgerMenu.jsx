@@ -18,7 +18,7 @@ export function HamburgerMenu() {
             <ul className={`nav-links ${open ? "show" : ""}`}>
                 <li><a href="/">דף בית</a></li>
                 {user && user._id && <li><a href="/appointment">קביעת תור</a></li>}
-                {user && user._id && <li><a href={`/user/${user._id}`}></a></li>}
+                {user && user._id && <li><a href={`/user/${user._id}`}>איזור אישי</a></li>}
                 {!user && <li><a href="/login/signup">הרשמה</a></li>}
                 {!user && <li><a href="/login">התחברות</a></li>}
                 <li><a href="/contact">מידע נוסף</a></li>
