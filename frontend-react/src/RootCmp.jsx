@@ -20,11 +20,13 @@ import { Signup } from './pages/Signup.jsx'
 import { Appointment } from './pages/Appointment.jsx'
 import { ContactCreator } from './pages/ContactCreator.jsx'
 import { AdminWatchOrders } from './pages/AdminWatchOrders.jsx'
+import { HamburgerMenu } from './cmps/HamburgerMenu.jsx'
 
 export function RootCmp() {
     return (
         <div className="main-container">
-            <AppHeader />
+            {/* <AppHeader /> */}
+            <HamburgerMenu />
             <UserMsg />
 
             <main>
@@ -48,7 +50,7 @@ export function RootCmp() {
                     </Route>
                 </Routes>
             </main>
-            <AppFooter />
+            {/* <AppFooter /> */}
         </div>
     )
 }
