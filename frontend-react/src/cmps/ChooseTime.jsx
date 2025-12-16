@@ -125,10 +125,26 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
         return endTime
     }
 
+        function translateCare() {
+        if(order.care === 'shaping') {
+            return 'עיצוב גבות + שפם'
+        }
+        if(order.care === 'lift') {
+            return 'הרמת גבות'
+        }
+        if(order.care === 'micro') {
+            return 'מיקרובליינדינג'
+        }
+    }
+
     return (
         <section className="choose-time-container">
             <h2>בחר שעה</h2>
             
+            <h4>הטיפול שנבחר:&nbsp;{translateCare()}</h4>
+            <h4>התאריך שנבחר:&nbsp;{order.date}</h4>
+
+
             <div className="choose-time">
                 {/* <table>
                     <tbody>
@@ -155,23 +171,32 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
                         </tr>                            
                     </tbody>
                 </table> */}
-                <div className="times">
+                {/* <div className="times">
                     {times1.map((time) => (
                         <span key={time}>
-                           { !(blockedHours.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
+                           { !(blockedHours.includes(time)) ? <button className="times-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
                         </span>
                     ))}
                     {times2.map((time) => (
                         <span key={time}>
-                            { !(blockedHours.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
+                            { !(blockedHours.includes(time)) ? <button className="times-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
                         </span>
                     ))}                                
                     {times3.map((time) => (
                         <span key={time}>
-                            { !(blockedHours.includes(time)) ? <button className="time-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
+                            { !(blockedHours.includes(time)) ? <button className="times-btn" onClick={() => handleTimeClicked(time)}>{time}</button> : ''}
                         </span>
                     ))}
-                </div>                                
+                </div>                                 */}
+                {/* <div className="times">
+                    {[...times1, ...times2, ...times3].map((time) =>
+                        !blockedHours.includes(time) && (
+                            <button key={time} className="times-btn" onClick={() => handleTimeClicked(time)}>
+                                {time}
+                            </button>
+                        )
+                    )}
+                </div> */}
             </div>
         </section>
     )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
 import { loadUser } from '../store/actions/user.actions'
 import { store } from '../store/store'
@@ -9,6 +9,7 @@ import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from
 import { userService } from '../services/user'
 import { orderService } from '../services/order/order.service.remote.js' // for remote
 import { blockedOrdersService } from '../services/order/blockedOrders.service.remote.js'
+import { appointmentSvgs } from '../cmps/Svgs.jsx'
 
 export function UserDetails() {
 
@@ -16,7 +17,7 @@ export function UserDetails() {
   const user = useSelector(storeState => storeState.userModule.watchedUser)
   const [orders, setOrders] = useState([])
   const times = ['9:00', '9:20', '9:40', '10:00', '10:20', '10:40', '11:00', '11:20', '11:40', '12:00', '12:20', '12:40', '13:00', '13:20', '13:40', '14:00', '14:20', '14:40', '15:00', '15:10', '15:30', '15:50', '16:10', '16:30']
-
+  const navigate = useNavigate()
 
   useEffect(() => {
     loadUser(params.id)
@@ -78,8 +79,13 @@ export function UserDetails() {
     showSuccessMsg('התור בוטל בהצלחה')
   }
 
+  function backBtn() {
+    navigate('/')
+  }
+
   return (
     <section className="user-details">
+      <button className="back-btn" onClick={() => backBtn()}>{appointmentSvgs.backBtn}</button>
       <h1 className='user-details-header'>פרטי  חשבון</h1>
       {user && <div>
         <h4>

@@ -32,11 +32,25 @@ export function ChooseDate({order, setOrder, year = new Date().getFullYear(), mo
         }, 10)      
     }
 
+    function translateCare() {
+        if(order.care === 'shaping') {
+            return 'עיצוב גבות + שפם'
+        }
+        if(order.care === 'lift') {
+            return 'הרמת גבות'
+        }
+        if(order.care === 'micro') {
+            return 'מיקרובליינדינג'
+        }
+    }
+
     return (
         
         <section className="choose-date-container">
             <h2>בחר יום</h2>
             
+            <h4>הטיפול שנבחר:&nbsp;{translateCare()}</h4>
+
             <div className="this-month">
                 <h4>{months[month]} {year}</h4>
                 <table>

@@ -9,6 +9,7 @@ import { orderService } from "../services/order/order.service.remote.js" // for 
 import { blockedOrdersService } from "../services/order/blockedOrders.service.remote.js"
 // import { orderService } from "../services/order/order.service.local.js" // for local
 import { userService } from "../services/user";
+import { appointmentSvgs } from "../cmps/Svgs.jsx"
 
 export function Appointment() {
     const [order, setOrder] = useState({
@@ -53,6 +54,7 @@ export function Appointment() {
         }
     },[readyToSave, orderConfirmed])
     
+
     function orderHandler(order) {
         setOrder(order)
     }
@@ -85,6 +87,42 @@ export function Appointment() {
         return res
     }
 
+    async function backBtn() {
+        if(showChooseCare) {
+            navigate('/')
+        }
+        if(!showChooseCare && showCalender) {
+            await setOrder({
+                    care: '',
+                    date: '',
+                    start: '',
+                    end: ''
+                })
+            await setShowCalender(false)
+            setShowChooseCare(true)
+        }
+        if(!showChooseCare && !showCalender && !readyToSave){
+            let currentOrder = order
+            await setOrder({
+                care: currentOrder.care,
+                date: '',
+                start: '',
+                end: '',
+            })
+            await setShowCalender(true)
+        }
+        if(readyToSave) {
+            let currentOrder = order
+            await setOrder({
+                care: currentOrder.care,
+                date: currentOrder.date,
+                start: '',
+                end: '',
+            })
+            setReadyToSave(false)
+        }
+    }
+
     function restartOrder() {
         setShowChooseCare(true)
         setShowCalender(false)
@@ -93,6 +131,7 @@ export function Appointment() {
 
     return (
         <div>
+            <button className="back-btn" onClick={() => backBtn()}>{appointmentSvgs.backBtn}</button>
             {showChooseCare && <ChooseCare order={order} setOrder={orderHandler} careHandler={careHandler}/>}
             {!showChooseCare && showCalender && <ChooseDate order={order} setOrder={orderHandler} calenderHandler={calenderHandler} blockedDatesParent={blockedDates}/>}
             {!showChooseCare && !showCalender && !readyToSave && <ChooseTime order={order} setOrder={orderHandler} setReadyToSave={setReadyToSave}/>}
