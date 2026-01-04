@@ -24,6 +24,8 @@ svg {
     padding: 1rem;
     align-self: center;
     margin-left: 0.625rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .user-orders h4 {
@@ -45,6 +47,7 @@ svg {
     display: flex;
     justify-self: center;
     justify-content: center;
+    align-self: center;
 }
 
 .appointment-btn a {
