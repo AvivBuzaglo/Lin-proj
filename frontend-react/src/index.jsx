@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import { Capacitor } from '@capacitor/core'
-import { StatusBar } from '@capacitor/status-bar'
+import { StatusBar, Style } from '@capacitor/status-bar'
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
@@ -14,9 +14,15 @@ import { RootCmp } from './RootCmp'
 
 import './assets/styles/main.scss'
 
+if(Capacitor.getPlatform() === 'android') {
+	StatusBar.setOverlaysWebView({ overlay: false })
+	StatusBar.setStyle({ style: Style.Dark })
+}
+
 if(Capacitor.isNativePlatform()) {
 	StatusBar.setOverlaysWebView({ overlay: false })
 }
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

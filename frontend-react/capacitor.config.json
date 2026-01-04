@@ -3,5 +3,17 @@
   "appName": "Lin Bitton",
   "webDir": "../backend/public",
   "bundledWebRuntime": false,
-  "server": "lin-bitton.onrender.com"
+  "server": "lin-bitton.onrender.com",
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "disable"
+    },
+    "Keyboard": {
+      "resizeOnFullScreen": false
+    },
+    "EdgeToEdge": {
+      "backgroundColor": "#000000"
+    }
+  }
 }
+
