@@ -7,6 +7,18 @@ export function UserOrders() {
     const user = useSelector(storeState => storeState.userModule.user) 
     const hasOrders = Array.isArray(user?.orders) && user.orders.length > 0 
 
+    function setCare(type) {
+        if(type === 'shaping') {
+            return 'עיצוב גבות + שפם'
+        }
+        else if(type === 'lift') {
+            return 'הרמת גבות'
+        }
+        else if(type === 'micro') {
+            return 'מיקרובליינדינג'
+        }
+    }
+
     return (
         <section className="user-orders-container">
             <h3>תורים &nbsp;{homePageSvgs.appointment}</h3>
@@ -16,7 +28,7 @@ export function UserOrders() {
                     {hasOrders && 
                         <ul className="user-closest-order">
                             <li><span>תאריך:</span>&nbsp;  {user.orders[0].date}</li>
-                            <li><span>סוג טיפול:</span>&nbsp; {user.orders[0].care}</li>
+                            <li><span>סוג טיפול:</span>&nbsp; {setCare(user.orders[0].care)}</li>
                             <li><span>שעת התחלה:</span>&nbsp;  {user.orders[0].start}</li>
                             <li><span>שעת סיום משוערת:</span>&nbsp;  {user.orders[0].end}</li>
                         </ul>
