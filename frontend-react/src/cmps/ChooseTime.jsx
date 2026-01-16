@@ -188,7 +188,7 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
                         </span>
                     ))}
                 </div>                                 */}
-                {/* <div className="times">
+                <div className="times">
                     {[...times1, ...times2, ...times3].map((time) =>
                         !blockedHours.includes(time) && (
                             <button key={time} className="times-btn" onClick={() => handleTimeClicked(time)}>
@@ -196,7 +196,7 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
                             </button>
                         )
                     )}
-                </div> */}
+                </div>
             </div>
         </section>
     )
