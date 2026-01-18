@@ -111,3 +111,16 @@ export function generateCalender(year, month) {
 
     return weeks
 }
+
+export function buildExpirationDate(date, end) {
+    const [day, month, year] = date.split(".")
+    const [hour, minute] = end.split(":")
+
+    return new Date(Date.UTC(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        Number(hour),
+        Number(minute)
+    ))
+}

@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb'
 import { config } from '../config/index.js'
 import { logger } from './logger.service.js'
 
-export const dbService = { getCollection }
+export const dbService = { getCollection, initIndexes }
 
 var dbConn = null
 
@@ -27,5 +27,18 @@ async function _connect() {
 	} catch (err) {
 		logger.error('Cannot Connect to DB', err)
 		throw err
+	}
+}
+
+async function initIndexes(collectionName) {
+	try {
+		const collection = await getCollection(collectionName)
+		await collection.createIndex(
+			{ expireAt: 1 },
+			{ expireAfterSeconds: 0 }
+		)
+		console.log(`TTL index ensured on ${collectionName}.expireAt`)
+	} catch (err) {
+		console.error(`Failed to create TTL index on ${collectionName}`, err)
 	}
 }

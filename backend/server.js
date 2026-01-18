@@ -15,6 +15,8 @@ import { blockedHoursRoutes } from './api/blockedHours/blockedHours.routs.js'
 import { blockedDatesRoutes } from './api/blockedDates/blockedDates.routs.js'
 import { setupSocketAPI } from './services/socket.service.js'
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
+import { orderService } from './api/order/order.service.js'
+import { dbService } from './services/db.service.js'
 
 const app = express()
 const server = http.createServer(app)
@@ -141,6 +143,24 @@ app.get('/health', (req, res) => {
 
 const port = process.env.PORT || 3030
 
-server.listen(port, () => {
-    logger.info('Server is running on port: ' + port)
-})
+// server.listen(port, () => {
+//     logger.info('Server is running on port: ' + port)
+// })
+
+
+async function startServer() {
+    try {
+        await dbService.initIndexes('orders')
+        // await dbService.initIndexes('blockedDates')
+        // await dbService.initIndexes('blockedHoures')
+
+        server.listen(port, () => {
+            logger.info('Server is running on port: ' + port)
+        })
+    } catch (err) {
+        logger.error('Failed to start server', err)
+    }
+}
+
+startServer()
+

@@ -1,4 +1,5 @@
 import { orderService } from "./order.service.js"
+import { buildExpirationDate } from "../../services/util.service.js"
 import { logger } from '../../services/logger.service.js'
 
 
@@ -17,6 +18,9 @@ export async function getOrders(req, res) {
 
 export async function postOrder(req, res) {
     const orderToSave = req.body
+
+
+    orderToSave.expireAt = new Date (buildExpirationDate(orderToSave.date, orderToSave.end)) 
     try {
         await orderService.save(orderToSave)
         .then(savedOrder => res.send(savedOrder))

@@ -33,9 +33,24 @@ function remove(orderId) {
 
 function save(order) {
     const owner = userService.getLoggedinUser()
+    const expirationDate = buildExpirationDate(order.date, order.end)
     order.owner = {
         _id: owner._id,
         fullname: owner.fullname
     }
+    order.expireAt = expirationDate
     return axios.post(BASE_URL, order).then(res => res.data)
+}
+
+function buildExpirationDate(date, end) {
+    const [day, month, year] = date.split(".")
+    const [hour, minute] = end.split(":")
+
+    return new Date(Date.UTC(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        Number(hour),
+        Number(minute)
+    ))
 }
