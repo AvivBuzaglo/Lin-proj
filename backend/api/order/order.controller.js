@@ -20,7 +20,7 @@ export async function postOrder(req, res) {
     const orderToSave = req.body
 
 
-    orderToSave.expireAt = new Date (buildExpirationDate(orderToSave.date, orderToSave.end)) 
+    orderToSave.expiresAt = new Date (buildExpirationDate(orderToSave.date, orderToSave.end)) 
     try {
         await orderService.save(orderToSave)
         .then(savedOrder => res.send(savedOrder))

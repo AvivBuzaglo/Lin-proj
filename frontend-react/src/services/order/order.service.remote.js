@@ -38,7 +38,7 @@ function save(order) {
         _id: owner._id,
         fullname: owner.fullname
     }
-    order.expireAt = expirationDate
+    order.expiresAt = expirationDate
     return axios.post(BASE_URL, order).then(res => res.data)
 }
 

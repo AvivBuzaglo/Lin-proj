@@ -34,10 +34,10 @@ async function initIndexes(collectionName) {
 	try {
 		const collection = await getCollection(collectionName)
 		await collection.createIndex(
-			{ expireAt: 1 },
+			{ expiresAt: 1 },
 			{ expireAfterSeconds: 0 }
 		)
-		console.log(`TTL index ensured on ${collectionName}.expireAt`)
+		console.log(`TTL index ensured on ${collectionName}.expiresAt`)
 	} catch (err) {
 		console.error(`Failed to create TTL index on ${collectionName}`, err)
 	}
