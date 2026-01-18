@@ -1,5 +1,6 @@
 import { blockOrdersService } from './blockedOrders.service.js'
 import { logger } from '../../services/logger.service.js'
+import { buildBlockedExpirationDate } from '../../services/util.service.js'
 
 
 export async function getHours(req, res) { 
@@ -41,6 +42,8 @@ export async function updateHours(req, res) {
 
 export async function postHours(req, res) {
     const blockedHours = req.body
+
+    blockedHours.expiresAt = new Date(buildBlockedExpirationDate(blockedHours.date))
     try {
         await blockOrdersService.postHours(blockedHours)
         .then(() => res.send({ msg: 'Saved successfully' }))

@@ -152,7 +152,7 @@ async function startServer() {
     try {
         await dbService.initIndexes('orders')
         // await dbService.initIndexes('blockedDates')
-        // await dbService.initIndexes('blockedHoures')
+        await dbService.initIndexes('blockedHoures')
 
         server.listen(port, () => {
             logger.info('Server is running on port: ' + port)

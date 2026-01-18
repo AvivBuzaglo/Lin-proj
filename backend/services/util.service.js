@@ -124,3 +124,12 @@ export function buildExpirationDate(date, end) {
         Number(minute)
     ))
 }
+
+export function buildBlockedExpirationDate(date) {
+	const [day, month, year] = date.split(".").map(Number)
+	const baseDate = new Date(Date.UTC(year, month - 1, day))
+
+	baseDate.setUTCDate(baseDate.getUTCDate() + 1)
+
+	return baseDate
+}
