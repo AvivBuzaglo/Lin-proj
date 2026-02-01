@@ -4,11 +4,11 @@ import { userService } from '../user/index.js'
 
 const isMobile = typeof window !== 'undefined' && !!window.Capacitor
 
-const BASE_URL = process.env.NODE_ENV === 'production' || isMobile
-    ? 'https://lin-bitton.onrender.com/api/order/'
-    : '//localhost:3030/api/order/'
+// const BASE_URL = process.env.NODE_ENV === 'production' || isMobile
+//     ? 'https://lin-bitton.onrender.com/api/order/'
+//     : '//localhost:3030/api/order/'
     
-// const BASE_URL = '/api/order/'
+const BASE_URL = 'https://lin-bitton.onrender.com/api/order/'
 
 export const orderService = {
   query,

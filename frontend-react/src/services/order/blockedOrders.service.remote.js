@@ -6,14 +6,17 @@ import axios from 'axios'
 
 const isMobile = typeof window !== 'undefined' && !!window.Capacitor
 
-const DATE_BASE_URL = process.env.NODE_ENV === 'production' || isMobile
-    ? 'https://lin-bitton.onrender.com/api/blockedDates/'
-    : '//localhost:3030/api/blockedDates/'
+// const DATE_BASE_URL = process.env.NODE_ENV === 'production' || isMobile
+//     ? 'https://lin-bitton.onrender.com/api/blockedDates/'
+//     : '//localhost:3030/api/blockedDates/'
 
+const DATE_BASE_URL = 'https://lin-bitton.onrender.com/api/blockedDates/'
 
-const HOURS_BASE_URL = process.env.NODE_ENV === 'production' || isMobile
-    ? 'https://lin-bitton.onrender.com/api/blockedhours/'
-    : '//localhost:3030/api/blockedhours/'
+// const HOURS_BASE_URL = process.env.NODE_ENV === 'production' || isMobile
+//     ? 'https://lin-bitton.onrender.com/api/blockedhours/'
+//     : '//localhost:3030/api/blockedhours/'
+
+const HOURS_BASE_URL = 'https://lin-bitton.onrender.com/api/blockedhours/'
 
 export const blockedOrdersService = {
     queryDates,

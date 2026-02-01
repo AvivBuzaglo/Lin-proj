@@ -19,10 +19,12 @@ const isIOS = Capacitor.getPlatform() === 'ios'
 
 const isSimulator = isIOS && navigator.userAgent.includes('Simulator')
 
-const BASE_URL= 
-    process.env.NODE_ENV === 'production' || (isNative && !isSimulator)
-        ? 'https://lin-bitton.onrender.com/api/'
-        : 'http://localhost:3030/api/'
+// const BASE_URL= 
+//     process.env.NODE_ENV === 'production' || (isNative && !isSimulator)
+//         ? 'https://lin-bitton.onrender.com/api/'
+//         : 'http://localhost:3030/api/'
+
+const BASE_URL = 'https://lin-bitton.onrender.com/api/'
 
 const axios = Axios.create({ withCredentials: true })
 axios.defaults.withCredentials = true
