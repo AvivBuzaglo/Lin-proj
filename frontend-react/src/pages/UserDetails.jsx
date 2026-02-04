@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
-import { loadUser } from '../store/actions/user.actions'
+import { loadUser, updateUser } from '../store/actions/user.actions'
 import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from '../services/socket.service'
@@ -75,6 +75,7 @@ export function UserDetails() {
     user.orders = newOrders
 
     await userService.update(user)
+    await updateUser(user)
     setOrders(newOrders)
     showSuccessMsg('התור בוטל בהצלחה')
   }
