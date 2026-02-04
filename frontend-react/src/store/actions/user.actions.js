@@ -142,3 +142,23 @@ export async function loadLoggedinUser() {
         console.log('Cannot load loggedin user', err)
     }
 }
+
+export async function updateUser(updatedUser) {
+    try {
+        const newToken =  await userService.updateToken(updatedUser)
+        
+        await Preferences.set({
+            key: 'loginToken',
+            value: newToken
+        })
+
+        await Preferences.set({
+            key: 'loggedInUser',
+            value: JSON.stringify(updatedUser)
+        })
+        
+        store.dispatch({ type: SET_USER, user: updatedUser })
+    } catch (err) {
+        console.log('Cannot update user in store.', err)
+    }
+}

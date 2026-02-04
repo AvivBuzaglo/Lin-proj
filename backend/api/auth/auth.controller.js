@@ -89,6 +89,18 @@ export async function loggedinUser(req, res) {
 	}
 }
 
+export async function resetToken(req, res) {
+	try { 
+		const user = req.body
+		const newToken = await authService.getLoginToken(user)
+
+		res.json(newToken)
+	} catch (err) {
+		console.error('Failed to rest token', err)
+		res.status(500).send({ err: 'Failed to reset token' })
+	}
+}
+
 // export async function loggedinUser(req, res) {
 // 	try {
 // 		const loginToken = req.cookies.loginToken

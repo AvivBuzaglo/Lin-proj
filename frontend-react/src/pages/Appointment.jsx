@@ -10,6 +10,7 @@ import { blockedOrdersService } from "../services/order/blockedOrders.service.re
 // import { orderService } from "../services/order/order.service.local.js" // for local
 import { userService } from "../services/user";
 import { appointmentSvgs } from "../cmps/Svgs.jsx"
+import { updateUser } from "../store/actions/user.actions.js";
 
 export function Appointment() {
     const [order, setOrder] = useState({
@@ -83,6 +84,7 @@ export function Appointment() {
         }
         
         const res = await userService.update(updatedUser)
+        updateUser(updatedUser)
         // localStorage.setItem('loggedinUser', JSON.stringify(res))
         return res
     }

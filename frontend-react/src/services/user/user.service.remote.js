@@ -15,6 +15,7 @@ export const userService = {
     getLoggedinUser,
     saveLoggedinUser,
 	getLoggedinUserToken,
+	updateToken
 }
 
 function getUsers() {
@@ -48,6 +49,11 @@ async function update({ _id, fullname, phoneNumber, orders, score }) {
     if (loggedinUser._id === user._id) saveLoggedinUser(user)
 
 	return user
+}
+
+async function updateToken(user) {
+	const newToken = await httpService.post('auth/updateToken', user)
+	return newToken 
 }
 
 // async function login(userCred) {
