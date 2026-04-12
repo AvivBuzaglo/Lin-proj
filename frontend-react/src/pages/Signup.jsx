@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { signup } from '../store/actions/user.actions'
+import { login, signup } from '../store/actions/user.actions'
 
 import { ImgUploader } from '../cmps/ImgUploader'
 import { userService } from '../services/user'
@@ -29,6 +29,10 @@ export function Signup() {
         if (!credentials.username || !credentials.password || !credentials.fullname || !credentials.phoneNumber) return
         try{
             await signup(credentials)
+            await login({
+                username: credentials.username,
+                password: credentials.password
+            })
             clearState()
             navigate('/')
         } catch (err) {

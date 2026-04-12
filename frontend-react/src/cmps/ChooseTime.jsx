@@ -20,9 +20,11 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
         useEffect(() => {
             async function getBlocked() {
                 const result = await blockedOrdersService.queryHours()
-                result.forEach(element => {
-                    element.date === orderToEdit.date ? setBlockedHours(element.hours) : setBlockedHours([])
-                })
+                // result.forEach(element => {
+                //     element.date === orderToEdit.date ? setBlockedHours(element.hours) : setBlockedHours([])
+                // })
+                const match = result.find(el => el.date === orderToEdit.date)
+                setBlockedHours(match ? match.hours : [])
             }
             getBlocked()
 
@@ -60,10 +62,12 @@ export function ChooseTime({order, setOrder, setReadyToSave}) {
             async function checkCare() {
                 const care = orderToEdit.care
                 const result = await blockedOrdersService.queryHours()
-                let blocked 
-                result.forEach(element => {
-                    element.date === orderToEdit.date ? blocked = element.hours : blocked = []
-                })
+                // let blocked 
+                // result.forEach(element => {
+                //     element.date === orderToEdit.date ? blocked = element.hours : blocked = []
+                // })
+                const match = result.find(el => el.date === orderToEdit.date)
+                const blocked = match ? match.hours : []
 
                 if(care === 'micro') {
                     blocked.map(item => {
