@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 import { EditAvailbleOrders } from '../cmps/EditAvailbleOrders'
 import { BlockHours } from '../cmps/BlockHours'
 import { orderService } from '../services/order/order.service.remote.js'
+import { appointmentSvgs } from "../cmps/Svgs.jsx"
 
 export function AdminIndex() {
     
@@ -95,10 +96,18 @@ export function AdminIndex() {
             })
     }
 
+    function backBtn() {
+        if(!showAvailble && !showBlockedHours && !menageUsers) {
+            navigate('/')
+        }
+    }
+
 	return (
         <section className="admin">
             {isLoading && 'Loading...'}
-
+            {(!showAvailble && !showBlockedHours && !menageUsers) &&
+            <button className="back-btn" onClick={() => backBtn()}>{appointmentSvgs.backBtn}</button>}
+            
             {(showAvailble || showBlockedHours || menageUsers) &&<div className='admin-close-btn'>
                 <button className='close-btn' onClick={() => {
                     setShowAvailble(false)

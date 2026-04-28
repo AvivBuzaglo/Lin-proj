@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import { loadUsers, removeUser } from '../store/actions/user.actions'
 import { generateCalender } from "../services/util.service.js"
 import { orderService } from '../services/order/order.service.remote.js'
+import { appointmentSvgs } from "../cmps/Svgs.jsx"
 
 export function AdminWatchOrders() {
     const [orders, setOrders] = useState([])
@@ -51,8 +52,20 @@ export function AdminWatchOrders() {
         }
     }    
 
+    function backBtn() {
+        if(!showOrders) {
+            navigate('/admin')
+        }
+        if(showOrders) {
+            setShowOrders(false)
+        }
+    }
+
     return (
         <section className='admin-watch-orders'>
+
+            <button className="back-btn" onClick={() => backBtn()}>{appointmentSvgs.backBtn}</button>
+
         {!showOrders && <div><h2>בחר יום להצגה</h2>
             
             <div className="this-month">

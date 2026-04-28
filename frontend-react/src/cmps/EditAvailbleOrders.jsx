@@ -98,13 +98,27 @@ export function EditAvailbleOrders({showBlockedHours, setShowAvailble, setDateFo
                         </tr>
                     </thead>
                     <tbody>
-                        {nextWeeks.map((week, i) => (
+                        {/* {nextWeeks.map((week, i) => (
                             <tr key={i}>
                                 {week.map((date, j) => (
                                     <td key={j}>
                                         {(date && !(blockedDates.includes(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)) && j !== 5 && j !== 6 ) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)}>{date.getDate()}</button> : ''}
                                     </td>
                                 ))}
+                            </tr>
+                        ))} */}
+                        {nextWeeks.map((week, i) => (
+                            <tr key={i}>
+                                {!showBlockedHours && week.map((date, j) => (
+                                    <td key={j}>
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)) && j !== 5 && j !== 6 ) ? <button className="date-btn" onClick={() => handleDateClicked(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)}>{date.getDate()}</button> : (date && j !== 5 && j !== 6 ) ? <button className="date-btn" style={{opacity:"30%"}} onClick={() => handleBlockedClicked(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)}>{date.getDate()}</button> : ''}
+                                    </td>
+                                ))}
+                                {showBlockedHours && week.map((date, j) => (
+                                    <td key={j}>
+                                        {(date && !(blockedDates.includes(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)) && j !== 5 && j !== 6 ) ? <button className="date-btn" onClick={() => handleDateSetClicked(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)}>{date.getDate()}</button> : (date && j !== 5 && j !== 6 ) ? <button className="date-btn" style={{opacity:"30%"}} onClick={() => handleBlockedClicked(`${date.getDate()}.${nextMonth.getMonth() + 1}.${year}`)}>{date.getDate()}</button> : ''}
+                                    </td>
+                                ))}                                
                             </tr>
                         ))}
                     </tbody>
