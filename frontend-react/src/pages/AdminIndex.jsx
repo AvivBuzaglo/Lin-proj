@@ -6,6 +6,8 @@ import { EditAvailbleOrders } from '../cmps/EditAvailbleOrders'
 import { BlockHours } from '../cmps/BlockHours'
 import { orderService } from '../services/order/order.service.remote.js'
 import { appointmentSvgs } from "../cmps/Svgs.jsx"
+import { syncAllAppointments } from '../services/admin/admin.service.js'
+
 
 export function AdminIndex() {
     
@@ -19,6 +21,7 @@ export function AdminIndex() {
 	const user = useSelector(storeState => storeState.userModule.user)
 	const users = useSelector(storeState => storeState.userModule.users)
 	const isLoading = useSelector(storeState => storeState.userModule.isLoading)
+
 
 	useEffect(() => {
         if(!user.isAdmin) navigate('/')
@@ -128,7 +131,10 @@ export function AdminIndex() {
                     <button className='menage-btn' onClick={() => handleCmpClicked('menageUsers')}>{menageUsers ? 'X' : 'ניהול משתמשים'}</button>
                 </div>
                 <div>
-                    <button className='blocked-btn' onClick={() => goToOrders()}>orders</button>
+                    <button className='blocked-btn' onClick={() => goToOrders()}>תורים</button>
+                </div>
+                <div> 
+                    <button className='blocked-btn' onClick={syncAllAppointments}>סינכרון תורים ללוח שנה</button>
                 </div>
             </div>}            
 
