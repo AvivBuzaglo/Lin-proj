@@ -1,5 +1,6 @@
 import { authService } from './auth.service.js'
 import { logger } from '../../services/logger.service.js'
+import { userService } from '../user/user.service.js'
 
 export async function login(req, res) {
 	const { username, password } = req.body
@@ -82,7 +83,12 @@ export async function loggedinUser(req, res) {
 	try {
 		const loginToken = req.headers.authorization?.replace('Bearer ', '')
 		const loggedinUser = await authService.validateToken(loginToken)
-		res.json(loggedinUser)
+		const freshUser = await userService.getById(loggedinUser._id)
+
+		console.log('loggedinUser: ',loggedinUser)
+		console.log('freshUser: ',freshUser)
+		// res.json(loggedinUser)
+		res.json(freshUser)
 	} catch (err) {
 		logger.error('No loggedin user ' + err)
 		res.status(401).send({ err: 'No loggedin user' })
