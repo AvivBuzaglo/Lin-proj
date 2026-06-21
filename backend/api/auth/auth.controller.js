@@ -84,10 +84,6 @@ export async function loggedinUser(req, res) {
 		const loginToken = req.headers.authorization?.replace('Bearer ', '')
 		const loggedinUser = await authService.validateToken(loginToken)
 		const freshUser = await userService.getById(loggedinUser._id)
-
-		console.log('loggedinUser: ',loggedinUser)
-		console.log('freshUser: ',freshUser)
-		// res.json(loggedinUser)
 		res.json(freshUser)
 	} catch (err) {
 		logger.error('No loggedin user ' + err)

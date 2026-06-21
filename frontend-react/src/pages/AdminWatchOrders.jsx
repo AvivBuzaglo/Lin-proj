@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router'
 import { loadUsers, removeUser } from '../store/actions/user.actions'
 import { generateCalender } from "../services/util.service.js"
 import { orderService } from '../services/order/order.service.remote.js'
+import { userService } from '../services/user/user.service.remote.js'
 import { appointmentSvgs } from "../cmps/Svgs.jsx"
+import { blockedOrdersService } from '../services/order/blockedOrders.service.remote.js'
+import { showSuccessMsg } from '../services/event-bus.service.js'
 
 export function AdminWatchOrders() {
     const [orders, setOrders] = useState([])
@@ -22,6 +25,8 @@ export function AdminWatchOrders() {
     const nextWeeks = generateCalender(year, nextMonth.getMonth())
     const daysOfWeek = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
     const months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']    
+    const times = ['9:00', '9:20', '9:40', '10:00', '10:20', '10:40', '11:00', '11:20', '11:40', '12:00', '12:20', '12:40', '13:00', '13:20', '13:40', '14:00', '14:20', '14:40', '15:00', '15:10', '15:30', '15:50', '16:10', '16:30']
+
 
     useEffect(() => {
         if(!user.isAdmin) navigate('/')
@@ -50,7 +55,40 @@ export function AdminWatchOrders() {
         else if(type === 'micro') {
             return 'מיקרובליינדינג'
         }
-    }    
+    }
+    
+    async function onCancelOrder(ownerId, order) {
+
+        console.log(`ownerId: ${ownerId}, orderId: ${order._id}`)
+
+        const user = await userService.getById(ownerId)
+        console.log('user: ', user)
+
+        const newOrders = await user.orders.filter((item) => (item.date !== order.date) && (item.start !== order.start))
+        console.log('old orders: ' ,  user.orders)
+        console.log("new orders: ", newOrders)
+
+        user.orders = newOrders
+        console.log('new user orders after change: ', user.orders)
+
+        await userService.update(user)
+        
+        await orderService.remove(order._id)
+        if(order.care === 'micro' || order.care === 'lift') {
+            const index1 = times.indexOf(order.start)
+            const index2 = times.indexOf(order.end)
+            const occupiedHours = times.slice(index1, index2)
+            
+            for(let hour of occupiedHours) {
+                await blockedOrdersService.removeHours({date: order.date, start: hour})
+            }
+        } else {
+            await blockedOrdersService.removeHours({date: order.date, start: order.start})
+        }
+        
+        await getOrders()
+        showSuccessMsg('התור בוטל בהצלחה!')
+    }
 
     function backBtn() {
         if(!showOrders) {
@@ -129,6 +167,7 @@ export function AdminWatchOrders() {
                             <span> סוג טיפול: <span style={{fontWeight: 'normal'}}>{setCare(order.care)}</span> </span>
                             <span> שעת התחלה: <span style={{fontWeight: 'normal'}}>{order.start}</span></span>
                             <span> שעת סיום: <span style={{fontWeight: 'normal'}}>{order.end}</span></span>
+                            <button className='admin-cancel-btn' onClick={() => onCancelOrder(order.owner._id, order)}>ביטול התור</button>
                         </li>
                         
                     ))}  

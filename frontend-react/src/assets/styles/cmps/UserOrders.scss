@@ -37,6 +37,11 @@ svg {
     font-size: large;
 }
 
+.btn-div{
+    display: flex;
+    justify-content: space-between;
+}
+
 .appointment-btn {
     background-color: black;
     border-radius: 28px;

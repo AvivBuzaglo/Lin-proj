@@ -112,7 +112,7 @@ export function UserDetails() {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order, i) =>(
+              {/* {orders.map((order, i) =>(
                 <tr key={i}>
                   <td className='user-tbody-td'>{setCare(order.care)}</td>
                   <td className='user-tbody-td'>{order.date}</td>
@@ -120,7 +120,27 @@ export function UserDetails() {
                   <td className='user-tbody-td'>{order.end}</td>
                   <td><button className='cancel-order-btn' onClick={() => onCancelOrder(order.date, order.start, i)}>בטל תור</button></td>
                 </tr>
-              ))}
+              ))} */}
+              {orders.map((order, i) => {
+                const [day, month, year] = order.date.split(".").map(Number)
+                const orderDate = new Date(year, month - 1, day)
+                const today = new Date()
+                const hasPassed = orderDate < today
+
+                return (
+                  <tr key={i}>
+                    <td className='user-tbody-td'>{setCare(order.care)}</td>
+                    <td className='user-tbody-td'>{order.date}</td>
+                    <td className='user-tbody-td'>{order.start}</td>
+                    <td className='user-tbody-td'>{order.end}</td>
+                    <td>
+                      {!hasPassed && (
+                        <button className='cancel-order-btn' onClick={() => onCancelOrder(order.date, order.start, i)}>בטל תור</button>
+                      )}
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
