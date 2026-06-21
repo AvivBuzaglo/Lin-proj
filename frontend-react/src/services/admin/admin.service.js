@@ -4,6 +4,21 @@ import { orderService } from "../order/order.service.remote.js";
 const CalendarPlugin = registerPlugin('CapacitorCalendar')
 
 export const syncAllAppointments = async () => {
+    const { result: currentPermission } = await CalendarPlugin.checkPermission({ scope: 'writeCalendar' })
+
+    let finalPermission = currentPermission
+
+    if (currentPermission === 'prompt' || currentPermission === 'prompt-with-rationale') {
+        const { result: requested } = await CalendarPlugin.requestPermission({ scope: 'writeCalendar' })
+        finalPermission = requested
+    }
+
+    if (finalPermission !== 'granted') {
+        alert("כדי לסנכרן תורים, יש לאפשר גישה ליומן בהגדרות הטלפון:\nהגדרות > פרטיות > יומן > Lin Bitton")
+        return
+    }
+
+
     const appointments = await orderService.query()
 
     try {
