@@ -4,7 +4,9 @@ import { store } from '../store'
 import { Preferences } from '@capacitor/preferences'
 import { showErrorMsg } from '../../services/event-bus.service'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
-import { REMOVE_USER, SET_USER, SET_USERS, SET_WATCHED_USER } from '../reducers/user.reducer' 
+import { REMOVE_USER, SET_USER, SET_USERS, SET_WATCHED_USER } from '../reducers/user.reducer'
+import { Capacitor } from '@capacitor/core'
+import { FirebaseMessaging } from '@capacitor-firebase/messaging'
 
 export async function loadUsers() {
     try {
@@ -63,6 +65,16 @@ export async function login(credentials) {
             user
         })
         socketService.login(user._id)
+
+        if(Capacitor.isNativePlatform()) {
+            try {
+                const { token } = await FirebaseMessaging.getToken()
+                if(token) await userService.updateFcmToken(user._id, token)
+            } catch (err) {
+                console.log('Failed to update FCM token', err)
+            }
+        }
+
         return user
     } catch (err) {
         showErrorMsg('Cannot login', err)
@@ -82,6 +94,16 @@ export async function signup(credentials) {
             value: JSON.stringify(user)
         })
         socketService.login(user._id)
+
+        if(Capacitor.isNativePlatform()) {
+            try {
+                const { token } = await FirebaseMessaging.getToken()
+                if(token) await userService.updateFcmToken(user._id, token)
+            } catch (err) {
+                console.log('Failed to update FCM token', err)
+            }
+        }
+
         return user
     } catch (err) {
         showErrorMsg('Cannot signup', err)

@@ -47,3 +47,15 @@ export async function updateUser(req, res) {
         res.status(400).send({ err: 'Failed to update user' })
     }
 }
+
+export async function updateFcmToken(req, res) {
+    try {
+        const { fcmToken } = req.body
+        const userId = req.params.id
+        await userService.updateFcmToken(userId, fcmToken)
+        res.send({ msg: 'FCM token updated successfully' })
+    } catch (err) {
+        logger.error('Failed to update FCM token', err)
+        res.status(400).send({ err: 'Failed to update FCM token' })
+    }
+}

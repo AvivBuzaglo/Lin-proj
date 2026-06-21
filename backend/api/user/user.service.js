@@ -10,6 +10,7 @@ export const userService = {
 	remove, // Delete (remove user)
 	query, // List (of users)
 	getByUsername, // Used for Login
+    updateFcmToken
 }
 
 async function query(filterBy = {}) {
@@ -116,6 +117,17 @@ async function add(user) {
 		logger.error('cannot add user', err)
 		throw err
 	}
+}
+
+async function updateFcmToken(userId, fcmToken) {
+    try {
+        const criteria = { _id: ObjectId.createFromHexString(userId) }
+        const collection = await dbService.getCollection('user')
+        await collection.updateOne(criteria, { $set: { fcmToken } })
+    } catch (err) {
+        logger.error(`cannot update fcm token for user ${userId}`, err)
+        throw err
+    }
 }
 
 function _buildCriteria(filterBy) {

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 
 import { Capacitor } from '@capacitor/core'
 import { StatusBar, Style } from '@capacitor/status-bar'
+import { initPushNotifications } from './services/pushNotifications'
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
@@ -21,6 +22,7 @@ if(Capacitor.getPlatform() === 'android') {
 
 if(Capacitor.isNativePlatform()) {
 	StatusBar.setOverlaysWebView({ overlay: false })
+	initPushNotifications()
 }
 
 

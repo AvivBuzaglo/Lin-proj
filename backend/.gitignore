@@ -1,3 +1,4 @@
 node_modules
 logs
 android/
+firebase-service-account.json
