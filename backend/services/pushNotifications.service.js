@@ -1,9 +1,10 @@
-import admin from 'firebase-admin'
+import { cert, initializeApp } from 'firebase-admin/app'
+import { getMessaging } from 'firebase-admin/messaging'
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+initializeApp({
+  credential: cert(serviceAccount),
 })
 
 export async function sendPushNotification(deviceToken, title, body, data = {}) {
@@ -21,6 +22,6 @@ export async function sendPushNotification(deviceToken, title, body, data = {}) 
     },
   }
 
-  const response = await admin.messaging().send(message)
+  const response = await getMessaging().send(message)
   return response
 }
