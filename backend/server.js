@@ -17,6 +17,7 @@ import { setupSocketAPI } from './services/socket.service.js'
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
 import { orderService } from './api/order/order.service.js'
 import { dbService } from './services/db.service.js'
+import { sendPushNotification } from './services/pushNotifications.service.js'
 
 const app = express()
 const server = http.createServer(app)
@@ -131,6 +132,20 @@ async function tryMongo() {
     connection.close()
 }
 
+app.get('/api/test-notification', async (req, res) => {
+    try {
+        const collection = await dbService.getCollection('user')
+        const user = await collection.findOne({ username: 'avivbuzaglo' })
+        
+        if (!user?.fcmToken) return res.status(400).send({ err: 'No FCM token found for user' })
+        
+        await sendPushNotification(user.fcmToken, 'Test Notification', 'Hello from your backend! 🎉')
+        res.send({ success: true })
+    } catch (err) {
+        logger.error('Failed to send test notification', err)
+        res.status(500).send({ err: err.message })
+    }
+})
 
 app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
