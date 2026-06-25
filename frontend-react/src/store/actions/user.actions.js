@@ -98,7 +98,9 @@ export async function signup(credentials) {
         if(Capacitor.isNativePlatform()) {
             try {
                 const { token } = await FirebaseMessaging.getToken()
+                console.log('Sending FCM token to backend:', token)
                 if(token) await userService.updateFcmToken(user._id, token)
+                    console.log('FCM token update result:', result)
             } catch (err) {
                 console.log('Failed to update FCM token', err)
             }
@@ -155,6 +157,16 @@ export async function loadLoggedinUser() {
         if(!user) user = null
         console.log('Dispathcing user:', user)
         store.dispatch({ type: SET_USER, user })
+
+        if(user && Capacitor.isNativePlatform()) {
+            try {
+                const { token } = await FirebaseMessaging.getToken()
+                console.log('Sending FCM token to backend:', token)
+                if(token) await userService.updateFcmToken(user._id, token)
+            } catch (err) {
+                console.log('Failed to update FCM token:', err)
+            }
+        }
 
         if(user && ! await userService.getLoggedinUser()) {
             userService.saveLoggedinUser(user)

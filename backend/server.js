@@ -132,20 +132,6 @@ async function tryMongo() {
     connection.close()
 }
 
-app.get('/api/test-notification', async (req, res) => {
-    try {
-        const collection = await dbService.getCollection('user')
-        const user = await collection.findOne({ username: 'avivbuzaglo' })
-        
-        if (!user?.fcmToken) return res.status(400).send({ err: 'No FCM token found for user' })
-        
-        await sendPushNotification(user.fcmToken, 'Test Notification', 'Hello from your backend! 🎉')
-        res.send({ success: true })
-    } catch (err) {
-        logger.error('Failed to send test notification', err)
-        res.status(500).send({ err: err.message })
-    }
-})
 
 app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
