@@ -57,7 +57,7 @@ if(isOutdated) return (
         <a href={Capacitor.getPlatform() === 'ios' 
             ? 'https://apps.apple.com/il/app/lin-bitton/id6757673216' 
             : 'https://play.google.com/store/apps/details?id=com.linbitton.app'}>
-            <button>עדכן עכשיו</button>
+            <button className="update-btn">עדכן עכשיו</button>
         </a>
     </section>
 )
