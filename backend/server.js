@@ -132,6 +132,9 @@ async function tryMongo() {
     connection.close()
 }
 
+app.get('/api/version', (req, res) => {
+    res.send({ minVersion: process.env.MIN_APP_VERSION || '1.0.6' })
+})
 
 app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
@@ -139,11 +142,6 @@ app.get('/**', (req, res) => {
 
 app.get('/health', (req, res) => {
   res.status(200).send('OK')
-})
-
-
-app.get('/api/version', (req, res) => {
-    res.send({ minVersion: process.env.MIN_APP_VERSION || '1.0.6' })
 })
 
 const port = process.env.PORT || 3030
