@@ -143,6 +143,11 @@ export async function loadLoggedinUser() {
         let user = await userService.getLoggedinUserToken()
         console.log('User from token:', user)
 
+        if(!user || user.error) {
+            sessionStorage.removeItem('loggedinUser')
+            user = null
+        }
+
         if(!user) {
             const { value } = await Preferences.get({ key: 'loggedInUser' })
             console.log('Loaded from Preferences:', value)

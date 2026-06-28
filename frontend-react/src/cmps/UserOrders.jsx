@@ -51,7 +51,7 @@ export function UserOrders() {
                             <button className="appointment-btn"><a href="/appointment">קביעת תור</a></button>
                         </div>
                     }
-                    {!hasOrders &&
+                    {user && !hasOrders &&
                         <button className="appointment-btn"><a href="/appointment">קביעת תור</a></button>
                     }
             </div>

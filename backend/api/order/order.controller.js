@@ -37,7 +37,7 @@ export async function postOrder(req, res) {
             await sendPushNotification(
                 orderOwner.fcmToken,
                 'התור נקבע בהצלחה!',
-                `התור שלך ל${orderToSave.care} בתאריך ${orderToSave.date} בשעה ${orderToSave.start} נקלט בהצלחה!`
+                `התור שלך ל${getCareLabel(orderToSave.care)} בתאריך ${orderToSave.date} בשעה ${orderToSave.start} נקלט בהצלחה!`
             )
         }
 
@@ -47,7 +47,7 @@ export async function postOrder(req, res) {
                 await sendPushNotification(
                     admin.fcmToken,
                     'תור חדש נקבע!', 
-                    `${orderToSave.owner.fullname} קבע תור ל ${orderToSave.care} בתאריך ${orderToSave.date} בשעה ${orderToSave.start}`
+                    `${orderToSave.owner.fullname} קבע תור ל ${getCareLabel(orderToSave.care)} בתאריך ${orderToSave.date} בשעה ${orderToSave.start}`
                 )
             }
         }
@@ -87,7 +87,7 @@ export async function deleteOrder(req, res) {
                 await sendPushNotification(
                     orderOwner.fcmToken,
                     'תור בוטל!',
-                    `התור שלך ל${order.care} בתאריך ${order.date} בשעה ${order.start} בוטל`
+                    `התור שלך ל${getCareLabel(order.care)} בתאריך ${order.date} בשעה ${order.start} בוטל`
                 )
             }
 
@@ -97,7 +97,7 @@ export async function deleteOrder(req, res) {
                     await sendPushNotification(
                         admin.fcmToken,
                         'תור בוטל!',
-                        `${order.owner.fullname} ביטל תור ל ${order.care} בתאריך ${order.date} בשעה ${order.start}`
+                        `${order.owner.fullname} ביטל תור ל ${getCareLabel(order.care)} בתאריך ${order.date} בשעה ${order.start}`
                     )
                 }
             }
@@ -107,5 +107,12 @@ export async function deleteOrder(req, res) {
         logger.error('Error in delete /api/order/:orderId', err)
         res.status(500).send({ err: 'Failed to remove order' })
     }
+}
+
+function getCareLabel(type) {
+    if(type === 'shaping') return 'עיצוב גבות + שפם'
+    else if(type === 'lift') return 'הרמת גבות'
+    else if(type === 'micro') return 'מיקרובליינדינג'
+    else return type
 }
 

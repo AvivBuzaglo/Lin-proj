@@ -142,6 +142,10 @@ app.get('/health', (req, res) => {
 })
 
 
+app.get('/api/version', (req, res) => {
+    res.send({ minVersion: process.env.MIN_APP_VERSION || '1.0.6' })
+})
+
 const port = process.env.PORT || 3030
 
 // server.listen(port, () => {

@@ -11,16 +11,34 @@ import { userService } from "../services/user/user.service.remote.js"
 import { homePageSvgs } from "../cmps/Svgs"
 import { loadLoggedinUser } from "../store/actions/user.actions"
 import { UserOrders } from "../cmps/UserOrders.jsx" 
+import { checkVersion } from "../services/versionCheck.service.js"
 
 export function HomePage() {
-    const user = useSelector(storeState => storeState.userModule.user) 
+    const user = useSelector(storeState => storeState.userModule.user)
+    const [isOutdated, setIsOutdated] = useState(false) 
     const navigate = useNavigate()
     const [showPic, setShowPic] = useState(false)
     const [imgUrl, setImgUrl] = useState(undefined)
+    const [isLoading, setIsLoading] = useState(true)
 
+    // useEffect(() => {
+    //     loadLoggedinUser().finally(() => setIsLoading(false))
+    // },[])
+    
     useEffect(() => {
-        loadLoggedinUser()
-    },[])    
+        const init = async () => {
+            try {
+                await loadLoggedinUser()
+                const isUpToDate = await checkVersion()
+                if(!isUpToDate) setIsOutdated(true)
+            } catch(err) {
+                console.log('Error on init:', err)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+        init()
+    },[]) 
 
 	const goToAdminIndex = () => {
 		navigate("admin")
@@ -30,6 +48,23 @@ export function HomePage() {
         setShowPic(false)
         setImgUrl(undefined)
     }
+
+if(isOutdated) return (
+    <section className="update-container" style={{direction: 'rtl', textAlign: 'center', padding: '2rem'}}>
+        <img src="/imgs/Lin-Peretz-Logo.jpg" alt="" />
+        <h2>נדרש עדכון</h2>
+        <p>גרסה חדשה של האפליקציה זמינה. יש לעדכן את האפליקציה כדי להמשיך.</p>
+        <a href={Capacitor.getPlatform() === 'ios' 
+            ? 'https://apps.apple.com/il/app/lin-bitton/id6757673216' 
+            : 'https://play.google.com/store/apps/details?id=com.linbitton.app'}>
+            <button>עדכן עכשיו</button>
+        </a>
+    </section>
+)
+
+    if(isLoading) return <div className="loading-container">
+        <img src="/imgs/Lin-Peretz-Logo.jpg" alt="" />
+    </div>
 
     return (
         <section className="home-page-container">
