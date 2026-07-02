@@ -7,6 +7,7 @@ export function ContactInfo() {
     const lng = 34.761478
     const wazeUrl = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`
     const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`
+    const appleMapsUrl = `https://maps.apple.com/?daddr=${lat},${lng}&dirflg=d`
 
     return (
         <section className="contact-info-container">
@@ -23,8 +24,9 @@ export function ContactInfo() {
                 ></iframe>
             </div>
             <div className="apps-btns">
-                <a href={wazeUrl} target="_blank" rel="noopener noreferrer" className="waze-btn">{homePageSvgs.waze}&nbsp; Waze</a>
-                <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer" className="google-btn">{homePageSvgs.googleMaps}&nbsp; Google Maps</a>
+                <a href={wazeUrl} target="_blank" rel="noopener noreferrer" className="waze-btn">{homePageSvgs.waze}</a>
+                <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer" className="google-btn">{homePageSvgs.googleMaps}</a>
+                <a href={appleMapsUrl} target="_blank" rel="noopener noreferrer" className="apple-maps-btn">{homePageSvgs.appleMaps}</a>
             </div>
         </section>
     )
