@@ -17,6 +17,9 @@ import { setupSocketAPI } from './services/socket.service.js'
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
 import { orderService } from './api/order/order.service.js'
 import { dbService } from './services/db.service.js'
+import { readFileSync } from 'fs'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url' 
 import { sendPushNotification } from './services/pushNotifications.service.js'
 
 const app = express()
@@ -26,6 +29,8 @@ const {MongoClient} = mongoDB
 
 const url = 'mongodb://127.0.0.1:27017'
 const dbName = 'linDB'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 
 // // Express App Config
@@ -134,6 +139,10 @@ async function tryMongo() {
 
 app.get('/api/version', (req, res) => {
     res.send({ minVersion: process.env.MIN_APP_VERSION || '1.0.6' })
+})
+
+app.get('/privacy-policy', (req, res) => {
+    res.sendFile(join(__dirname, 'public', 'privacy-policy.html'))
 })
 
 app.get('/**', (req, res) => {
