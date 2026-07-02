@@ -16,7 +16,8 @@ export const userService = {
     saveLoggedinUser,
 	getLoggedinUserToken,
 	updateToken,
-	updateFcmToken
+	updateFcmToken,
+	deleteAccount
 }
 
 function getUsers() {
@@ -158,4 +159,8 @@ function saveLoggedinUser(user) {
 
 function updateFcmToken(userId, fcmToken) {
     return httpService.put(`user/${userId}/fcm-token`, { fcmToken })
+}
+
+function deleteAccount(userId) {
+	return httpService.delete(`user/${userId}/account`)
 }

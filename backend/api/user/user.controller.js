@@ -1,6 +1,8 @@
 import {userService} from './user.service.js'
 import {logger} from '../../services/logger.service.js'
 import {socketService} from '../../services/socket.service.js'
+import { dbService } from '../../services/db.service.js'
+import { sendPushNotification } from '../../services/pushNotifications.service.js'
 
 export async function getUser(req, res) {
     try {
@@ -33,6 +35,34 @@ export async function deleteUser(req, res) {
     } catch (err) {
         logger.error('Failed to delete user', err)
         res.status(400).send({ err: 'Failed to delete user' })
+    }
+}
+
+export async function deleteAccount(req, res) {
+    try {
+        const userId = req.params.id
+        const deletedData = await userService.deleteAccount(userId)
+        res.send({ msg: 'Account Deleted Successfully' })
+
+        const userCollection = await dbService.getCollection('user')
+        const admins = await userCollection.find({ isAdmin: true }).toArray()
+
+        const orderInfo = deletedData.orders.length > 0 
+            ? deletedData.orders.map( o => `${o.care} בתאריך ${o.date} בשעה ${o.start}`).join(', ')
+            : 'לא היו תורים'
+        
+        for(const admin of admins) {
+            if(admin?.fcmToken) {
+                await sendPushNotification(
+                    admin.fcmToken,
+                    'משתמש מחק את החשבון',
+                    `${deletedData.user.fullname} מחק את השחבון שלו. תורים שנמחקו: ${orderInfo}`
+                )
+            }
+        }
+    } catch (err) {
+        logger.error('Failed to delete account', err)
+        res.status(400).send({ err: 'Failed to delete account' })
     }
 }
 

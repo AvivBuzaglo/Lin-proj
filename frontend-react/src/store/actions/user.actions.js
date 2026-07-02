@@ -201,3 +201,16 @@ export async function updateUser(updatedUser) {
         console.log('Cannot update user in store.', err)
     }
 }
+
+export async function deleteAccount(userId) {
+    try {
+        await userService.deleteAccount(userId)
+        await Preferences.remove({ key: 'loginToken' })
+        await Preferences.remove({ key: 'loggedInUser' })
+        sessionStorage.removeItem('loggedinUser')
+        store.dispatch({ type: SET_USER, user: null })
+    } catch (err) {
+        console.log('Cannot delete account', err)
+        throw err
+    }
+}

@@ -53,6 +53,7 @@ app.use(express.json())
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve('public')))
+    app.use(express.static(path.resolve('static')))
 } 
 const corsOptions = {
     origin: [   
@@ -142,7 +143,7 @@ app.get('/api/version', (req, res) => {
 })
 
 app.get('/privacy-policy', (req, res) => {
-    res.sendFile(join(__dirname, 'public', 'privacy-policy.html'))
+    res.sendFile(join(__dirname, 'static', 'privacy-policy.html'))
 })
 
 app.get('/**', (req, res) => {

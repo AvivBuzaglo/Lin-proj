@@ -7,7 +7,8 @@ export const orderService = {
   query,
   getById,
   remove,
-  save
+  save,
+  removeByUserId
 }
 
 
@@ -58,6 +59,18 @@ async function save(orderToSave) {
     logger.error('Cannot save order (service)', err)
     throw err
   }
+}
+
+async function removeByUserId(userId) {
+    try {
+        const collection = await dbService.getCollection('orders')
+        const orders = await collection.find({ 'owner._id': userId }).toArray()
+        await collection.deleteMany({ 'owner._id': userId })
+        return orders // return deleted orders so we can include them in the notification
+    } catch (err) {
+        logger.error(`Cannot remove orders for user ${userId}`, err)
+        throw err
+    }
 }
 
 // async function deleteExpiredOrders() {

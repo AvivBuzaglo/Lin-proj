@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
-import { loadUser, updateUser } from '../store/actions/user.actions'
+import { loadUser, updateUser, deleteAccount } from '../store/actions/user.actions'
 import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from '../services/socket.service'
@@ -16,6 +16,7 @@ export function UserDetails() {
   const params = useParams()
   const user = useSelector(storeState => storeState.userModule.watchedUser)
   const [orders, setOrders] = useState([])
+  const [showDeletedConfirm, setShowDeletedConfirm] = useState(false)
   const times = ['9:00', '9:20', '9:40', '10:00', '10:20', '10:40', '11:00', '11:20', '11:40', '12:00', '12:20', '12:40', '13:00', '13:20', '13:40', '14:00', '14:20', '14:40', '15:00', '15:10', '15:30', '15:50', '16:10', '16:30']
   const navigate = useNavigate()
 
@@ -84,6 +85,15 @@ export function UserDetails() {
     navigate('/')
   }
 
+  async function onDeleteAccount() {
+    try{
+      await deleteAccount(params.id)
+      navigate('/')
+    } catch (err) {
+      console.log('Failed to delete account', err)
+    }
+  } 
+
   return (
     <section className="user-details">
       <button className="back-btn" onClick={() => backBtn()}>{appointmentSvgs.backBtn}</button>
@@ -145,6 +155,32 @@ export function UserDetails() {
           </table>
         </div>
       </div>}
+      {user && (
+        <div className='delete-account-div'>
+              <button className='delete-account-btn' onClick={() => setShowDeletedConfirm(true)}>מחק חשבון</button>
+              {showDeletedConfirm && (
+                <section className='delete-confirm-overlay'>
+                  <div className='delete-confirm-dialog'>
+                      <h3>מחיקת חשבון</h3>
+                      <p>האם אתה בטוח שברצונך למחוק את החשבון שלך?</p>
+                      <p>פעולה זו תמחק את כל הנתונים והתורים שלך ולא ניתן לבטלה</p>
+                      <div className='delete-confirm-buttons'>
+                          <button
+                          className='confirm-delete-btn'
+                          onClick={onDeleteAccount}>
+                            כן, מחק את החשבון
+                          </button>
+                          <button
+                          className='cancel-delete-btn'
+                          onClick={() => setShowDeletedConfirm(false)}>
+                            ביטול
+                          </button>
+                      </div>
+                  </div>
+                </section>
+              )}
+        </div>
+      )}
     </section>
   )
 }

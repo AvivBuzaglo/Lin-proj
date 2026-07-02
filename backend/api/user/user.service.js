@@ -1,6 +1,7 @@
 import {dbService} from '../../services/db.service.js'
 import {logger} from '../../services/logger.service.js'
 import {reviewService} from '../review/review.service.js'
+import { orderService } from '../order/order.service.js'
 import { ObjectId } from 'mongodb'
 
 export const userService = {
@@ -10,7 +11,8 @@ export const userService = {
 	remove, // Delete (remove user)
 	query, // List (of users)
 	getByUsername, // Used for Login
-    updateFcmToken
+    updateFcmToken,
+    deleteAccount
 }
 
 async function query(filterBy = {}) {
@@ -126,6 +128,19 @@ async function updateFcmToken(userId, fcmToken) {
         await collection.updateOne(criteria, { $set: { fcmToken } })
     } catch (err) {
         logger.error(`cannot update fcm token for user ${userId}`, err)
+        throw err
+    }
+}
+
+async function deleteAccount(userId) {
+    try {
+        const usersCollection = await dbService.getCollection('user')
+        const user = await usersCollection.findOne({ _id: ObjectId.createFromHexString(userId) })
+        const deletedOrders = await orderService.removeByUserId(userId)
+        await usersCollection.deleteOne({ _id: ObjectId.createFromHexString(userId) })
+        return { user, orders: deletedOrders }
+    } catch (err) {
+        logger.error(`Cannot delete account for user ${userId}`, err)
         throw err
     }
 }
